@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 520" role="img" aria-labelledby="title desc">
+  <title id="title">Original creepy puppet face</title><desc id="desc">A stylized original doll head with red cheeks and strings.</desc>
+  <rect width="640" height="520" fill="#100711"/><path d="M0 450c110-70 204-80 320-24 113-62 213-50 320 24v70H0z" fill="#211020"/>
+  <path d="M150 40l55 155M490 40l-55 155M320 0v165" stroke="#78606b" stroke-width="7" stroke-linecap="round"/>
+  <ellipse cx="320" cy="245" rx="177" ry="185" fill="#ddd0bd"/><path d="M156 229c8-88 67-154 164-154s156 66 164 154c-55-28-112-42-164-42s-109 14-164 42z" fill="#2b1827"/>
+  <circle cx="250" cy="255" r="37" fill="#0b080b"/><circle cx="390" cy="255" r="37" fill="#0b080b"/><circle cx="261" cy="242" r="9" fill="#fff7e8"/><circle cx="401" cy="242" r="9" fill="#fff7e8"/>
+  <circle cx="214" cy="323" r="35" fill="#c72d47" opacity=".82"/><circle cx="426" cy="323" r="35" fill="#c72d47" opacity=".82"/>
+  <path d="M287 348c22 24 44 24 66 0" fill="none" stroke="#2b1018" stroke-width="8" stroke-linecap="round"/><path d="M320 286l-18 39h36z" fill="#b49a83"/>
+  <path d="M206 180c34-34 69-35 101-2M333 178c34-33 70-32 102 2" fill="none" stroke="#120711" stroke-width="12" stroke-linecap="round"/>
+  <text x="320" y="492" text-anchor="middle" font-family="monospace" font-size="28" fill="#ffcc4d">ORIGINAL PUPPET</text>
+</svg>
