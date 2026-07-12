@@ -22,6 +22,8 @@ Edit `The_Rooms_That_Remember_Treasure_Hunt.md` as the source for clue cards.
 - Add one bold `For you: ...` line inside an entry to create the hidden hint. That line is removed from the visible clue text and shown only by the hint button.
 - Keep blank lines between paragraphs for readable spacing.
 
+The app fetches this markdown file at runtime with a cache-busting query string, so GitHub Pages updates can come from markdown-only commits without copying diary text into `app.js`.
+
 Edit the `clueCodes` array near the top of `app.js` to replace the 9 placeholder unlock codes (`ENTRY-01` through `ENTRY-09`). Keep one code per markdown entry, in the same order. The current clue code unlocks the next clue; codes entered on the start page can jump to the matching point in the hunt.
 
 Do not put real locations or final codes in public repos until you are ready for players to see them. Anyone can inspect static JavaScript.

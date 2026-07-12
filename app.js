@@ -70,7 +70,9 @@ function parseDiary(markdown) {
 async function loadClues() {
   renderLoading();
   try {
-    const response = await fetch(MARKDOWN_SOURCE, { cache: "no-store" });
+    const sourceUrl = new URL(MARKDOWN_SOURCE, window.location.href);
+    sourceUrl.searchParams.set("v", String(Date.now()));
+    const response = await fetch(sourceUrl, { cache: "no-store" });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     clues = parseDiary(await response.text());
     if (!clues.length) throw new Error("No diary entries found");
