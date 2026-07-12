@@ -121,9 +121,9 @@ function renderClueMedia(clue) {
   const src = escapeHtml(clue.media?.src || "");
   const alt = escapeHtml(`Illustration for ${clue.title}`);
   if (clue.media?.type === "video") {
-    return `<video class="step-img" src="${src}" aria-label="${alt}" autoplay muted loop playsinline></video>`;
+    return `<div class="media-frame step-media"><video class="step-img" src="${src}" aria-label="${alt}" autoplay muted loop playsinline></video></div>`;
   }
-  return `<img class="step-img" src="${src}" alt="${alt}" />`;
+  return `<div class="media-frame step-media"><img class="step-img" src="${src}" alt="${alt}" /></div>`;
 }
 
 function parseDiary(markdown) {
@@ -180,7 +180,7 @@ function renderError(error) {
 function renderStart(feedback = "") {
   app.innerHTML = `
     <section class="screen cover stack">
-      <img class="hero-img" src="images/saw_doll.jpeg" alt="A creepy Saw-style doll inviting players to start the treasure hunt" />
+      <div class="hero-frame"><img class="hero-img" src="images/saw_doll.jpeg" alt="A creepy Saw-style doll inviting players to start the treasure hunt" /></div>
       <h1>WANNA PLAY A GAME?</h1>
       <button class="btn" id="continueBtn" type="button">Start!</button>
       <div class="divider">or</div>
