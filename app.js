@@ -35,7 +35,7 @@ let state = loadState();
 function loadState() {
   const savedState = readSavedState();
   if (savedState) return savedState;
-  return { current: 0, complete: false };
+  return { current: 0, complete: false, started: false };
 }
 
 function readSavedState() {
@@ -50,7 +50,13 @@ function parseStateValue(value) {
   try {
     const saved = JSON.parse(value);
     if (!saved || typeof saved !== "object") return null;
-    return { current: clampIndex(saved.current ?? 0), complete: Boolean(saved.complete) };
+    return {
+      current: clampIndex(saved.current ?? 0),
+      complete: Boolean(saved.complete),
+      // Older saved progress did not include `started`, so treat any existing
+      // saved state as started to avoid refreshes falling back to the cover.
+      started: "started" in saved ? Boolean(saved.started) : true,
+    };
   } catch {
     return null;
   }
@@ -92,7 +98,11 @@ function saveState() {
   }
   writeCookie(STORAGE_KEY, serialized);
 }
-function clampIndex(value) { return Math.max(0, Math.min(clues.length - 1, Number(value) || 0)); }
+function clampIndex(value) {
+  const index = Math.max(0, Number(value) || 0);
+  if (!clues.length) return index;
+  return Math.min(clues.length - 1, index);
+}
 function normalize(value) { return value.trim().toUpperCase().replace(/\s+/g, "-"); }
 function escapeHtml(value) {
   return value.replace(/[&<>"]/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[char]));
@@ -159,14 +169,19 @@ async function loadClues() {
     clues = parseDiary(await response.text());
     if (!clues.length) throw new Error("No diary entries found");
     state = { ...state, current: clampIndex(state.current) };
-    saveState();
-    renderStart();
+    renderSavedScreen();
   } catch (error) {
     renderError(error);
   }
 }
 
 function setState(next) { state = { ...state, ...next }; saveState(); }
+
+function renderSavedScreen() {
+  if (state.complete) return renderComplete();
+  if (state.started || state.current > 0) return renderCurrent();
+  renderStart();
+}
 
 function renderLoading() {
   app.innerHTML = `<section class="screen stack"><h1>Loading</h1><p class="clue">Opening the diary pages...</p></section>`;
@@ -190,7 +205,7 @@ function renderStart(feedback = "") {
       </form>
       <p class="small">Progress is saved on this device.</p>
     </section>`;
-  document.querySelector("#continueBtn").addEventListener("click", () => renderCurrent());
+  document.querySelector("#continueBtn").addEventListener("click", () => { setState({ started: true }); renderCurrent(); });
   document.querySelector("#jumpForm").addEventListener("submit", (event) => {
     event.preventDefault();
     handleCode(document.querySelector("#startCode").value, true);
@@ -239,7 +254,7 @@ function handleCode(rawCode, fromStart = false) {
   }
   const nextIndex = matchedIndex + 1;
   if (nextIndex >= clues.length) { setState({ current: clues.length - 1, complete: true }); renderComplete(); return scrollToTop(); }
-  setState({ current: nextIndex, complete: false });
+  setState({ current: nextIndex, complete: false, started: true });
   renderCurrent();
   scrollToTop();
 }
@@ -252,13 +267,13 @@ function resetHunt() {
     // Ignore storage errors; the in-memory state and cookie are still cleared.
   }
   clearCookie(STORAGE_KEY);
-  state = { current: 0, complete: false };
+  state = { current: 0, complete: false, started: false };
   renderStart();
 }
 
 function renderComplete() {
   app.innerHTML = `<section class="screen stack"><h1>Complete</h1><p class="clue">The diary is complete. The final letter waits where it was left.</p><button class="btn" id="againBtn" type="button">Play again</button><button class="btn danger" id="resetBtn" type="button">Reset hunt</button></section>`;
-  document.querySelector("#againBtn").addEventListener("click", () => { setState({ current: 0, complete: false }); renderCurrent(); });
+  document.querySelector("#againBtn").addEventListener("click", () => { setState({ current: 0, complete: false, started: true }); renderCurrent(); });
   document.querySelector("#resetBtn").addEventListener("click", resetHunt);
 }
 
