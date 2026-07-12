@@ -46,11 +46,19 @@ function normalize(value) { return value.trim().toUpperCase().replace(/\s+/g, "-
 function escapeHtml(value) {
   return value.replace(/[&<>"]/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[char]));
 }
+
+function renderInlineText(value) {
+  return escapeHtml(value).replace(
+    /([\u0370-\u03FF\u1F00-\u1FFF]+(?:[\u0370-\u03FF\u1F00-\u1FFF\s.,;·!?«»"'’()…-]*[\u0370-\u03FF\u1F00-\u1FFF]+)?)/g,
+    '<span class="greek-text" lang="el">$1</span>'
+  );
+}
+
 function renderMarkdownText(value) {
   return value
     .trim()
     .split(/\n{2,}/)
-    .map((paragraph) => `<p>${escapeHtml(paragraph.trim()).replace(/\n/g, "<br>")}</p>`)
+    .map((paragraph) => `<p>${renderInlineText(paragraph.trim()).replace(/\n/g, "<br>")}</p>`)
     .join("");
 }
 

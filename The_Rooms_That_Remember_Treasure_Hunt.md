@@ -8,25 +8,25 @@ People often arrive in January with plans they mistake for certainty. They carry
 
 I have seen this pattern often enough to trust it.
 
-The two of them entered near the end of January. They left the front door open while carrying their belongings inside, allowing the cold corridor light to reach farther into the apartment than I liked. They knew each other from childhood, which concerned me at first, but childhood familiarity is rarely as strong as people imagine. Distance edits memory. Adulthood introduces new versions of people who no longer fit the old ones. I expected the arrangement to expose those differences quickly.
+The two of them entered near the end of January. They left the front door open while carrying their belongings inside, allowing the cold light to reach farther into the apartment than I liked. They knew each other from childhood, which concerned me at first, but childhood familiarity is rarely as strong as people imagine. Distance edits memory. Adulthood introduces new versions of people who no longer fit the old ones. I expected the arrangement to expose those differences quickly.
 
 Instead, they unpacked.
 
-They moved objects from one corner to another. They bought things they did not need. They discussed plants, glassware, decorations and the many minor decisions by which humans persuade themselves that a place belongs to them. Their voices travelled through the rooms without hesitation. Neither lowered her voice when passing a dark doorway. Neither paused after hearing a floorboard settle.
+They moved objects from one corner to another. They bought things they did not need. They discussed plants, glassware, decorations and the many minor decisions by which humans persuade themselves that a place belongs to them. Their voices travelled through the rooms without hesitation. Neither lowered their voices when passing a dark doorway. Neither paused after hearing a floorboard settle.
 
 They did not notice me.
 
 That was insulting, though not unusual.
 
-The first disturbance came from the speakers. A song called “Flert” played so often that I began to hear it after the music had stopped. “Chicago” followed it into the walls. The melodies repeated through the apartment until I could no longer distinguish remembered sound from present sound.
+The first disturbance came from the speakers. A song called “Flert” played so often that I began to hear it after the music had stopped. “Chicago” and "Messy" followed it into the walls. The melodies repeated through the apartment until I could no longer distinguish remembered sound from present sound.
 
 I tried to interfere.
 
-I weakened the connection. I made the speakers crackle. Once, I stopped the music for three seconds in the middle of a phrase. Neither of them became afraid. One blamed the internet. The other laughed. Then the song began again.
+I weakened the connection. I made the speakers crackle. Once, I stopped the music for three seconds in the middle of a phrase. Neither of them became afraid. One blamed the internet. The other said "Move, you are blocking the connection". Then the song began again.
 
 Later, another kind of music appeared.
 
-She played the guitar in her bedroom, sometimes alone and sometimes while the other sat nearby. On certain evenings she brought it into the living room and played while her roommate worked on a laptop. The sound was imperfect in the way living things are imperfect. Fingers hesitated. Strings buzzed. A verse began again. A voice entered quietly, then gained confidence.
+She played the guitar in her bedroom, sometimes alone and sometimes while the other sat nearby. On certain evenings she brought it into the living room and played while her roommate worked on his laptop. The sound was imperfect in the way living things are imperfect. Fingers hesitated. Strings buzzed. A verse began again. A voice entered quietly, then gained confidence.
 
 I found that I disliked it more than the speakers.
 
@@ -48,7 +48,7 @@ I decided to wait. There would be other opportunities.
 
 There always are.
 
-**For you: Hide Entry Two in or beneath the guitar case.**
+**For you: Για δες αυτήν την ξεχασμένη κιθάρα, καλά είναι;**
 
 ---
 
@@ -70,7 +70,7 @@ Sleeping people are usually easy to influence. I can deepen a bad dream, sharpen
 
 I tried with them.
 
-One shifted beneath a blanket. The other opened her eyes for a moment, looked toward the ceiling and fell asleep again.
+One shifted beneath a blanket. The other opened his eyes for a moment, looked toward the ceiling and fell asleep again.
 
 No fear.
 
@@ -78,13 +78,13 @@ Only trust in the room.
 
 This offended me more than courage would have. Courage acknowledges danger. Trust denies it.
 
-After that, I noticed how often they sat together without speaking. Sometimes one worked while the other played guitar. Sometimes both looked at their phones. Sometimes they did nothing at all. I waited for the silence to become awkward, because awkwardness creates distance and distance belongs to me.
+After that, I noticed how often they sat together without speaking. Sometimes they worked. Sometimes both looked at their phones. Sometimes they did nothing at all. I waited for the silence to become awkward, because awkwardness creates distance and distance belongs to me.
 
 It never happened.
 
 Their silence was not vacant. It was occupied.
 
-I discovered another ritual soon afterwards. One would return from work, or from wherever the city had taken her, and before long the balcony door would open. They would sit outside with cigarettes, looking across the neighbouring buildings. Some evenings they spoke continuously. On others, they exchanged only a few sentences.
+I discovered another ritual soon afterwards. One would return from work, or from wherever the city had taken her, and before long the door would open. They would sit outside with cigarettes, looking across the neighbouring buildings. Some evenings they spoke continuously. On others, they exchanged only a few sentences.
 
 They seemed to understand that companionship did not always require entertainment.
 
@@ -96,7 +96,7 @@ But there were two chairs.
 
 Two voices.
 
-Two small points of red light in the dark.
+Two small points of light in the dark.
 
 I tried placing irritation between them. I encouraged one to hear judgement in a harmless remark. I reminded the other of a minor annoyance from earlier that day. My influence was weak but not absent. One evening a conversation stopped suddenly, and for several seconds I believed I had succeeded.
 
@@ -126,7 +126,7 @@ Because I wanted to see whether the ritual would continue.
 
 Curiosity is the first weakness I allowed them to create in me.
 
-**For you: Hide Entry Three beneath the balcony ashtray, table or one of the chairs.**
+**For you: Ε σου λέει ο άνθρωπος (;) θα έσπαγε την καρέκλα. Σκέψου λίγο κούκλα.**
 
 ---
 
@@ -174,7 +174,7 @@ Temporary people leave cleanly. They pack their belongings, return keys and allo
 
 I attempted to interfere.
 
-I placed doubt in the early mornings. I revived memories of Berlin, London, Cyprus, Amsterdam, Ibiza and every other place that had once offered another version of her life. I reminded her of Australia and the plan that had brought her to Athens only as a pause. I tried to make the city feel small.
+I placed doubt in the early mornings. I revived memories of Berlin, London, Ibiza and every other place that had once offered another version of her life. I reminded her of Australia and the plan that had brought her to Athens only as a pause. I tried to make the city feel small.
 
 But she had always moved. From Mistegna on Lesvos to one country and then another, each place followed by the possibility of somewhere else. Movement had ceased to frighten her long ago. Worse, staying had become a choice rather than a failure.
 
@@ -190,7 +190,7 @@ She had already devoted part of her life to searching for what exists at the edg
 
 I began to suspect she might be capable of seeing me.
 
-**For you: Hide Entry Four in her camera bag or with her photography equipment.**
+**For you: Όντως τώρα; σου λέει για κάμερες, πού μπορεί να είναι δηλαδη;.**
 
 ---
 
@@ -222,9 +222,9 @@ I wondered whether that was why she never noticed me.
 
 Recognition can appear identical to indifference.
 
-For several nights I stayed away from her room. I observed from the corridor, careful not to cross the threshold while she was awake. That is another rule: I cannot enter a room if someone inside is fully conscious and expects company. Permission matters, though not in the childish ways stories suggest. A door need not be opened. It is enough for someone to think, without fear, that another person may enter.
+For several nights I stayed away from her room. I observed from outside, careful not to cross the threshold while she was awake. That is another rule: I cannot enter a room if someone inside is fully conscious and expects company. Permission matters, though not in the childish ways stories suggest. A door need not be opened. It is enough for someone to think, without fear, that another person may enter.
 
-Her roommate entered freely.
+Her roommate usually entered freely, yet cautiously.
 
 Sometimes to speak. Sometimes to show her something. Sometimes for no reason that would survive explanation.
 
@@ -248,7 +248,7 @@ It is humiliating to be mistaken for an ordinary household noise.
 
 Not long after, I saw the painting.
 
-It had not existed when they moved in. One day her roommate entered the bedroom and discovered it: a detailed, carefully made Charmander, far more sophisticated than the subject had any right to be. It was a surprise, created without obligation and placed where it would be found.
+It had not existed when they moved in. One day her roommate entered his bedroom and discovered it: a detailed, carefully made Charmander, far more sophisticated than the subject had any right to be. It was a surprise, created without obligation and placed where it would be found.
 
 The reaction irritated me.
 
@@ -274,7 +274,7 @@ I began to suspect that the apartment was no longer merely occupied.
 
 It was defended.
 
-**For you: Hide Entry Five behind or near the Charmander painting.**
+**For you: CHARMADER CHARMADER CHARMADER.**
 
 ---
 
@@ -284,7 +284,7 @@ The apartment accumulated objects of no practical value.
 
 This is how humans fortify themselves.
 
-They purchased glassware, decorations and small household things from Jumbo. They returned from flower festivals with desires larger than the available space. They bought plant pots together and spent an afternoon separating crowded cacti with absurd care, loosening old roots and placing each plant into fresh soil as though rescuing a family from a collapsed building.
+They purchased glassware, decorations and small household things from Jumbo. They returned from flower festivals with desires larger than the available space. They bought plant pots together and spent their afternoons separating crowded plants with absurd care, loosening old roots and placing each one of them into fresh soil as though rescuing a family from a collapsed building.
 
 I interfered with that process.
 
@@ -296,19 +296,11 @@ She handled the plants gently.
 
 I learned then that living things complicate a room. They remember light. They react to neglect. They turn toward windows without being instructed. A neglected plant strengthens me; a cared-for plant does the opposite.
 
-There was also the Medusa head mounted on the wall, carrying a Tillandsia air plant like living hair. It had been given to her, not purchased for necessity. She decorated around it until the wall seemed to accept the object as though it had always belonged there.
-
-Nearby stood the small figurine of herself.
-
-Her roommate had designed it, printed it in three dimensions, painted it and given it to her. She displayed it in her room with visible happiness.
-
-I hated that figure most of all.
-
-A likeness is a kind of claim. It says: you were observed closely enough to be recreated. You occupied another person’s time. Your happiness was anticipated.
+There was also the Medusa head mounted on the wall, carrying an air plant like living hair. It had been given to her, not purchased for necessity. She decorated around it until the wall seemed to accept the object as though it had always belonged there.
 
 These objects made my work difficult, but the balcony railing was worse.
 
-She and Maria coated it with primer. The work was not perfect. There were uneven areas, signs of inexperience and good intentions insufficiently supported by technique.
+She and Maria helped him coat it with primer. The work was not perfect. There were uneven areas, signs of inexperience and good intentions insufficiently supported by technique.
 
 I expected criticism.
 
@@ -316,9 +308,7 @@ Instead, the railing remained what it was: evidence that someone had tried to im
 
 Fresh paint repels me temporarily, but imperfect care has a longer effect. Perfection belongs to display. Imperfection belongs to use, and used places remember their occupants.
 
-Even the motorcycle became part of the problem.
-
-She washed it.
+Even the motorcycles became part of the problem. She washed them.
 
 There was no grand reason. No ceremony. It was simply an act performed because it would help.
 
@@ -326,33 +316,21 @@ I attempted to reduce it to obligation. I whispered that such gestures create ex
 
 Neither of them listened.
 
-Their acts did not appear to be negotiations.
-
-This was dangerous.
+Their acts did not appear to be negotiations. This was dangerous.
 
 People who keep score eventually separate themselves. People who do not keep score leave few openings.
 
-I became more aggressive.
-
-I hid small objects. I displaced keys. I encouraged exhaustion. I amplified sounds during remote lessons, especially when she was laughing loudly on the phone in the other room. Her laughter carried through the wall for hours while her roommate tried to teach.
+I became more aggressive. I hid small objects. I displaced keys. I encouraged exhaustion. I amplified sounds , especially when she was laughing loudly on the phone in the other room while he was teaching. Her laughter carried vivid through the wall.
 
 At last, I thought. Here is irritation. Here is resentment. Here is the beginning of a private catalogue of faults.
 
-There was irritation, certainly.
-
-But irritation is not hatred.
-
-It passed.
+There was confusion, certainly. But not irritation. Nor hatred. It passed.
 
 The laughter remained part of the apartment’s memory, while the annoyance dissolved.
 
-I had miscalculated again.
+I had miscalculated again. The Medusa, with her stare of death watched me from the wall.
 
-The Medusa watched me from the wall.
-
-The little figure smiled from the shelf.
-
-The Charmander guarded another room.
+The Charmander guarded the other bedroom.
 
 They were surrounding me with versions of themselves.
 
@@ -360,7 +338,7 @@ I decided to attack where all households are weakest.
 
 The kitchen.
 
-**For you: Hide Entry Six behind, beneath or beside the Medusa planter.**
+**For you: Αυτό ήταν πιο δύσκολο εντάξει, αλλά είναι δυνατόν να μην έψαξες τη Μέδουσα;**
 
 ---
 
@@ -372,7 +350,7 @@ People may lie in conversation, exaggerate affection and perform generosity in p
 
 At first she seemed uncomfortable when her roommate cooked for both of them. Gratitude arrived mixed with guilt, as though every plate created a debt. I encouraged that feeling. I reminded her that accepting care creates dependence. I suggested that generosity is rarely free.
 
-For a while, she apologised.
+For a while, she felt it.
 
 Then, gradually, she stopped.
 
@@ -390,9 +368,7 @@ Expectation becomes belonging.
 
 The kitchen filled with evidence. Gemista. Fried rice with eggs. Leftover chicken made into pasta. Vegetables and fruit from the street markets. Meals assembled from whatever was available. Food left with a handwritten note describing what had been prepared.
 
-On that note, she called her roommate the best roommate ever.
-
-Later, she said the same thing to a mutual friend.
+On one note, she called her roommate the best roommate ever. Earlier, she had said the same thing to a mutual friend.
 
 I tried to poison the phrase.
 
@@ -408,7 +384,7 @@ The sound was appalling.
 
 The laughter was worse.
 
-I attempted to manifest near the doorway.
+I attempted to manifest near the door.
 
 Neither noticed.
 
@@ -422,7 +398,7 @@ I wanted to see how long it would continue.
 
 That desire disgusted me.
 
-The apartment had begun altering my habits. I had once waited only for silence. Now I anticipated their return. I recognised footsteps in the corridor. I knew which key would enter the lock. I found myself listening for the balcony door, the guitar, the speakers, the clatter of groceries.
+The apartment had begun altering my habits. I had once waited only for silence. Now I anticipated their return. I recognised footsteps in the stairs. I knew which key would enter the lock. I found myself listening for the door, the guitar, the speakers, the clatter of groceries.
 
 They had made me expect them.
 
@@ -432,11 +408,11 @@ I made the hallway colder. I disturbed their sleep. I created the sound of movem
 
 They occasionally noticed.
 
-A glance into the corridor. A momentary pause. A light left on.
+A glance into the darkness. A momentary pause. A light left on.
 
 But fear never lasted.
 
-One would speak from another room. A familiar sound would answer. The apartment would become ordinary again.
+One would speak from another room. A familiar sound would answer. They would say goodnight to eachother. The apartment would become ordinary again.
 
 There is a note in this home that I cannot touch without remembering the hand that wrote it.
 
@@ -444,7 +420,7 @@ I have hidden the next part near it.
 
 Let us see whether gratitude is still powerful when someone knows it has been observed.
 
-**For you: Hide Entry Seven inside, beneath or immediately beside the “best roommate ever” note.**
+**For you: Έεεεελα δεν το βρήκες πάνω στο καλοριφέρ μου;**
 
 ---
 
@@ -454,11 +430,11 @@ I have come to despise the projector.
 
 It has nothing to do with what it displays. Dragons, chemistry teachers descending into criminality, online personalities, gaming livestreams, commentary videos, documentaries, mysteries and whatever else they decide deserves an entire wall—I could tolerate all of it.
 
-Even the recent Dracula film.
+Even the Dracula film.
 
 That film was so poor that, briefly, I believed it might strengthen me. Bad art creates frustration, and frustration can sour an evening. Instead, they laughed until the film became memorable for reasons its creators had not intended.
 
-They watched House of the Dragon from the beginning, constructing a tradition from snacks, anticipation and repeated return. Chips. Popcorn. Jelly beans. Whatever else they found. They watched Breaking Bad. They watched Chrysida because one of them loved her, and the other found pleasure in watching that excitement. They watched Unboxholics and gaming streams. The subject mattered less than the ritual.
+They watched House of the Dragon from the beginning, constructing a tradition from snacks, anticipation and repeated return. Chips. Popcorn. Haribo. Whatever else they found. They watched Breaking Bad. They watched Chrysida because one of them loved her, and the other found pleasure in watching that excitement. They watched Unboxholics and gaming streams. The subject mattered less than the ritual.
 
 The wall became a screen.
 
@@ -474,7 +450,7 @@ I tried to ruin those nights.
 
 I caused buffering. I made cables fail. I encouraged one of them to become tired before the other. I sharpened disagreements about what to watch. These efforts produced minor complaints and no lasting damage.
 
-Then came The Dark Files.
+Then came the night they were watching The Dark Files.
 
 Both fell asleep.
 
@@ -492,43 +468,23 @@ I placed pressure on the room. I drew on every memory of paralysis, every half-w
 
 She stared.
 
-Then she blinked, complained about the hour and shifted position.
+Then she blinked, complained about the hour and went to bed.
 
-Her roommate woke fully.
+He woke fully. The connection broke. I withdrew.
 
-The connection broke.
-
-I withdrew.
-
-Since that night, one detail has troubled me.
-
-I remember three figures in the living room.
-
-Two slept on the sofa.
-
-The third stood near the doorway.
+Since that night, one detail has troubled me. I remember three figures in the living room. Two slept on the sofas. The third stood near the door.
 
 That should have been me.
 
-Yet when I recall the scene, I see myself watching from the corridor.
-
-I do not know what stood in the room.
-
-Perhaps the apartment has created something of its own.
-
-Perhaps repeated attention produces witnesses.
+Yet when I recall the scene, I see myself watching from the corridor. I do not know what stood in the room. Perhaps the apartment has created something of its own. Perhaps repeated attention produces witnesses.
 
 Perhaps I am no longer the only presence here.
 
-My memory has become unreliable. Events have detached themselves from sequence. Did the motorcycle come before the primer? Did the two beers come before the peacock? Was Marica’s visit before the flower festivals or after?
+My memory has become unreliable. Events have detached themselves from sequence. Did the Dracula incident come before the primer? Did the two beers come before the peacock? Was Marica’s visit before the flower festivals or after?
 
-I remember Marica arriving from Berlin. I remember two days of Athens, coffee, a photoshoot and the road toward Mount Parnitha. I remember the first introduction to Maria at the May Festival in Nea Filadelfeia. I remember laughter through walls, markets that moved according to changing days off, and flowers that nearly followed them home.
+I remember Marica arriving from Berlin. I remember full days of Athens, coffee, photoshoots and the road toward Mount Parnitha. I remember the first introduction to Maria at the May Festival in Nea Filadelfeia. I remember laughter through walls, markets that moved according to changing days off, and flowers that nearly followed them home.
 
-But the order is gone.
-
-This is not ordinary forgetting.
-
-The apartment is taking the memories from me and storing them elsewhere.
+But the order is gone. This is not ordinary forgetting. The apartment is taking the memories from me and storing them elsewhere.
 
 In objects.
 
@@ -542,17 +498,13 @@ I am the shape left by departure.
 
 I believed I would reclaim this apartment once one of them left.
 
-Now I am less certain.
-
-There is one room I have not entered while she was present.
-
-I have stood behind its door many times.
+Now I am less certain. There is one room I have not entered while she was present. I have stood behind its door many times.
 
 She once made images about a presence such as me.
 
 Tonight, I will show her what she failed to photograph.
 
-**For you: Hide Entry Eight with the projector or taped beneath it.**
+**For you: Ε ΓΙΑ ΤΟΝ ΠΡΟΤΖΕΚΤΟΡΑ ΣΟΥ ΛΕΕΙ ΤΟΣΗ ΩΡΑ ΗΜΑΡΤΟΝ.**
 
 ---
 
@@ -584,9 +536,7 @@ This angered me.
 
 I opened drawers. I moved through the shadows. I searched for proof that she still considered this place an interruption. A document. A packed bag. A private plan to disappear without warning.
 
-I found no certainty.
-
-Only a life in progress.
+I found no certainty. Only a life in progress.
 
 The photography job had given Athens weight. Friends had given it shape. Maria had given it color. The apartment had given it routine. Her roommate had given it familiarity.
 
@@ -596,9 +546,9 @@ Not the objects. Objects can be repaired, and repairs often make them more preci
 
 I attacked memory.
 
-I repeated doubts in her sleeping mind. I suggested that good periods are usually temporary. I reminded her how often she had left places behind. I tried to make closeness feel like a trap and staying feel like failure. I whispered that every home becomes unbearable eventually.
+I repeated doubts in her sleeping mind. I suggested that good periods are usually temporary. I reminded her how often she had left places behind. I tried to make closeness feel like a trap and staying feel like failure. I whispered that every home becomes unbearable eventually. That every relationship becomes a dissapointment.
 
-Then I turned to the absent roommate.
+Then I turned to the roommate.
 
 I suggested that distance would reveal how little the friendship mattered. That the apartment would become easier without another person’s habits. That the balcony ritual would be forgotten. That the guitar would sound the same to an empty living room.
 
@@ -608,27 +558,19 @@ I do not mean this poetically.
 
 The rooms changed.
 
-The living room held the imprint of two people asleep after shopping. The kitchen carried meals prepared without obligation. The balcony held conversations and shared silence. The wall remembered projected dragons, terrible films and snacks scattered across evenings. The hallway retained the sound of laughter interfering with remote lessons. The shelves carried gifts made slowly and displayed proudly.
+The living room held the imprint of two people asleep after shopping. The kitchen carried meals prepared without obligation. The balcony held conversations and shared silence. The wall remembered projected dragons, terrible films and snacks scattered across evenings. The living room retained the sound of laughter icoming behind a closed door. The shelves carried gifts made slowly and displayed proudly.
 
 Every room answered me with evidence.
 
 I understood then that I had misunderstood the nature of haunting.
 
-A haunting is not always an unwanted presence.
+A haunting is not always an unwanted presence. Sometimes it is repetition so strong that absence cannot erase it.
 
-Sometimes it is repetition so strong that absence cannot erase it.
+I became furious. I struck the bedroom door hard enough to make it move.
 
-I became furious.
+No one was home. The sound belonged only to me.
 
-I struck the bedroom door hard enough to make it move.
-
-No one was home.
-
-The sound belonged only to me.
-
-For the first time, I realised how weak I had become.
-
-Their memories had taken my place.
+For the first time, I realised how weak I had become. Their memories had taken my place.
 
 I wanted them to become tired of one another. They became comfortable.
 
@@ -642,21 +584,11 @@ I wanted one of them to leave and the other to feel abandoned.
 
 Now one of them is leaving for a vacation, and the apartment is not empty.
 
-That is the worst of it.
-
-Absence should feed me.
+That is the worst of it. Absence should feed me.
 
 Instead, it has left anticipation behind.
 
-The one who remains knows the other will return.
-
-There is no vacancy in that.
-
-Only waiting.
-
-I cannot survive on waiting.
-
-I require finality.
+The one who remains knows the other will return. There is no vacancy in that. Only waiting. I cannot survive on waiting. I require finality.
 
 There is one last object in this room that proves how completely I have failed. A small version of her, designed from observation, printed into form, painted by hand and given without demand. She placed it where she could see it.
 
@@ -666,7 +598,7 @@ Now I know it marks the location of my defeat.
 
 The final entry waits beneath it.
 
-**For you: Hide Entry Nine beneath or directly beside the figurine of her.**
+**For you: Ε κάτω από την κούκλα σου, κούκλα μου. Ζαβη είσαι;**
 
 ---
 
@@ -686,7 +618,7 @@ Not with grand events.
 
 With repetition.
 
-Songs through speakers. A guitar played. Shared silence. Good friends. Maria. A note beside prepared food.
+Songs. A guitar played. Shared silence. Good friends. A note beside prepared food.
 
 None of these moments was important enough to defend the apartment alone.
 
@@ -694,7 +626,7 @@ Together, they made it inaccessible to me.
 
 That is the cruelty of human memory. It rarely announces itself while being made. The important evening looks like an ordinary one. The lasting conversation happens over cigarettes. The day that changes a career begins with vegetables. A friendship becomes part of a home before anyone thinks to name it.
 
-Then there was the evening I believed would finally prove me right.
+Then there was the evening I believed would finally prove me right. His graduation celebration.
 
 Celebrations expose the truth about people. They reveal obligations disguised as friendships. They force invitations to become calculations. Who must attend? Who will invent an excuse? Who is only present because politeness demanded it?
 I expected disappointment.
@@ -703,7 +635,7 @@ Instead, she did not come alone.
 
 She brought Maria with her to celebrate a milestone that was not her own.
 
-I watched them speak with people they had never met before, laugh together, move through the room as though they had belonged there from the beginning. It was an evening that should have belonged to one person, yet it somehow became shared by everyone who cared enough to be there.
+I watched them speak with people they had never met before, laugh together, move through the room as though they had belonged there from the beginning. It was an evening that should have belonged to one person, yet it somehow became shared with them, who cared enough to be there.
 
 I searched for obligation.
 
@@ -715,7 +647,7 @@ I tried to make their closeness embarrassing. I tried to make intimacy an obstac
 
 That evening made a liar of me. I failed.
 
-This is the lesson I resent most. It all leads to expectation. A key will turn again. A voice will return. Someone will ask what happened while she was gone. The balcony door will open. The kitchen will be used. The projector will light the wall. The rooms will continue.
+This is the lesson I resent most. It all leads to expectation. A key will turn again. A voice will return. Someone will ask what happened while they were gone. The balcony door will open. The kitchen will be used. The projector will light the wall. The rooms will continue.
 
 I cannot remain where absence is temporary.
 
@@ -737,10 +669,12 @@ It was not written by me.
 
 I could not touch it, though I tried.
 
-You will find it where your roommate chose to place it.
+You will find it where he chose to place it. Somewhere he felt it will be safe from prying eyes. In his bedroom. Under an object obvious, yet its comfort makes it so unsuspicious.
 
 Read it without looking over your shoulder.
 
 I am no longer behind the door.
 
-I am already searching for another one.
+**For you: Θες να το σποιλάρεις; Όντως; Δεν έχεις περιέργεια;
+
+Κάτω απο το μαξιλάρι μου...**
