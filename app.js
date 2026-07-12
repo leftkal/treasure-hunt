@@ -52,7 +52,7 @@ function setState(next) { state = { ...state, ...next }; saveState(); }
 function renderStart(feedback = "") {
   app.innerHTML = `
     <section class="screen stack">
-      <img class="hero-img" src="images/start-doll.svg" alt="An original creepy puppet face for the treasure hunt" />
+      <img class="hero-img" src="images/saw_doll.jpeg" alt="A creepy Saw-style doll inviting players to start the treasure hunt" />
       <h1>WANNA PLAY A GAME?</h1>
       <button class="btn" id="continueBtn" type="button">Start!</button>
       <div class="divider">or</div>

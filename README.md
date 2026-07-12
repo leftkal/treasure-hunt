@@ -26,7 +26,7 @@ Do not put real locations or final codes in public repos until you are ready for
 
 ## Editing images
 
-Replace the SVG placeholders in `images/` with your own images. Keep paths in `app.js` matching the filenames. The start screen uses `images/start-doll.svg`, an original puppet placeholder that avoids copyrighted Saw imagery.
+Replace the SVG placeholders in `images/` with your own images. Keep paths in `app.js` matching the filenames. The start screen currently uses `images/saw_doll.jpeg`.
 
 ## GitHub Pages publish notes
 
