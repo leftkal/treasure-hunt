@@ -174,7 +174,7 @@ Temporary people leave cleanly. They pack their belongings, return keys and allo
 
 I attempted to interfere.
 
-I placed doubt in the early mornings. I revived memories of Berlin, London, Cyprus, the Netherlands, Ibiza and every other place that had once offered another version of her life. I reminded her of Australia and the plan that had brought her to Athens only as a pause. I tried to make the city feel small.
+I placed doubt in the early mornings. I revived memories of Berlin, London, Cyprus, Amsterdam, Ibiza and every other place that had once offered another version of her life. I reminded her of Australia and the plan that had brought her to Athens only as a pause. I tried to make the city feel small.
 
 But she had always moved. From Mistegna on Lesvos to one country and then another, each place followed by the possibility of somewhere else. Movement had ceased to frighten her long ago. Worse, staying had become a choice rather than a failure.
 
@@ -568,7 +568,7 @@ Cyprus.
 
 Ibiza.
 
-The Netherlands.
+Amsterdam.
 
 London.
 

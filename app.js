@@ -15,7 +15,17 @@ const clueCodes = [
   "ENTRY-09",
 ];
 
-const stepImages = ["images/step-1.svg", "images/step-2.svg", "images/step-3.svg", "images/step-4.svg"];
+const clueMedia = [
+  { type: "image", src: "images/entry1.png" },
+  { type: "image", src: "images/entry2.png" },
+  { type: "image", src: "images/entry3.png" },
+  { type: "image", src: "images/entry4.png" },
+  { type: "image", src: "images/entry5.png" },
+  { type: "image", src: "images/entry6.png" },
+  { type: "video", src: "images/entry7.MOV" },
+  { type: "image", src: "images/entry8.png" },
+  { type: "image", src: "images/entry9.png" },
+];
 let clues = [];
 
 const app = document.querySelector("#app");
@@ -44,6 +54,19 @@ function renderMarkdownText(value) {
     .join("");
 }
 
+function scrollToTop() {
+  window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+}
+
+function renderClueMedia(clue) {
+  const src = escapeHtml(clue.media?.src || "");
+  const alt = escapeHtml(`Illustration for ${clue.title}`);
+  if (clue.media?.type === "video") {
+    return `<video class="step-img" src="${src}" aria-label="${alt}" autoplay muted loop playsinline></video>`;
+  }
+  return `<img class="step-img" src="${src}" alt="${alt}" />`;
+}
+
 function parseDiary(markdown) {
   const entries = markdown
     .split(/^##\s+/m)
@@ -59,7 +82,7 @@ function parseDiary(markdown) {
     }).replace(/^\s*---\s*$/gm, "").trim();
     return {
       title: title.trim(),
-      image: stepImages[index % stepImages.length],
+      media: clueMedia[index] || clueMedia[clueMedia.length - 1],
       text: body,
       hint,
       code: clueCodes[index] || `ENTRY-${String(index + 1).padStart(2, "0")}`,
@@ -120,7 +143,7 @@ function renderCurrent(feedback = "", isOk = false, hintOpen = false) {
   const clue = clues[state.current];
   app.innerHTML = `
     <article class="card">
-      <img class="step-img" src="${clue.image}" alt="Placeholder illustration for ${clue.title}" />
+      ${renderClueMedia(clue)}
       <div class="card-body">
         <div class="meta"><span>Step ${state.current + 1} / ${clues.length}</span><button class="btn secondary" id="homeBtn" type="button" aria-label="Return to start screen">Home</button></div>
         <h2>${escapeHtml(clue.title)}</h2>
@@ -156,9 +179,10 @@ function handleCode(rawCode, fromStart = false) {
     return renderCurrent("That code is for a later clue. Solve the current clue first.");
   }
   const nextIndex = matchedIndex + 1;
-  if (nextIndex >= clues.length) { setState({ current: clues.length - 1, complete: true }); return renderComplete(); }
+  if (nextIndex >= clues.length) { setState({ current: clues.length - 1, complete: true }); renderComplete(); return scrollToTop(); }
   setState({ current: nextIndex, complete: false });
-  renderCurrent("Unlocked! Here is your next clue.", true);
+  renderCurrent();
+  scrollToTop();
 }
 
 function resetHunt() {

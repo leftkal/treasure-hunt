@@ -1,6 +1,6 @@
 # Treasure Hunt
 
-A simple mobile-first static webapp for a private treasure hunt. It uses only `index.html`, `styles.css`, `app.js`, and SVG images, so it can be published directly with GitHub Pages.
+A simple mobile-first static webapp for a private treasure hunt. It uses only `index.html`, `styles.css`, `app.js`, markdown, and files in `images/`, so it can be published directly with GitHub Pages.
 
 ## Local usage
 
@@ -28,9 +28,15 @@ Edit the `clueCodes` array near the top of `app.js` to replace the 9 placeholder
 
 Do not put real locations or final codes in public repos until you are ready for players to see them. Anyone can inspect static JavaScript.
 
-## Editing images
+## Editing media
 
-Replace the SVG placeholders in `images/` with your own images. Clue cards cycle through `images/step-1.svg` to `images/step-4.svg` from the `stepImages` array in `app.js`, so all 9 diary entries get an image. The start screen currently uses `images/saw_doll.jpeg`.
+Clue cards use one media file per diary entry from the `clueMedia` array in `app.js`:
+
+- Entries 1-6 use `images/entry1.png` through `images/entry6.png`.
+- Entry 7 uses `images/entry7.MOV` and renders as an autoplaying, muted, looping, inline video for mobile browsers.
+- Entries 8-9 use `images/entry8.png` and `images/entry9.png`.
+
+Keep these paths in sync if you replace the files or change extensions. The start screen currently uses `images/saw_doll.jpeg`.
 
 ## GitHub Pages publish notes
 

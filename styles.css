@@ -2,9 +2,9 @@
 
 :root {
   color-scheme: light;
-  --paper: #f4e2ad;
-  --paper-edge: #c5a86f;
-  --paper-lines: rgba(78, 92, 120, 0.18);
+  --paper: #ead392;
+  --paper-edge: #9a7745;
+  --paper-lines: rgba(54, 62, 82, 0.2);
   --paper-margin: rgba(151, 43, 43, 0.42);
   --ink: #281d18;
   --ink-muted: #554134;
@@ -13,19 +13,19 @@
   --accent-2: #7d2e25;
   --ok: #245f42;
   --bad: #8f2424;
-  --shadow: 0 12px 30px rgba(55, 35, 18, 0.28);
+  --shadow: 0 18px 44px rgba(0, 0, 0, 0.58);
   --font-hand: "Caveat", "Permanent Marker", cursive, sans-serif;
   --font-label: "Special Elite", "Courier New", monospace;
-  --paper-rule: 2.1rem;
+  --paper-rule: 2.25rem;
   --paper-text-line: var(--paper-rule);
-  --paper-rule-offset: 0.45rem;
+  --paper-rule-offset: 1rem;
   --diary-margin-x: 2.35rem;
   --diary-padding-left: 2.75rem;
 }
 
 * { box-sizing: border-box; }
 
-html { min-height: 100%; background: #f5ebe0; }
+html { min-height: 100%; background: #080607; }
 
 body {
   min-height: 100vh;
@@ -33,8 +33,10 @@ body {
   font-family: var(--font-hand);
   color: var(--ink);
   background:
-    radial-gradient(circle at top, rgba(119, 76, 31, 0.12), transparent 32rem),
-    linear-gradient(180deg, #ead7b5 0%, #d2b987 100%);
+    radial-gradient(circle at 50% -10%, rgba(91, 13, 20, 0.38), transparent 22rem),
+    radial-gradient(circle at 15% 20%, rgba(72, 47, 22, 0.28), transparent 18rem),
+    radial-gradient(circle at 85% 85%, rgba(0, 0, 0, 0.72), transparent 18rem),
+    linear-gradient(180deg, #19090d 0%, #0c0808 48%, #030303 100%);
 }
 
 button, input { font: inherit; }
@@ -58,10 +60,10 @@ button, input { font: inherit; }
   position: relative;
   background-image:
     linear-gradient(90deg, transparent calc(var(--diary-margin-x) - 0.06rem), var(--paper-margin) calc(var(--diary-margin-x) - 0.06rem), var(--paper-margin) calc(var(--diary-margin-x) + 0.06rem), transparent calc(var(--diary-margin-x) + 0.06rem)),
-    repeating-linear-gradient(180deg, transparent 0, transparent calc(var(--paper-rule) - 0.04rem), var(--paper-lines) calc(var(--paper-rule) - 0.04rem), transparent var(--paper-rule)),
+    repeating-linear-gradient(180deg, transparent 0, transparent calc(var(--paper-rule) - 0.055rem), var(--paper-lines) calc(var(--paper-rule) - 0.055rem), transparent var(--paper-rule)),
     radial-gradient(circle at 12% 8%, rgba(102, 64, 28, 0.16), transparent 7rem),
     radial-gradient(circle at 92% 88%, rgba(80, 47, 21, 0.14), transparent 8rem),
-    linear-gradient(180deg, rgba(255,255,255,0.25), rgba(107, 64, 24, 0.08));
+    linear-gradient(180deg, rgba(255,255,255,0.18), rgba(76, 38, 12, 0.16));
   background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
   background-position: 0 0, 0 var(--paper-rule-offset), 0 0, 0 0, 0 0;
 }
@@ -117,12 +119,13 @@ input:focus { outline: 3px solid rgba(154, 106, 39, 0.32); border-color: var(--a
 .btn.secondary { color: var(--ink); background: rgba(255, 246, 211, 0.82); border: 1px solid rgba(83, 56, 28, 0.32); box-shadow: none; }
 .btn.danger { color: #fff; background: var(--accent-2); box-shadow: none; }
 
-.card-body { padding: 1rem 1rem 1rem var(--diary-padding-left); display: grid; gap: calc(var(--paper-rule) * 0.45); }
+.card-body { padding: 1rem 1rem 1rem var(--diary-padding-left); display: grid; gap: var(--paper-rule); }
 .meta { display: flex; justify-content: space-between; gap: 1rem; align-items: center; color: var(--accent); font-weight: 800; }
 .meta span { font-family: var(--font-label); font-size: 0.85rem; }
 .clue { margin: 0; font-size: 1.25rem; color: var(--ink); }
-.diary-text { display: grid; gap: calc(var(--paper-rule) * 0.5); }
+.diary-text { display: block; }
 .diary-text p { margin: 0; color: inherit; line-height: var(--paper-text-line); }
+.diary-text p + p { margin-top: var(--paper-rule); }
 .hint { margin: 0; padding: 0.85rem; border-radius: 0.8rem; background: rgba(255, 246, 211, 0.68); border: 1px solid rgba(83, 56, 28, 0.28); }
 .feedback { min-height: 1.5rem; margin: 0; font-weight: 800; }
 .feedback.ok { color: var(--ok); }
