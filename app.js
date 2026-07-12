@@ -1,35 +1,22 @@
 const STORAGE_KEY = "treasure-hunt-progress-v1";
+const MARKDOWN_SOURCE = "The_Rooms_That_Remember_Treasure_Hunt.md";
 
-const clues = [
-  {
-    title: "Clue 1: The Cold Open",
-    image: "images/step-1.svg",
-    text: "A placeholder riddle starts the hunt. Replace this with your first clue before game day.",
-    hint: "Placeholder hint: make this gentle enough for the first stop.",
-    code: "MOON-01",
-  },
-  {
-    title: "Clue 2: The Locked Smile",
-    image: "images/step-2.svg",
-    text: "Another editable clue goes here. Keep locations and real codes out until you are ready.",
-    hint: "Placeholder hint: point players toward a visible object.",
-    code: "KEY-02",
-  },
-  {
-    title: "Clue 3: The Red Thread",
-    image: "images/step-3.svg",
-    text: "Use this card for the next puzzle beat, photo, or prop instruction.",
-    hint: "Placeholder hint: mention the pattern, color, or number to notice.",
-    code: "LANTERN-03",
-  },
-  {
-    title: "Clue 4: The Last Door",
-    image: "images/step-4.svg",
-    text: "Final placeholder clue. Enter its code to finish the hunt.",
-    hint: "Placeholder hint: save the biggest nudge for last.",
-    code: "FINALE-04",
-  },
+// Replace these placeholder unlock codes before game day.
+// The app expects one code per markdown entry, in the same order.
+const clueCodes = [
+  "ENTRY-01",
+  "ENTRY-02",
+  "ENTRY-03",
+  "ENTRY-04",
+  "ENTRY-05",
+  "ENTRY-06",
+  "ENTRY-07",
+  "ENTRY-08",
+  "ENTRY-09",
 ];
+
+const stepImages = ["images/step-1.svg", "images/step-2.svg", "images/step-3.svg", "images/step-4.svg"];
+let clues = [];
 
 const app = document.querySelector("#app");
 let state = loadState();
@@ -46,8 +33,65 @@ function loadState() {
 function saveState() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
 function clampIndex(value) { return Math.max(0, Math.min(clues.length - 1, Number(value) || 0)); }
 function normalize(value) { return value.trim().toUpperCase().replace(/\s+/g, "-"); }
+function escapeHtml(value) {
+  return value.replace(/[&<>"]/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[char]));
+}
+function renderMarkdownText(value) {
+  return value
+    .trim()
+    .split(/\n{2,}/)
+    .map((paragraph) => `<p>${escapeHtml(paragraph.trim()).replace(/\n/g, "<br>")}</p>`)
+    .join("");
+}
+
+function parseDiary(markdown) {
+  const entries = markdown
+    .split(/^##\s+/m)
+    .map((section) => section.trim())
+    .filter((section) => section.startsWith("Entry"));
+  return entries.map((entry, index) => {
+    const [title, ...bodyLines] = entry.split("\n");
+    let body = bodyLines.join("\n").trim();
+    let hint = "";
+    body = body.replace(/^\*\*For you:\s*([\s\S]*?)\*\*\s*$/im, (_, foundHint) => {
+      hint = foundHint.trim();
+      return "";
+    }).replace(/^\s*---\s*$/gm, "").trim();
+    return {
+      title: title.trim(),
+      image: stepImages[index % stepImages.length],
+      text: body,
+      hint,
+      code: clueCodes[index] || `ENTRY-${String(index + 1).padStart(2, "0")}`,
+    };
+  });
+}
+
+async function loadClues() {
+  renderLoading();
+  try {
+    const response = await fetch(MARKDOWN_SOURCE, { cache: "no-store" });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    clues = parseDiary(await response.text());
+    if (!clues.length) throw new Error("No diary entries found");
+    state = { ...state, current: clampIndex(state.current) };
+    saveState();
+    renderStart();
+  } catch (error) {
+    renderError(error);
+  }
+}
 
 function setState(next) { state = { ...state, ...next }; saveState(); }
+
+function renderLoading() {
+  app.innerHTML = `<section class="screen stack"><h1>Loading</h1><p class="clue">Opening the diary pages...</p></section>`;
+}
+
+function renderError(error) {
+  app.innerHTML = `<section class="screen stack"><h1>Diary unavailable</h1><p class="clue">The clue diary could not be loaded. Serve this folder with a local web server and make sure ${escapeHtml(MARKDOWN_SOURCE)} is beside index.html.</p><p class="feedback bad">${escapeHtml(error.message)}</p><button class="btn" id="retryBtn" type="button">Try again</button></section>`;
+  document.querySelector("#retryBtn").addEventListener("click", loadClues);
+}
 
 function renderStart(feedback = "") {
   app.innerHTML = `
@@ -77,10 +121,10 @@ function renderCurrent(feedback = "", isOk = false, hintOpen = false) {
       <img class="step-img" src="${clue.image}" alt="Placeholder illustration for ${clue.title}" />
       <div class="card-body">
         <div class="meta"><span>Step ${state.current + 1} / ${clues.length}</span><button class="btn secondary" id="homeBtn" type="button" aria-label="Return to start screen">Home</button></div>
-        <h2>${clue.title}</h2>
-        <p class="clue">${clue.text}</p>
+        <h2>${escapeHtml(clue.title)}</h2>
+        <div class="clue diary-text">${renderMarkdownText(clue.text)}</div>
         <button class="btn secondary" id="hintBtn" type="button" aria-expanded="${hintOpen}">${hintOpen ? "Hide hint" : "Reveal hint"}</button>
-        ${hintOpen ? `<p class="hint">${clue.hint}</p>` : ""}
+        ${hintOpen ? `<div class="hint diary-text">${renderMarkdownText(clue.hint || "No hint is written for this entry yet.")}</div>` : ""}
         <form id="codeForm" class="stack" novalidate>
           <label class="field"><span>Enter Code</span><input id="codeInput" autocomplete="off" inputmode="text" placeholder="Enter Code" aria-describedby="feedback" /></label>
           <button class="btn" type="submit">Unlock next clue</button>
@@ -123,9 +167,9 @@ function resetHunt() {
 }
 
 function renderComplete() {
-  app.innerHTML = `<section class="screen stack"><h1>Complete</h1><p class="clue">You finished the treasure hunt. Replace this message with your finale instructions.</p><button class="btn" id="againBtn" type="button">Play again</button><button class="btn danger" id="resetBtn" type="button">Reset hunt</button></section>`;
+  app.innerHTML = `<section class="screen stack"><h1>Complete</h1><p class="clue">The diary is complete. The final letter waits where it was left.</p><button class="btn" id="againBtn" type="button">Play again</button><button class="btn danger" id="resetBtn" type="button">Reset hunt</button></section>`;
   document.querySelector("#againBtn").addEventListener("click", () => { setState({ current: 0, complete: false }); renderCurrent(); });
   document.querySelector("#resetBtn").addEventListener("click", resetHunt);
 }
 
-renderStart();
+loadClues();

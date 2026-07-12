@@ -4,7 +4,7 @@ A simple mobile-first static webapp for a private treasure hunt. It uses only `i
 
 ## Local usage
 
-Open `index.html` in a browser, or serve the folder locally:
+Serve the folder locally so the app can fetch the markdown diary:
 
 ```bash
 python3 -m http.server 8000
@@ -12,21 +12,23 @@ python3 -m http.server 8000
 
 Then visit `http://localhost:8000`.
 
-## Editing clues, hints, and codes
+## Editing diary entries, hints, and codes
 
-Edit the `clues` array near the top of `app.js`:
+Edit `The_Rooms_That_Remember_Treasure_Hunt.md` as the source for clue cards.
 
-- `title`: step heading
-- `image`: image path under `images/`
-- `text`: clue shown on the card
-- `hint`: hidden hint revealed by the hint button
-- `code`: placeholder unlock code for that step
+- Each clue card is parsed from a `## Entry ...` heading.
+- The heading becomes the clue title.
+- The text below the heading becomes the diary/clue text.
+- Add one bold `For you: ...` line inside an entry to create the hidden hint. That line is removed from the visible clue text and shown only by the hint button.
+- Keep blank lines between paragraphs for readable spacing.
+
+Edit the `clueCodes` array near the top of `app.js` to replace the 9 placeholder unlock codes (`ENTRY-01` through `ENTRY-09`). Keep one code per markdown entry, in the same order. The current clue code unlocks the next clue; codes entered on the start page can jump to the matching point in the hunt.
 
 Do not put real locations or final codes in public repos until you are ready for players to see them. Anyone can inspect static JavaScript.
 
 ## Editing images
 
-Replace the SVG placeholders in `images/` with your own images. Keep paths in `app.js` matching the filenames. The start screen currently uses `images/saw_doll.jpeg`.
+Replace the SVG placeholders in `images/` with your own images. Clue cards cycle through `images/step-1.svg` to `images/step-4.svg` from the `stepImages` array in `app.js`, so all 9 diary entries get an image. The start screen currently uses `images/saw_doll.jpeg`.
 
 ## GitHub Pages publish notes
 
