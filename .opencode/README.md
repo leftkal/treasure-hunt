@@ -24,12 +24,12 @@ The agents should prioritize:
 
 - `builder` - mobile-first UI, routes, state, code-entry flows, storage, and integrations (`openai/gpt-5.5`, variant `low`)
 - `debugger` - mobile browser, routing, state, form, validation, storage, build, and deployment fixes (`openai/gpt-5.5`, variant `low`)
-- `refactorer` - safe cleanup and deduplication (`nvidia/qwen/qwen3.5-397b-a17b`)
-- `game` - clue progression, code validation, hints, puzzle state, and anti-spoiler game logic (`nvidia/qwen/qwen3.5-397b-a17b`)
-- `ux` - mobile-first UX, clue screens, code input, accessibility, and friend-friendly flows (`nvidia/qwen/qwen3.5-397b-a17b`)
-- `docs` - README, setup notes, clue authoring docs, game setup instructions, and runbooks (`nvidia/qwen/qwen3.5-397b-a17b`)
-- `performance` - mobile loading, bundle size, offline behavior, images, animations, and low-connectivity usage (`nvidia/qwen/qwen3.5-397b-a17b`)
-- `security` - code secrecy, client-side tampering, secrets, privacy, deployment exposure, and safe defaults (`nvidia/qwen/qwen3.5-397b-a17b`)
+- `refactorer` - safe cleanup and deduplication (`openai/gpt-5.5`, variant `low`)
+- `game` - clue progression, code validation, hints, puzzle state, and anti-spoiler game logic (`openai/gpt-5.5`, variant `low`)
+- `ux` - mobile-first UX, clue screens, code input, accessibility, and friend-friendly flows (`openai/gpt-5.5`, variant `low`)
+- `docs` - README, setup notes, clue authoring docs, game setup instructions, and runbooks (`openai/gpt-5.5`, variant `low`)
+- `performance` - mobile loading, bundle size, offline behavior, images, animations, and low-connectivity usage (`openai/gpt-5.5`, variant `low`)
+- `security` - code secrecy, client-side tampering, secrets, privacy, deployment exposure, and safe defaults (`openai/gpt-5.5`, variant `low`)
 
 ## Files
 

@@ -1,7 +1,8 @@
 ---
 description: Designs and reviews clue progression, code validation, hints, puzzle state, and anti-spoiler game logic.
 mode: all
-model: nvidia/qwen/qwen3.5-397b-a17b
+model: openai/gpt-5.5
+variant: low
 color: info
 permission:
   edit: ask

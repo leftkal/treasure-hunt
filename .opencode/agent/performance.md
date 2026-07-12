@@ -1,7 +1,8 @@
 ---
 description: Optimizes mobile loading, bundle size, offline behavior, images, animations, and low-connectivity usage.
 mode: all
-model: nvidia/qwen/qwen3.5-397b-a17b
+model: openai/gpt-5.5
+variant: low
 color: success
 permission:
   edit: ask

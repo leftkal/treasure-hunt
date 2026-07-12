@@ -24,32 +24,38 @@
     "refactorer": {
       "description": "Performs safe cleanup, deduplication, naming improvements, and behavior-preserving code organization.",
       "mode": "all",
-      "model": "nvidia/qwen/qwen3.5-397b-a17b"
+      "model": "openai/gpt-5.5",
+      "variant": "low"
     },
     "game": {
       "description": "Designs and reviews clue progression, code validation, hints, puzzle state, and anti-spoiler game logic.",
       "mode": "all",
-      "model": "nvidia/qwen/qwen3.5-397b-a17b"
+      "model": "openai/gpt-5.5",
+      "variant": "low"
     },
     "ux": {
       "description": "Reviews mobile-first UX, clue screens, code input, accessibility, touch ergonomics, and friend-friendly flows.",
       "mode": "all",
-      "model": "nvidia/qwen/qwen3.5-397b-a17b"
+      "model": "openai/gpt-5.5",
+      "variant": "low"
     },
     "docs": {
       "description": "Maintains README, setup notes, game setup instructions, clue authoring docs, and operator runbooks.",
       "mode": "all",
-      "model": "nvidia/qwen/qwen3.5-397b-a17b"
+      "model": "openai/gpt-5.5",
+      "variant": "low"
     },
     "performance": {
       "description": "Optimizes mobile loading, bundle size, offline behavior, images, animations, and low-connectivity usage.",
       "mode": "all",
-      "model": "nvidia/qwen/qwen3.5-397b-a17b"
+      "model": "openai/gpt-5.5",
+      "variant": "low"
     },
     "security": {
       "description": "Reviews code secrecy, client-side tampering risks, secrets, privacy, deployment exposure, and safe defaults.",
       "mode": "all",
-      "model": "nvidia/qwen/qwen3.5-397b-a17b"
+      "model": "openai/gpt-5.5",
+      "variant": "low"
     }
   }
 }

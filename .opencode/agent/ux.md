@@ -1,7 +1,8 @@
 ---
 description: Reviews mobile-first UX, clue screens, code input, accessibility, touch ergonomics, and friend-friendly flows.
 mode: all
-model: nvidia/qwen/qwen3.5-397b-a17b
+model: openai/gpt-5.5
+variant: low
 color: accent
 permission:
   edit: ask

@@ -1,7 +1,8 @@
 ---
 description: Performs safe cleanup, deduplication, naming improvements, and behavior-preserving code organization.
 mode: all
-model: nvidia/qwen/qwen3.5-397b-a17b
+model: openai/gpt-5.5
+variant: low
 color: secondary
 permission:
   edit: ask
