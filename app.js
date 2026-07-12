@@ -1,4 +1,5 @@
 const STORAGE_KEY = "treasure-hunt-progress-v1";
+const COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
 const MARKDOWN_SOURCE = "The_Rooms_That_Remember_Treasure_Hunt.md";
 
 // Replace these placeholder unlock codes before game day.
@@ -32,15 +33,65 @@ const app = document.querySelector("#app");
 let state = loadState();
 
 function loadState() {
+  const savedState = readSavedState();
+  if (savedState) return savedState;
+  return { current: 0, complete: false };
+}
+
+function readSavedState() {
+  // Prefer localStorage, but fall back to the cookie for refresh/device storage quirks.
+  const localState = parseStateValue(readLocalStorage());
+  if (localState) return localState;
+  return parseStateValue(readCookie(STORAGE_KEY));
+}
+
+function parseStateValue(value) {
+  if (!value) return null;
   try {
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-    return { current: clampIndex(saved?.current ?? 0), complete: Boolean(saved?.complete) };
+    const saved = JSON.parse(value);
+    if (!saved || typeof saved !== "object") return null;
+    return { current: clampIndex(saved.current ?? 0), complete: Boolean(saved.complete) };
   } catch {
-    return { current: 0, complete: false };
+    return null;
   }
 }
 
-function saveState() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+function readLocalStorage() {
+  try {
+    return localStorage.getItem(STORAGE_KEY);
+  } catch {
+    return null;
+  }
+}
+
+function readCookie(name) {
+  const prefix = `${encodeURIComponent(name)}=`;
+  const match = document.cookie.split("; ").find((part) => part.startsWith(prefix));
+  if (!match) return null;
+  try {
+    return decodeURIComponent(match.slice(prefix.length));
+  } catch {
+    return null;
+  }
+}
+
+function writeCookie(name, value) {
+  document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}; path=/; max-age=${COOKIE_MAX_AGE}; SameSite=Lax`;
+}
+
+function clearCookie(name) {
+  document.cookie = `${encodeURIComponent(name)}=; path=/; max-age=0; SameSite=Lax`;
+}
+
+function saveState() {
+  const serialized = JSON.stringify(state);
+  try {
+    localStorage.setItem(STORAGE_KEY, serialized);
+  } catch {
+    // Cookie persistence still keeps the hunt recoverable if localStorage is unavailable.
+  }
+  writeCookie(STORAGE_KEY, serialized);
+}
 function clampIndex(value) { return Math.max(0, Math.min(clues.length - 1, Number(value) || 0)); }
 function normalize(value) { return value.trim().toUpperCase().replace(/\s+/g, "-"); }
 function escapeHtml(value) {
@@ -195,7 +246,12 @@ function handleCode(rawCode, fromStart = false) {
 
 function resetHunt() {
   if (!confirm("Reset all saved progress on this device?")) return;
-  localStorage.removeItem(STORAGE_KEY);
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+  } catch {
+    // Ignore storage errors; the in-memory state and cookie are still cleared.
+  }
+  clearCookie(STORAGE_KEY);
   state = { current: 0, complete: false };
   renderStart();
 }
