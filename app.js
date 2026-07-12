@@ -120,7 +120,7 @@ function renderError(error) {
 
 function renderStart(feedback = "") {
   app.innerHTML = `
-    <section class="screen stack">
+    <section class="screen cover stack">
       <img class="hero-img" src="images/saw_doll.jpeg" alt="A creepy Saw-style doll inviting players to start the treasure hunt" />
       <h1>WANNA PLAY A GAME?</h1>
       <button class="btn" id="continueBtn" type="button">Start!</button>
