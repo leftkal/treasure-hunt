@@ -57,10 +57,8 @@ function renderStart(feedback = "") {
       <button class="btn" id="continueBtn" type="button">Start!</button>
       <div class="divider">or</div>
       <form id="jumpForm" class="stack" novalidate>
-        <label class="field"><span>Enter Code</span><input id="startCode" autocomplete="off" inputmode="text" placeholder="Enter Code" aria-describedby="startFeedback" /></label>
+        <label class="field"><span>Enter Code</span><input id="startCode" autocomplete="off" inputmode="text" enterkeyhint="go" placeholder="Enter Code" aria-describedby="startFeedback" /></label>
         <p class="feedback ${feedback ? "bad" : ""}" id="startFeedback">${feedback}</p>
-        <div class="divider">or</div>
-        <button class="btn" type="submit">Start!</button>
       </form>
       <p class="small">Progress is saved on this device.</p>
     </section>`;
