@@ -10,11 +10,15 @@ I have seen this pattern often enough to trust it.
 
 The two of them entered near the end of January. They left the front door open while carrying their belongings inside, allowing the cold light to reach farther into the apartment than I liked. They knew each other from childhood, which concerned me at first, but childhood familiarity is rarely as strong as people imagine. Distance edits memory. Adulthood introduces new versions of people who no longer fit the old ones. I expected the arrangement to expose those differences quickly.
 
+**Picture 1**
+
 Instead, they unpacked.
 
 They moved objects from one corner to another. They bought things they did not need. They discussed plants, glassware, decorations and the many minor decisions by which humans persuade themselves that a place belongs to them. Their voices travelled through the rooms without hesitation. Neither lowered their voices when passing a dark doorway. Neither paused after hearing a floorboard settle.
 
 They did not notice me.
+
+**Picture 2**
 
 That was insulting, though not unusual.
 
@@ -38,9 +42,13 @@ I did not know that yet.
 
 At the time, I believed the guitar was the source of the problem. I stood outside the bedroom and listened, waiting for an opening through which I might place an unpleasant thought. A memory of failure. A sudden embarrassment. The suspicion that someone nearby was only pretending to listen.
 
+**Picture 3**
+
 These are small things, but small things are often enough.
 
 Yet the listener kept working, occasionally looking up from the laptop. The player continued. No performance was demanded. No praise was required. The music simply existed between them.
+
+**Picture 4**
 
 I could do nothing with that.
 
@@ -80,6 +88,8 @@ This offended me more than courage would have. Courage acknowledges danger. Trus
 
 After that, I noticed how often they sat together without speaking. Sometimes they worked. Sometimes both looked at their phones. Sometimes they did nothing at all. I waited for the silence to become awkward, because awkwardness creates distance and distance belongs to me.
 
+**Picture 1**
+
 It never happened.
 
 Their silence was not vacant. It was occupied.
@@ -105,6 +115,8 @@ Then one of them exhaled smoke and said something ridiculous.
 The other laughed.
 
 The moment closed before I could enter it.
+
+**PIcture 2**
 
 There is another rule: resentment needs privacy. It grows best when carried alone from one room to another. Spoken aloud, it often becomes smaller than it wished to be.
 
@@ -138,6 +150,8 @@ At first I assumed this was incompetence. Every week they seemed to visit a diff
 
 Markets are useful places for creating frustration. Crowds separate people. Noise distorts speech. Heat shortens patience. A wrong turn can turn companionship into accusation.
 
+**Picture 1**
+
 I followed them.
 
 That should not have been possible.
@@ -147,6 +161,8 @@ For a long time I had believed I was bound to the apartment. Perhaps I had simpl
 Whatever the cause, I found myself moving behind them through Athens.
 
 They went looking for produce and returned with stories. They discovered unfamiliar roads, shops, flowers and corners of the city that would have meant nothing had they reached them deliberately. At one festival they wanted almost everything they saw. Plants, objects, decorations, unnecessary pieces of beauty that would later crowd shelves and windowsills.
+
+**Picture 2**
 
 Once they travelled to a location where no market existed.
 
@@ -236,6 +252,8 @@ I needed a better method.
 
 I tried to make one of them feel watched.
 
+**Picture 1**
+
 A movement in peripheral vision. A faint sound from the hall. The impression that a door had shifted. Once, while the apartment was quiet, I reproduced the sound of a guitar string being touched in an empty room.
 
 She looked up.
@@ -246,6 +264,8 @@ Then her roommate called from elsewhere, and the tension broke.
 
 It is humiliating to be mistaken for an ordinary household noise.
 
+**Picture 2**
+
 Not long after, I saw the painting.
 
 It had not existed when they moved in. One day her roommate entered his bedroom and discovered it: a detailed, carefully made Charmander, far more sophisticated than the subject had any right to be. It was a surprise, created without obligation and placed where it would be found.
@@ -255,6 +275,8 @@ The reaction irritated me.
 Gifts usually create imbalance. One person gives too much, the other responds inadequately, and gratitude turns slowly into debt. I waited for this.
 
 Instead, the painting became part of the room.
+
+**Picture 3**
 
 No debt.
 
@@ -286,6 +308,8 @@ This is how humans fortify themselves.
 
 They purchased glassware, decorations and small household things from Jumbo. They returned from flower festivals with desires larger than the available space. They bought plant pots together and spent their afternoons separating crowded plants with absurd care, loosening old roots and placing each one of them into fresh soil as though rescuing a family from a collapsed building.
 
+**Picture 1**
+
 I interfered with that process.
 
 I loosened one pot near the edge of a surface. I encouraged impatience. I sharpened the irritation caused by spilled soil and small needles.
@@ -294,9 +318,14 @@ Nothing came of it.
 
 She handled the plants gently.
 
+**Picture 2**
+**Picture 3**
+
 I learned then that living things complicate a room. They remember light. They react to neglect. They turn toward windows without being instructed. A neglected plant strengthens me; a cared-for plant does the opposite.
 
 There was also the Medusa head mounted on the wall, carrying an air plant like living hair. It had been given to her, not purchased for necessity. She decorated around it until the wall seemed to accept the object as though it had always belonged there.
+
+**Picture 4**
 
 These objects made my work difficult, but the balcony railing was worse.
 
@@ -348,6 +377,8 @@ Food reveals the structure of a household.
 
 People may lie in conversation, exaggerate affection and perform generosity in public, but the kitchen records what they truly expect from one another. Who cooks. Who cleans. Who apologises. Who assumes there will be enough for two.
 
+**Picture 1**
+
 At first she seemed uncomfortable when her roommate cooked for both of them. Gratitude arrived mixed with guilt, as though every plate created a debt. I encouraged that feeling. I reminded her that accepting care creates dependence. I suggested that generosity is rarely free.
 
 For a while, she felt it.
@@ -356,7 +387,9 @@ Then, gradually, she stopped.
 
 Not because she became ungrateful. Because she understood.
 
-Cooking was not a transaction. It was simply the way her roommate cared for people.
+Cooking was not a transaction. It was simply the way they cared for eachother.
+
+**Picture 2**
 
 This development angered me more than I expected.
 
@@ -367,6 +400,8 @@ Routine becomes expectation.
 Expectation becomes belonging.
 
 The kitchen filled with evidence. Gemista. Fried rice with eggs. Leftover chicken made into pasta. Vegetables and fruit from the street markets. Meals assembled from whatever was available. Food left with a handwritten note describing what had been prepared.
+
+**Picture 3**
 
 On one note, she called her roommate the best roommate ever. Earlier, she had said the same thing to a mutual friend.
 
@@ -379,6 +414,8 @@ But they were not a couple, and neither behaved as though they were. That denied
 I turned to appetite.
 
 One evening she returned with two large beers. They drank them together without needing an occasion. Another night they smoked CBD, became deeply relaxed and, for reasons I still consider evidence of human decline, she imitated a peacock.
+
+**Picture 4**
 
 The sound was appalling.
 
@@ -428,6 +465,8 @@ Let us see whether gratitude is still powerful when someone knows it has been ob
 
 I have come to despise the projector.
 
+**Picture 1**
+
 It has nothing to do with what it displays. Dragons, chemistry teachers descending into criminality, online personalities, gaming livestreams, commentary videos, documentaries, mysteries and whatever else they decide deserves an entire wall—I could tolerate all of it.
 
 Even the Dracula film.
@@ -435,6 +474,8 @@ Even the Dracula film.
 That film was so poor that, briefly, I believed it might strengthen me. Bad art creates frustration, and frustration can sour an evening. Instead, they laughed until the film became memorable for reasons its creators had not intended.
 
 They watched House of the Dragon from the beginning, constructing a tradition from snacks, anticipation and repeated return. Chips. Popcorn. Haribo. Whatever else they found. They watched Breaking Bad. They watched Chrysida because one of them loved her, and the other found pleasure in watching that excitement. They watched Unboxholics and gaming streams. The subject mattered less than the ritual.
+
+**Picture 2**
 
 The wall became a screen.
 
@@ -449,6 +490,8 @@ But every projected image layered another evening over the wall.
 I tried to ruin those nights.
 
 I caused buffering. I made cables fail. I encouraged one of them to become tired before the other. I sharpened disagreements about what to watch. These efforts produced minor complaints and no lasting damage.
+
+**Picture 3**
 
 Then came the night they were watching The Dark Files.
 
@@ -512,7 +555,7 @@ Tonight, I will show her what she failed to photograph.
 
 I entered her room while she was away.
 
-The guitar rested where she had left it. The camera equipment was arranged nearby. The little figurine stood on display. Objects from different countries and different versions of her life occupied the same space without contradiction.
+The guitar rested where she had left it. The camera equipment was arranged nearby. The Medusa stood on display. Objects from different countries and different versions of her life occupied the same space without contradiction.
 
 Mistegna.
 
@@ -596,6 +639,8 @@ I once believed the figure mocked me.
 
 Now I know it marks the location of my defeat.
 
+**Picture 1**
+
 The final entry waits beneath it.
 
 **For you: Ε κάτω από την κούκλα σου, κούκλα μου. Ζαβη είσαι;**
@@ -635,6 +680,8 @@ Instead, she did not come alone.
 
 She brought Maria with her to celebrate a milestone that was not her own.
 
+**Picture 1**
+
 I watched them speak with people they had never met before, laugh together, move through the room as though they had belonged there from the beginning. It was an evening that should have belonged to one person, yet it somehow became shared with them, who cared enough to be there.
 
 I searched for obligation.
@@ -648,6 +695,8 @@ I tried to make their closeness embarrassing. I tried to make intimacy an obstac
 That evening made a liar of me. I failed.
 
 This is the lesson I resent most. It all leads to expectation. A key will turn again. A voice will return. Someone will ask what happened while they were gone. The balcony door will open. The kitchen will be used. The projector will light the wall. The rooms will continue.
+
+**Picture 2**
 
 I cannot remain where absence is temporary.
 

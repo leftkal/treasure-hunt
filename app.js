@@ -16,17 +16,17 @@ const clueCodes = [
   "ENTRY-09",
 ];
 
-const clueMedia = [
-  { type: "image", src: "images/entry1.png" },
-  { type: "image", src: "images/entry2.png" },
-  { type: "image", src: "images/entry3.png" },
-  { type: "image", src: "images/entry4.png" },
-  { type: "image", src: "images/entry5.png" },
-  { type: "image", src: "images/entry6.png" },
-  { type: "video", src: "images/entry7.MOV" },
-  { type: "image", src: "images/entry8.png" },
-  { type: "image", src: "images/entry9.png" },
-];
+const entryMediaExtensions = {
+  "1_1": "jpeg", "1_2": "jpeg", "1_3": "png", "1_4": "MOV",
+  "2_1": "MOV", "2_2": "jpeg",
+  "3_1": "jpeg", "3_2": "jpeg",
+  "4_1": "jpeg", "4_2": "MOV", "4_3": "jpeg",
+  "5_1": "jpeg", "5_2": "jpeg", "5_3": "jpeg", "5_4": "jpeg",
+  "6_1": "jpeg", "6_2": "MOV", "6_3": "jpeg", "6_4": "MOV",
+  "7_1": "jpeg", "7_2": "MOV", "7_3": "MOV",
+  "8_1": "png",
+  "9_1": "MOV", "9_2": "jpeg",
+};
 let clues = [];
 
 const app = document.querySelector("#app");
@@ -115,25 +115,61 @@ function renderInlineText(value) {
   );
 }
 
-function renderMarkdownText(value) {
+function renderMarkdownText(value, entryNumber) {
+  const placeholderPattern = /\*\*\s*picture\s+(\d+)\s*\*\*/gi;
+  const parts = [];
+  let lastIndex = 0;
+  value.replace(placeholderPattern, (match, mediaNumber, offset) => {
+    parts.push({ type: "text", value: value.slice(lastIndex, offset) });
+    parts.push({ type: "media", mediaNumber: Number(mediaNumber) });
+    lastIndex = offset + match.length;
+    return match;
+  });
+  parts.push({ type: "text", value: value.slice(lastIndex) });
+
+  return parts
+    .map((part) => part.type === "media" ? renderDiaryMedia(entryNumber, part.mediaNumber) : renderTextParagraphs(part.value))
+    .join("");
+}
+
+function renderTextParagraphs(value) {
   return value
     .trim()
     .split(/\n{2,}/)
+    .filter(Boolean)
     .map((paragraph) => `<p>${renderInlineText(paragraph.trim()).replace(/\n/g, "<br>")}</p>`)
     .join("");
 }
 
-function scrollToTop() {
-  window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+function getEntryMedia(entryNumber, mediaNumber) {
+  const extension = entryMediaExtensions[`${entryNumber}_${mediaNumber}`];
+  if (!extension) return null;
+  return {
+    type: extension.toLowerCase() === "mov" ? "video" : "image",
+    src: `images/entry${entryNumber}_${mediaNumber}.${extension}`,
+  };
 }
 
-function renderClueMedia(clue) {
-  const src = escapeHtml(clue.media?.src || "");
-  const alt = escapeHtml(`Illustration for ${clue.title}`);
-  if (clue.media?.type === "video") {
-    return `<div class="media-frame step-media"><video class="step-img" src="${src}" aria-label="${alt}" autoplay muted loop playsinline></video></div>`;
-  }
-  return `<div class="media-frame step-media"><img class="step-img" src="${src}" alt="${alt}" /></div>`;
+function getMediaHaunt(entryNumber, mediaNumber) {
+  if (entryNumber === 9 && mediaNumber === 2) return 0;
+  return Math.max(0.15, 1 - ((entryNumber - 1) / 8));
+}
+
+function renderDiaryMedia(entryNumber, mediaNumber) {
+  const media = getEntryMedia(entryNumber, mediaNumber);
+  if (!media) return `<p>${renderInlineText(`Picture ${mediaNumber}`)}</p>`;
+  const src = escapeHtml(media.src);
+  const alt = escapeHtml(`Picture ${mediaNumber} for entry ${entryNumber}`);
+  const haunt = getMediaHaunt(entryNumber, mediaNumber).toFixed(2);
+  const cleanClass = haunt === "0.00" ? " clean" : "";
+  const content = media.type === "video"
+    ? `<video class="diary-media-item" src="${src}" aria-label="${alt}" autoplay muted loop playsinline></video><button class="mute-btn" type="button" aria-label="Unmute video" data-muted="true">🔇</button>`
+    : `<img class="diary-media-item" src="${src}" alt="${alt}" />`;
+  return `<figure class="diary-media-note${cleanClass}" style="--haunt: ${haunt}">${content}</figure>`;
+}
+
+function scrollToTop() {
+  window.scrollTo({ top: 0, left: 0, behavior: "auto" });
 }
 
 function parseDiary(markdown) {
@@ -151,7 +187,6 @@ function parseDiary(markdown) {
     }).replace(/^\s*---\s*$/gm, "").trim();
     return {
       title: title.trim(),
-      media: clueMedia[index] || clueMedia[clueMedia.length - 1],
       text: body,
       hint,
       code: clueCodes[index] || `ENTRY-${String(index + 1).padStart(2, "0")}`,
@@ -217,13 +252,12 @@ function renderCurrent(feedback = "", isOk = false, hintOpen = false) {
   const clue = clues[state.current];
   app.innerHTML = `
     <article class="card">
-      ${renderClueMedia(clue)}
       <div class="card-body">
         <div class="meta"><span>Step ${state.current + 1} / ${clues.length}</span><button class="btn secondary" id="homeBtn" type="button" aria-label="Return to start screen">Home</button></div>
         <h2>${escapeHtml(clue.title)}</h2>
-        <div class="clue diary-text">${renderMarkdownText(clue.text)}</div>
+        <div class="clue diary-text">${renderMarkdownText(clue.text, state.current + 1)}</div>
         <button class="btn secondary" id="hintBtn" type="button" aria-expanded="${hintOpen}">${hintOpen ? "Hide hint" : "Reveal hint"}</button>
-        ${hintOpen ? `<div class="hint diary-text">${renderMarkdownText(clue.hint || "No hint is written for this entry yet.")}</div>` : ""}
+        ${hintOpen ? `<div class="hint diary-text">${renderMarkdownText(clue.hint || "No hint is written for this entry yet.", state.current + 1)}</div>` : ""}
         <form id="codeForm" class="stack" novalidate>
           <label class="field"><span>Enter Code</span><input id="codeInput" autocomplete="off" inputmode="text" placeholder="Enter Code" aria-describedby="feedback" /></label>
           <button class="btn" type="submit">Unlock next clue</button>
@@ -237,6 +271,25 @@ function renderCurrent(feedback = "", isOk = false, hintOpen = false) {
   document.querySelector("#codeForm").addEventListener("submit", (event) => { event.preventDefault(); handleCode(document.querySelector("#codeInput").value); });
   document.querySelector("#restartBtn").addEventListener("click", () => renderCurrent("Clue restarted. Try the code when you find it.", false, false));
   document.querySelector("#resetBtn").addEventListener("click", resetHunt);
+  wireMediaControls();
+}
+
+function wireMediaControls() {
+  document.querySelectorAll(".diary-media-note video").forEach((video) => {
+    video.muted = true;
+    video.play().catch(() => {});
+  });
+  document.querySelectorAll(".mute-btn").forEach((button) => {
+    button.addEventListener("click", () => {
+      const video = button.parentElement.querySelector("video");
+      if (!video) return;
+      video.muted = !video.muted;
+      button.dataset.muted = String(video.muted);
+      button.textContent = video.muted ? "🔇" : "🔊";
+      button.setAttribute("aria-label", video.muted ? "Unmute video" : "Mute video");
+      video.play().catch(() => {});
+    });
+  });
 }
 
 function handleCode(rawCode, fromStart = false) {

@@ -30,13 +30,14 @@ Do not put real locations or final codes in public repos until you are ready for
 
 ## Editing media
 
-Clue cards use one media file per diary entry from the `clueMedia` array in `app.js`:
+Diary entries can include bold placeholders such as `**Picture 1**`, `**Picture 2**`, etc. The app replaces those placeholders with post-it-note media blocks on the paper.
 
-- Entries 1-6 use `images/entry1.png` through `images/entry6.png`.
-- Entry 7 uses `images/entry7.MOV` and renders as an autoplaying, muted, looping, inline video for mobile browsers.
-- Entries 8-9 use `images/entry8.png` and `images/entry9.png`.
+- Media files live in `images/` and follow `entryN_M.ext`, where `N` is the entry number and `M` is the picture number in that entry, for example `images/entry4_2.MOV`.
+- Supported current extensions are listed in `entryMediaExtensions` near the top of `app.js`.
+- Videos render autoplaying, muted, looping, and inline, with a bottom-right button players can tap to unmute.
+- The haunted image/video filter fades as the diary progresses; only the final media item is completely clean.
 
-Keep these paths in sync if you replace the files or change extensions. The start screen currently uses `images/saw_doll.jpeg`.
+Keep `entryMediaExtensions` in sync if you replace files, add new placeholders, or change extensions. The start screen currently uses `images/saw_doll.jpeg`.
 
 ## GitHub Pages publish notes
 
