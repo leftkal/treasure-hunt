@@ -20,7 +20,7 @@
   --paper-rule: 2.25rem;
   --paper-text-line: var(--paper-rule);
   --paper-rule-offset: 1rem;
-  --paper-text-nudge: 0.16rem;
+  --paper-text-nudge: 0;
   --diary-margin-x: 2.35rem;
   --diary-padding-left: 2.75rem;
 }
@@ -299,11 +299,11 @@ input:focus { outline: 3px solid rgba(154, 106, 39, 0.32); border-color: var(--a
 .clue { margin: 0; font-size: 1.25rem; color: var(--ink); }
 .diary-text {
   display: flow-root;
-  background-image: repeating-linear-gradient(180deg, transparent 0, transparent calc(var(--paper-rule) - 0.055rem), var(--paper-lines) calc(var(--paper-rule) - 0.055rem), transparent var(--paper-rule));
-  background-position: 0 var(--paper-rule-offset);
 }
-.diary-text p { margin: 0; color: inherit; line-height: var(--paper-text-line); transform: translateY(var(--paper-text-nudge)); }
+.diary-text p { margin: 0; color: inherit; line-height: var(--paper-text-line); transform: none; }
 .diary-text p + p { margin-top: var(--paper-rule); }
+.diary-text p + .diary-media-note,
+.diary-text .diary-media-note + p { margin-top: var(--paper-rule); }
 .diary-media-note {
   position: relative;
   height: calc(var(--paper-rule) * 10);
