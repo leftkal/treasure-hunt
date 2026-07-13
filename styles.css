@@ -20,7 +20,7 @@
   --paper-rule: 2.25rem;
   --paper-text-line: var(--paper-rule);
   --paper-rule-offset: 1rem;
-  --paper-text-nudge: 1.18rem;
+  --paper-text-nudge: 1.5rem;
   --diary-margin-x: 2.35rem;
   --diary-padding-left: 2.75rem;
 }
