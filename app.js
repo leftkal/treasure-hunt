@@ -172,7 +172,7 @@ function renderClueMedia(clue, entryNumber) {
   const alt = escapeHtml(`Illustration for ${clue.title}`);
   const haunt = getMediaHaunt(entryNumber).toFixed(2);
   const content = clue.media?.type === "video"
-    ? `<video class="step-img" src="${src}" aria-label="${alt}" autoplay muted loop playsinline></video><span class="media-noise" aria-hidden="true"></span><button class="mute-btn" type="button" aria-label="Unmute video" data-muted="true">🔇</button>`
+    ? `<video class="step-img" src="${src}" aria-label="${alt}" autoplay muted loop playsinline></video><span class="media-noise" aria-hidden="true"></span><button class="mute-btn" type="button" aria-label="Unmute video" aria-pressed="false" data-muted="true"></button>`
     : `<img class="step-img" src="${src}" alt="${alt}" /><span class="media-noise" aria-hidden="true"></span>`;
   return `<div class="media-frame step-media" style="--haunt: ${haunt}">${content}</div>`;
 }
@@ -185,7 +185,7 @@ function renderDiaryMedia(entryNumber, mediaNumber) {
   const haunt = getMediaHaunt(entryNumber, mediaNumber).toFixed(2);
   const cleanClass = haunt === "0.00" ? " clean" : "";
   const content = media.type === "video"
-    ? `<video class="diary-media-item" src="${src}" aria-label="${alt}" autoplay muted loop playsinline></video><span class="media-noise" aria-hidden="true"></span><button class="mute-btn" type="button" aria-label="Unmute video" data-muted="true">🔇</button>`
+    ? `<video class="diary-media-item" src="${src}" aria-label="${alt}" autoplay muted loop playsinline></video><span class="media-noise" aria-hidden="true"></span><button class="mute-btn" type="button" aria-label="Unmute video" aria-pressed="false" data-muted="true"></button>`
     : `<img class="diary-media-item" src="${src}" alt="${alt}" /><span class="media-noise" aria-hidden="true"></span>`;
   return `<figure class="diary-media-note${cleanClass}" style="--haunt: ${haunt}">${content}</figure>`;
 }
@@ -308,7 +308,7 @@ function wireMediaControls() {
       if (!video) return;
       video.muted = !video.muted;
       button.dataset.muted = String(video.muted);
-      button.textContent = video.muted ? "🔇" : "🔊";
+      button.setAttribute("aria-pressed", String(!video.muted));
       button.setAttribute("aria-label", video.muted ? "Unmute video" : "Mute video");
       video.play().catch(() => {});
     });
