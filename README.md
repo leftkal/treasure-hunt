@@ -32,12 +32,13 @@ Do not put real locations or final codes in public repos until you are ready for
 
 Diary entries can include bold placeholders such as `**Picture 1**`, `**Picture 2**`, etc. The app replaces those placeholders with post-it-note media blocks on the paper.
 
-- Media files live in `images/` and follow `entryN_M.ext`, where `N` is the entry number and `M` is the picture number in that entry, for example `images/entry4_2.MOV`.
+- Optimized media files live in `images/optimized/` and follow `entryN_M.ext`, where `N` is the entry number and `M` is the picture number in that entry, for example `images/optimized/entry4_2.mp4`.
+- Images are WebP and videos are H.264 MP4 for faster mobile loading on GitHub Pages.
 - Supported current extensions are listed in `entryMediaExtensions` near the top of `app.js`.
 - Videos render autoplaying, muted, looping, and inline, with a bottom-right button players can tap to unmute.
 - The haunted image/video filter fades as the diary progresses; only the final media item is completely clean.
 
-Keep `entryMediaExtensions` in sync if you replace files, add new placeholders, or change extensions. The start screen currently uses `images/saw_doll.jpeg`.
+Keep `entryMediaExtensions` in sync if you replace files, add new placeholders, or change extensions. The start screen currently uses `images/optimized/saw_doll.webp`.
 
 ## GitHub Pages publish notes
 

@@ -17,27 +17,27 @@ const clueCodes = [
 ];
 
 const clueMedia = [
-  { type: "video", src: "images/entry1.MOV" },
-  { type: "image", src: "images/entry2.png" },
-  { type: "image", src: "images/entry3.png" },
-  { type: "image", src: "images/entry4.png" },
-  { type: "image", src: "images/entry5.png" },
-  { type: "image", src: "images/entry6.png" },
-  { type: "video", src: "images/entry7.MOV" },
-  { type: "image", src: "images/entry8.png" },
-  { type: "image", src: "images/entry9.png" },
+  { type: "video", src: "images/optimized/entry1.mp4" },
+  { type: "image", src: "images/optimized/entry2.webp" },
+  { type: "image", src: "images/optimized/entry3.webp" },
+  { type: "image", src: "images/optimized/entry4.webp" },
+  { type: "image", src: "images/optimized/entry5.webp" },
+  { type: "image", src: "images/optimized/entry6.webp" },
+  { type: "video", src: "images/optimized/entry7.mp4" },
+  { type: "image", src: "images/optimized/entry8.webp" },
+  { type: "image", src: "images/optimized/entry9.webp" },
 ];
 
 const entryMediaExtensions = {
-  "1_1": "jpeg", "1_2": "jpeg", "1_3": "png", "1_4": "MOV",
-  "2_1": "MOV", "2_2": "jpeg",
-  "3_1": "jpeg", "3_2": "jpeg",
-  "4_1": "jpeg", "4_2": "MOV", "4_3": "jpeg",
-  "5_1": "jpeg", "5_2": "jpeg", "5_3": "jpeg", "5_4": "jpeg",
-  "6_1": "jpeg", "6_2": "MOV", "6_3": "jpeg", "6_4": "MOV",
-  "7_1": "jpeg", "7_2": "MOV", "7_3": "MOV",
-  "8_1": "png",
-  "9_1": "MOV", "9_2": "jpeg",
+  "1_1": "webp", "1_2": "webp", "1_3": "webp", "1_4": "mp4",
+  "2_1": "mp4", "2_2": "webp",
+  "3_1": "webp", "3_2": "webp",
+  "4_1": "webp", "4_2": "mp4", "4_3": "webp",
+  "5_1": "webp", "5_2": "webp", "5_3": "webp", "5_4": "webp",
+  "6_1": "webp", "6_2": "mp4", "6_3": "webp", "6_4": "mp4",
+  "7_1": "webp", "7_2": "mp4", "7_3": "mp4",
+  "8_1": "webp",
+  "9_1": "mp4", "9_2": "webp",
 };
 let clues = [];
 
@@ -157,8 +157,8 @@ function getEntryMedia(entryNumber, mediaNumber) {
   const extension = entryMediaExtensions[`${entryNumber}_${mediaNumber}`];
   if (!extension) return null;
   return {
-    type: extension.toLowerCase() === "mov" ? "video" : "image",
-    src: `images/entry${entryNumber}_${mediaNumber}.${extension}`,
+    type: ["mov", "mp4", "webm"].includes(extension.toLowerCase()) ? "video" : "image",
+    src: `images/optimized/entry${entryNumber}_${mediaNumber}.${extension}`,
   };
 }
 
@@ -172,8 +172,8 @@ function renderClueMedia(clue, entryNumber) {
   const alt = escapeHtml(`Illustration for ${clue.title}`);
   const haunt = getMediaHaunt(entryNumber).toFixed(2);
   const content = clue.media?.type === "video"
-    ? `<video class="step-img" src="${src}" aria-label="${alt}" autoplay muted loop playsinline></video><span class="media-noise" aria-hidden="true"></span><button class="mute-btn" type="button" aria-label="Unmute video" aria-pressed="false" data-muted="true"></button>`
-    : `<img class="step-img" src="${src}" alt="${alt}" /><span class="media-noise" aria-hidden="true"></span>`;
+    ? `<video class="step-img" src="${src}" aria-label="${alt}" autoplay muted loop playsinline preload="metadata"></video><span class="media-noise" aria-hidden="true"></span><button class="mute-btn" type="button" aria-label="Unmute video" aria-pressed="false" data-muted="true"></button>`
+    : `<img class="step-img" src="${src}" alt="${alt}" decoding="async" /><span class="media-noise" aria-hidden="true"></span>`;
   return `<div class="media-frame step-media" style="--haunt: ${haunt}">${content}</div>`;
 }
 
@@ -185,8 +185,8 @@ function renderDiaryMedia(entryNumber, mediaNumber) {
   const haunt = getMediaHaunt(entryNumber, mediaNumber).toFixed(2);
   const cleanClass = haunt === "0.00" ? " clean" : "";
   const content = media.type === "video"
-    ? `<video class="diary-media-item" src="${src}" aria-label="${alt}" autoplay muted loop playsinline></video><span class="media-noise" aria-hidden="true"></span><button class="mute-btn" type="button" aria-label="Unmute video" aria-pressed="false" data-muted="true"></button>`
-    : `<img class="diary-media-item" src="${src}" alt="${alt}" /><span class="media-noise" aria-hidden="true"></span>`;
+    ? `<video class="diary-media-item" src="${src}" aria-label="${alt}" autoplay muted loop playsinline preload="metadata"></video><span class="media-noise" aria-hidden="true"></span><button class="mute-btn" type="button" aria-label="Unmute video" aria-pressed="false" data-muted="true"></button>`
+    : `<img class="diary-media-item" src="${src}" alt="${alt}" loading="lazy" decoding="async" /><span class="media-noise" aria-hidden="true"></span>`;
   return `<figure class="diary-media-note${cleanClass}" style="--haunt: ${haunt}">${content}</figure>`;
 }
 
@@ -253,7 +253,7 @@ function renderError(error) {
 function renderStart(feedback = "") {
   app.innerHTML = `
     <section class="screen cover stack">
-      <div class="hero-frame"><img class="hero-img" src="images/saw_doll.jpeg" alt="A creepy Saw-style doll inviting players to start the treasure hunt" /></div>
+      <div class="hero-frame"><img class="hero-img" src="images/optimized/saw_doll.webp" alt="A creepy Saw-style doll inviting players to start the treasure hunt" decoding="async" /></div>
       <h1>WANNA PLAY A GAME?</h1>
       <button class="btn" id="continueBtn" type="button">Start!</button>
       <div class="divider">or</div>
