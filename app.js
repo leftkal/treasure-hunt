@@ -236,7 +236,10 @@ async function loadClues() {
 function setState(next) { state = { ...state, ...next }; saveState(); }
 
 function renderSavedScreen() {
-  if (state.complete) return renderComplete();
+  if (state.complete) {
+    setState({ current: clues.length - 1, complete: false, started: true });
+    return renderCurrent();
+  }
   if (state.started || state.current > 0) return renderCurrent();
   renderStart();
 }
@@ -271,8 +274,11 @@ function renderStart(feedback = "") {
 }
 
 function renderCurrent(feedback = "", isOk = false, hintOpen = false) {
-  if (state.complete) return renderComplete();
+  if (state.complete) {
+    setState({ current: clues.length - 1, complete: false, started: true });
+  }
   const clue = clues[state.current];
+  const isFinalClue = state.current === clues.length - 1;
   app.innerHTML = `
     <article class="card">
       ${renderClueMedia(clue, state.current + 1)}
@@ -282,17 +288,17 @@ function renderCurrent(feedback = "", isOk = false, hintOpen = false) {
         <div class="clue diary-text">${renderMarkdownText(clue.text, state.current + 1)}</div>
         <button class="btn secondary" id="hintBtn" type="button" aria-expanded="${hintOpen}">${hintOpen ? "Hide hint" : "Reveal hint"}</button>
         ${hintOpen ? `<div class="hint diary-text">${renderMarkdownText(clue.hint || "No hint is written for this entry yet.", state.current + 1)}</div>` : ""}
-        <form id="codeForm" class="stack" novalidate>
+        ${isFinalClue ? `<p class="final-note">The diary is complete. No more codes are needed.</p>` : `<form id="codeForm" class="stack" novalidate>
           <label class="field"><span>Enter Code</span><input id="codeInput" autocomplete="off" inputmode="text" placeholder="Enter Code" aria-describedby="feedback" /></label>
           <button class="btn" type="submit">Unlock next clue</button>
           <p class="feedback ${isOk ? "ok" : feedback ? "bad" : ""}" id="feedback">${feedback}</p>
-        </form>
+        </form>`}
         <div class="actions"><button class="btn danger" id="resetBtn" type="button">Reset hunt</button></div>
       </div>
     </article>`;
   document.querySelector("#homeBtn").addEventListener("click", () => renderStart());
   document.querySelector("#hintBtn").addEventListener("click", () => renderCurrent(feedback, isOk, !hintOpen));
-  document.querySelector("#codeForm").addEventListener("submit", (event) => { event.preventDefault(); handleCode(document.querySelector("#codeInput").value); });
+  document.querySelector("#codeForm")?.addEventListener("submit", (event) => { event.preventDefault(); handleCode(document.querySelector("#codeInput").value); });
   document.querySelector("#resetBtn").addEventListener("click", resetHunt);
   wireMediaControls();
 }
@@ -329,7 +335,7 @@ function handleCode(rawCode, fromStart = false) {
     return renderCurrent("That code is for a later clue. Solve the current clue first.");
   }
   const nextIndex = matchedIndex + 1;
-  if (nextIndex >= clues.length) { setState({ current: clues.length - 1, complete: true }); renderComplete(); return scrollToTop(); }
+  if (nextIndex >= clues.length) { setState({ current: clues.length - 1, complete: false, started: true }); renderCurrent(); return scrollToTop(); }
   setState({ current: nextIndex, complete: false, started: true });
   renderCurrent();
   scrollToTop();

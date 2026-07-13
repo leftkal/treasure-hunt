@@ -519,7 +519,7 @@ Since that night, one detail has troubled me. I remember three figures in the li
 
 That should have been me.
 
-Yet when I recall the scene, I see myself watching from the corridor. I do not know what stood in the room. Perhaps the apartment has created something of its own. Perhaps repeated attention produces witnesses.
+Yet when I recall the scene, I see myself watching from the door. I do not know what stood in the room. Perhaps the apartment has created something of its own. Perhaps repeated attention produces witnesses.
 
 Perhaps I am no longer the only presence here.
 
@@ -671,7 +671,7 @@ Together, they made it inaccessible to me.
 
 That is the cruelty of human memory. It rarely announces itself while being made. The important evening looks like an ordinary one. The lasting conversation happens over cigarettes. The day that changes a career begins with vegetables. A friendship becomes part of a home before anyone thinks to name it.
 
-Then there was the evening I believed would finally prove me right. His graduation celebration.
+Then there was the day I believed would finally prove me right. His graduation celebration.
 
 Celebrations expose the truth about people. They reveal obligations disguised as friendships. They force invitations to become calculations. Who must attend? Who will invent an excuse? Who is only present because politeness demanded it?
 I expected disappointment.
@@ -682,7 +682,7 @@ She brought Maria with her to celebrate a milestone that was not her own.
 
 **Picture 1**
 
-I watched them speak with people they had never met before, laugh together, move through the room as though they had belonged there from the beginning. It was an evening that should have belonged to one person, yet it somehow became shared with them, who cared enough to be there.
+I watched them speak with people they had never met before, laugh together, move through the room as though they had belonged there from the beginning. It was a day that should have belonged to one person, yet it somehow became shared with them, who cared enough to be there.
 
 I searched for obligation.
 
