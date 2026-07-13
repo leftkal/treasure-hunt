@@ -20,7 +20,7 @@
   --paper-rule: 2.25rem;
   --paper-text-line: var(--paper-rule);
   --paper-rule-offset: 1rem;
-  --paper-text-nudge: 0;
+  --paper-text-nudge: 0.42rem;
   --diary-margin-x: 2.35rem;
   --diary-padding-left: 2.75rem;
 }
@@ -300,7 +300,7 @@ input:focus { outline: 3px solid rgba(154, 106, 39, 0.32); border-color: var(--a
 .diary-text {
   display: flow-root;
 }
-.diary-text p { margin: 0; color: inherit; line-height: var(--paper-text-line); transform: none; }
+.diary-text p { margin: 0; color: inherit; line-height: var(--paper-text-line); transform: translateY(var(--paper-text-nudge)); }
 .diary-text p + p { margin-top: var(--paper-rule); }
 .diary-text p + .diary-media-note,
 .diary-text .diary-media-note + p { margin-top: var(--paper-rule); }
