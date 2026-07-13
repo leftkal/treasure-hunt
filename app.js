@@ -16,6 +16,18 @@ const clueCodes = [
   "ENTRY-09",
 ];
 
+const clueMedia = [
+  { type: "video", src: "images/entry1.MOV" },
+  { type: "image", src: "images/entry2.png" },
+  { type: "image", src: "images/entry3.png" },
+  { type: "image", src: "images/entry4.png" },
+  { type: "image", src: "images/entry5.png" },
+  { type: "image", src: "images/entry6.png" },
+  { type: "video", src: "images/entry7.MOV" },
+  { type: "image", src: "images/entry8.png" },
+  { type: "image", src: "images/entry9.png" },
+];
+
 const entryMediaExtensions = {
   "1_1": "jpeg", "1_2": "jpeg", "1_3": "png", "1_4": "MOV",
   "2_1": "MOV", "2_2": "jpeg",
@@ -150,9 +162,19 @@ function getEntryMedia(entryNumber, mediaNumber) {
   };
 }
 
-function getMediaHaunt(entryNumber, mediaNumber) {
+function getMediaHaunt(entryNumber, mediaNumber = 0) {
   if (entryNumber === 9 && mediaNumber === 2) return 0;
   return Math.max(0.15, 1 - ((entryNumber - 1) / 8));
+}
+
+function renderClueMedia(clue, entryNumber) {
+  const src = escapeHtml(clue.media?.src || "");
+  const alt = escapeHtml(`Illustration for ${clue.title}`);
+  const haunt = getMediaHaunt(entryNumber).toFixed(2);
+  const content = clue.media?.type === "video"
+    ? `<video class="step-img" src="${src}" aria-label="${alt}" autoplay muted loop playsinline></video><span class="media-noise" aria-hidden="true"></span><button class="mute-btn" type="button" aria-label="Unmute video" data-muted="true">🔇</button>`
+    : `<img class="step-img" src="${src}" alt="${alt}" /><span class="media-noise" aria-hidden="true"></span>`;
+  return `<div class="media-frame step-media" style="--haunt: ${haunt}">${content}</div>`;
 }
 
 function renderDiaryMedia(entryNumber, mediaNumber) {
@@ -163,8 +185,8 @@ function renderDiaryMedia(entryNumber, mediaNumber) {
   const haunt = getMediaHaunt(entryNumber, mediaNumber).toFixed(2);
   const cleanClass = haunt === "0.00" ? " clean" : "";
   const content = media.type === "video"
-    ? `<video class="diary-media-item" src="${src}" aria-label="${alt}" autoplay muted loop playsinline></video><button class="mute-btn" type="button" aria-label="Unmute video" data-muted="true">🔇</button>`
-    : `<img class="diary-media-item" src="${src}" alt="${alt}" />`;
+    ? `<video class="diary-media-item" src="${src}" aria-label="${alt}" autoplay muted loop playsinline></video><span class="media-noise" aria-hidden="true"></span><button class="mute-btn" type="button" aria-label="Unmute video" data-muted="true">🔇</button>`
+    : `<img class="diary-media-item" src="${src}" alt="${alt}" /><span class="media-noise" aria-hidden="true"></span>`;
   return `<figure class="diary-media-note${cleanClass}" style="--haunt: ${haunt}">${content}</figure>`;
 }
 
@@ -187,6 +209,7 @@ function parseDiary(markdown) {
     }).replace(/^\s*---\s*$/gm, "").trim();
     return {
       title: title.trim(),
+      media: clueMedia[index] || clueMedia[clueMedia.length - 1],
       text: body,
       hint,
       code: clueCodes[index] || `ENTRY-${String(index + 1).padStart(2, "0")}`,
@@ -252,6 +275,7 @@ function renderCurrent(feedback = "", isOk = false, hintOpen = false) {
   const clue = clues[state.current];
   app.innerHTML = `
     <article class="card">
+      ${renderClueMedia(clue, state.current + 1)}
       <div class="card-body">
         <div class="meta"><span>Step ${state.current + 1} / ${clues.length}</span><button class="btn secondary" id="homeBtn" type="button" aria-label="Return to start screen">Home</button></div>
         <h2>${escapeHtml(clue.title)}</h2>
@@ -263,19 +287,18 @@ function renderCurrent(feedback = "", isOk = false, hintOpen = false) {
           <button class="btn" type="submit">Unlock next clue</button>
           <p class="feedback ${isOk ? "ok" : feedback ? "bad" : ""}" id="feedback">${feedback}</p>
         </form>
-        <div class="actions"><button class="btn secondary" id="restartBtn" type="button">Restart clue</button><button class="btn danger" id="resetBtn" type="button">Reset hunt</button></div>
+        <div class="actions"><button class="btn danger" id="resetBtn" type="button">Reset hunt</button></div>
       </div>
     </article>`;
   document.querySelector("#homeBtn").addEventListener("click", () => renderStart());
   document.querySelector("#hintBtn").addEventListener("click", () => renderCurrent(feedback, isOk, !hintOpen));
   document.querySelector("#codeForm").addEventListener("submit", (event) => { event.preventDefault(); handleCode(document.querySelector("#codeInput").value); });
-  document.querySelector("#restartBtn").addEventListener("click", () => renderCurrent("Clue restarted. Try the code when you find it.", false, false));
   document.querySelector("#resetBtn").addEventListener("click", resetHunt);
   wireMediaControls();
 }
 
 function wireMediaControls() {
-  document.querySelectorAll(".diary-media-note video").forEach((video) => {
+  document.querySelectorAll(".media-frame video, .diary-media-note video").forEach((video) => {
     video.muted = true;
     video.play().catch(() => {});
   });
