@@ -716,13 +716,13 @@ I may be behind the door.
 
 ## MUST READ: Note from the creator
 
-As I was writing this and the letter I left you, I realized that this is my own haunting presence speaking. Mine does not lurk in the darkness, nor does it manifest in the material world.
+As I was writing this, and the letter I left you, I realized that this is my own haunting presence speaking. Mine does not lurk in the darkness, nor does it manifest in the material world.
 
 It is ever present in the back of my mind, whispering evil deeds, casting doubt, denying reality, overanalyzing situations and words.
 
 Trying to convince me that I am a total failure, and that I will accomplish nothing in my life. That no-one will remember me.
 
-Showing visions of me dying alone.
+Showing visions of ending up without any friends.
 
 I hope I didn't overburden you, and I hope you found at least some entertainment. After all I got a PhD in Serious Games.
 
