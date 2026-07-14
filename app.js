@@ -691,7 +691,6 @@ function renderStart(feedback = "") {
         <label class="field"><span>Enter Code</span><input id="startCode" autocomplete="off" inputmode="text" enterkeyhint="go" placeholder="Enter Code" aria-describedby="startFeedback" /></label>
         <p class="feedback ${feedback ? "bad" : ""}" id="startFeedback">${feedback}</p>
       </form>
-      <p class="small">Progress is saved on this device.</p>
     </section>`;
   document.querySelector("#continueBtn").addEventListener("click", () => { setState({ started: true }); renderCurrent(); });
   document.querySelector("#continueBtn").addEventListener("click", onUserMusicGesture);
