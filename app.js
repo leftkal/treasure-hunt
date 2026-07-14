@@ -723,7 +723,6 @@ function renderCurrent(feedback = "", isOk = false, hintOpen = false, creatorNot
         <button class="btn secondary" id="hintBtn" type="button" aria-expanded="${hintOpen}">${hintOpen ? "Hide hint" : "Reveal hint"}</button>
         ${hintOpen ? `<div class="hint diary-text">${renderMarkdownText(clue.hint || "No hint is written for this entry yet.", state.current + 1)}</div>` : ""}
         ${isFinalClue ? `
-          <p class="final-note">The diary is complete. No more codes are needed.</p>
           ${creatorNote ? `<button class="btn secondary" id="creatorNoteBtn" type="button" aria-expanded="${creatorNoteOpen}">${creatorNoteOpen ? "Hide creator note" : "Open creator note"}</button>` : ""}
           ${creatorNoteOpen && creatorNote ? `<div class="creator-note diary-text"><p class="divider">${escapeHtml(creatorNote.title)}</p>${renderMarkdownText(creatorNote.body, state.current + 1)}</div>` : ""}
         ` : isUnlockedPastEntry ? `<button class="btn" id="nextBtn" type="button">Next Entry</button>` : `<form id="codeForm" class="stack" novalidate>
