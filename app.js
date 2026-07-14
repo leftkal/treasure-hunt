@@ -168,6 +168,25 @@ function pauseAudio(audio) {
   try { audio.pause(); } catch {}
 }
 
+function silenceAndPauseAudio(audio) {
+  if (!audio) return;
+  const existingFrame = musicFadeFrames.get(audio);
+  if (existingFrame) cancelAnimationFrame(existingFrame);
+  musicFadeFrames.delete(audio);
+  try {
+    audio.volume = 0;
+    audio.pause();
+  } catch {}
+}
+
+function getMusicAudios() {
+  return [coverMusic, ...entryMusic].filter(Boolean);
+}
+
+function isMusicPlaybackBlocked() {
+  return musicPausedByVoiceover || musicPausedByVideo || musicPausedByVisibility || videoPauseCount > 0;
+}
+
 function fadeOutAndPause(audio, duration = MUSIC_FADE_MS) {
   if (!audio) return;
   applyVolume(audio, 0, duration);
@@ -177,9 +196,13 @@ function fadeOutAndPause(audio, duration = MUSIC_FADE_MS) {
 }
 
 async function playAudio(audio) {
-  if (!audio) return false;
+  if (!audio || isMusicPlaybackBlocked()) return false;
   try {
     await audio.play();
+    if (isMusicPlaybackBlocked()) {
+      silenceAndPauseAudio(audio);
+      return false;
+    }
     return true;
   } catch {
     return false;
@@ -287,10 +310,7 @@ function pauseMusicForOverlay(reason = "generic") {
   if (!musicReady) return;
   if (reason === "voiceover") musicPausedByVoiceover = true;
   if (reason === "video") musicPausedByVideo = true;
-  const currentAudio = musicMode === "cover" ? coverMusic : entryMusic[musicCurrentTrackIndex];
-  if (!currentAudio) return;
-  applyVolume(currentAudio, 0, 180);
-  window.setTimeout(() => pauseAudio(currentAudio), 180);
+  getMusicAudios().forEach(silenceAndPauseAudio);
   saveMusicState(true);
 }
 
