@@ -663,7 +663,7 @@ function renderStart(feedback = "") {
   app.innerHTML = `
     <section class="screen cover stack">
       <div class="hero-frame"><img class="hero-img" src="images/optimized/saw_doll.webp" alt="A creepy Saw-style doll inviting players to start the treasure hunt" decoding="async" /></div>
-      <h1>I've been waiting for youl... Alex.</h1>
+      <h1>I've been waiting for you... Alex.</h1>
       <button class="btn" id="continueBtn" type="button">Start!</button>
       <div class="divider">or</div>
       <form id="jumpForm" class="stack" novalidate>
@@ -731,6 +731,7 @@ function renderCurrent(feedback = "", isOk = false, hintOpen = false, creatorNot
     state = { ...state, current: nextCurrent };
     saveState();
     renderCurrent();
+    window.requestAnimationFrame(scrollToTop);
   });
   document.querySelector("#creatorNoteBtn")?.addEventListener("click", () => renderCurrent(feedback, isOk, hintOpen, !creatorNoteOpen));
   document.querySelector("#resetBtn").addEventListener("click", resetHunt);
