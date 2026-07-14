@@ -238,7 +238,7 @@ Recognition can appear identical to indifference.
 
 For several nights I stayed away from her room. I observed from outside, careful not to cross the threshold while she was awake. That is another rule: I cannot enter a room if someone inside is fully conscious and expects company. Permission matters, though not in the childish ways stories suggest. A door need not be opened. It is enough for someone to think, without fear, that another person may enter.
 
-For her roommate there was no such rult. I began to understand how thoroughly they had damaged the doors.
+For her roommate there was no such rule. I began to understand how thoroughly they had damaged the doors.
 
 A closed bedroom door should create territory. Territory creates exclusion. Exclusion becomes suspicion. Yet their doors did not seem to function properly. They knocked when appropriate, entered when welcomed and left without ceremony. Privacy existed without becoming distance.
 
@@ -579,7 +579,7 @@ Not the objects. Objects can be repaired, and repairs often make them more preci
 
 I attacked memory.
 
-I repeated doubts in her sleeping mind. I suggested that good periods are usually temporary. I reminded her how often she had left places behind. I tried to make closeness feel like a trap and staying feel like failure. I whispered that every home becomes unbearable eventually. That every relationship becomes a dissapointment.
+I repeated doubts in her sleeping mind. I suggested that good periods are usually temporary. I reminded her how often she had left places behind. I tried to make closeness feel like a trap and staying feel like failure. I whispered that every home becomes unbearable eventually. That every relationship becomes a disappointment.
 
 Then I turned to the roommate.
 
@@ -591,7 +591,7 @@ I do not mean this poetically.
 
 The rooms changed.
 
-The living room held the imprint of two people asleep after shopping. The kitchen carried meals prepared without obligation. The balcony held conversations and shared silence. The wall remembered projected dragons and snacks scattered across evenings. The living room retained the sound of laughter icoming behind a closed door. The shelves carried gifts made slowly and displayed proudly.
+The living room held the imprint of two people asleep after shopping. The kitchen carried meals prepared without obligation. The balcony held conversations and shared silence. The wall remembered projected dragons and snacks scattered across evenings. The living room retained the sound of laughter coming behind a closed door. The shelves carried gifts made slowly and displayed proudly.
 
 Every room answered me with evidence.
 
@@ -671,7 +671,7 @@ I found only choice.
 
 I have always survived on people believing they are alone.
 
-I tried to make their closeness embarrassing. I tried to make intimacy an obstacle. I tried to turn absense into spite.
+I tried to make their closeness embarrassing. I tried to make intimacy an obstacle. I tried to turn absence into spite.
 
 That day made a liar of me. I failed.
 
