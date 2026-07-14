@@ -15,15 +15,15 @@ const MUSIC_POSITION_SAVE_THROTTLE_MS = 1000;
 // Replace these placeholder unlock codes before game day.
 // The app expects one code per markdown entry, in the same order.
 const clueCodes = [
-  "ENTRY-01",
-  "ENTRY-02",
-  "ENTRY-03",
-  "ENTRY-04",
-  "ENTRY-05",
-  "ENTRY-06",
-  "ENTRY-07",
-  "ENTRY-08",
-  "ENTRY-09",
+  "FLUTE",
+  "BALMY",
+  "LUNAR",
+  "CHARM",
+  "VERDE",
+  "SOUPS",
+  "PROJE",
+  "ATLAS",
+  "PILLS",
 ];
 
 const clueMedia = [
