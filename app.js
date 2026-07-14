@@ -1,10 +1,9 @@
 const STORAGE_KEY = "treasure-hunt-progress-v1";
-const MUSIC_STORAGE_KEY = "treasure-hunt-music-v1";
+const MUSIC_STORAGE_KEY = "treasure-hunt-music-v2";
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
 const MARKDOWN_SOURCE = "The_Rooms_That_Remember_Treasure_Hunt.md";
 const COVER_MUSIC_SRC = "music/cover_music.mp3";
 const ENTRY_MUSIC_SRCS = [
-  "music/entry_music_a.mp3",
   "music/entry_music_b.mp3",
   "music/entry_music_c.mp3",
   "music/entry_music_d.mp3",
