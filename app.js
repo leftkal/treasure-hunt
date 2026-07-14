@@ -8,6 +8,7 @@ const ENTRY_MUSIC_SRCS = [
   "music/entry_music_c.mp3",
   "music/entry_music_d.mp3",
 ];
+const MUSIC_VOLUME = 0.5;
 const MUSIC_FADE_MS = 420;
 const MUSIC_POSITION_SAVE_THROTTLE_MS = 1000;
 
@@ -260,7 +261,7 @@ function setMusicMode(mode, { trackIndex = musicCurrentTrackIndex, immediate = f
     if (!coverMusic.loop) coverMusic.loop = true;
     if (coverMusic.currentTime == null) coverMusic.currentTime = 0;
     if (coverMusic.paused || coverMusic.ended) playAudio(coverMusic);
-    applyVolume(coverMusic, 1);
+    applyVolume(coverMusic, MUSIC_VOLUME);
     entryMusic.forEach((audio) => {
       if (!audio) return;
       fadeOutAndPause(audio);
@@ -285,7 +286,7 @@ function setMusicMode(mode, { trackIndex = musicCurrentTrackIndex, immediate = f
     if (preservePosition && audio.currentTime > 0) musicCurrentTime = audio.currentTime;
     audio.loop = false;
     if (audio.paused || audio.ended) playAudio(audio);
-    applyVolume(audio, 1);
+    applyVolume(audio, MUSIC_VOLUME);
   }
   saveMusicState();
 }
@@ -302,7 +303,7 @@ function advanceEntryTrack(fromIndex = musicCurrentTrackIndex) {
   musicCurrentTrackIndex = nextIndex;
   musicCurrentTime = 0;
   playAudio(next);
-  applyVolume(next, 1);
+  applyVolume(next, MUSIC_VOLUME);
   saveMusicState();
 }
 
