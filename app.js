@@ -40,6 +40,7 @@ const entryMediaExtensions = {
   "9_1": "mp4", "9_2": "webp",
 };
 let clues = [];
+let creatorNote = null;
 
 const app = document.querySelector("#app");
 let state = loadState();
@@ -47,7 +48,7 @@ let state = loadState();
 function loadState() {
   const savedState = readSavedState();
   if (savedState) return savedState;
-  return { current: 0, complete: false, started: false };
+  return { current: 0, maxUnlocked: 0, complete: false, started: false };
 }
 
 function readSavedState() {
@@ -64,6 +65,7 @@ function parseStateValue(value) {
     if (!saved || typeof saved !== "object") return null;
     return {
       current: clampIndex(saved.current ?? 0),
+      maxUnlocked: Math.max(0, Number(saved.maxUnlocked ?? saved.current ?? 0) || 0),
       complete: Boolean(saved.complete),
       // Older saved progress did not include `started`, so treat any existing
       // saved state as started to avoid refreshes falling back to the cover.
@@ -217,6 +219,12 @@ function parseDiary(markdown) {
   });
 }
 
+function parseCreatorNote(markdown) {
+  const match = markdown.match(/^##\s+(.*Note from the creator.*)\s*\n+([\s\S]*)$/im);
+  if (!match) return null;
+  return { title: match[1].trim(), body: match[2].trim() };
+}
+
 async function loadClues() {
   renderLoading();
   try {
@@ -224,9 +232,17 @@ async function loadClues() {
     sourceUrl.searchParams.set("v", String(Date.now()));
     const response = await fetch(sourceUrl, { cache: "no-store" });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    clues = parseDiary(await response.text());
+    const markdown = await response.text();
+    clues = parseDiary(markdown);
+    creatorNote = parseCreatorNote(markdown);
     if (!clues.length) throw new Error("No diary entries found");
-    state = { ...state, current: clampIndex(state.current) };
+    state = {
+      ...state,
+      current: clampIndex(state.current),
+      maxUnlocked: clampIndex(state.maxUnlocked ?? state.current ?? 0),
+    };
+    if (state.current > state.maxUnlocked) state.current = state.maxUnlocked;
+    saveState();
     renderSavedScreen();
   } catch (error) {
     renderError(error);
@@ -237,7 +253,7 @@ function setState(next) { state = { ...state, ...next }; saveState(); }
 
 function renderSavedScreen() {
   if (state.complete) {
-    setState({ current: clues.length - 1, complete: false, started: true });
+    setState({ current: clues.length - 1, maxUnlocked: clues.length - 1, complete: false, started: true });
     return renderCurrent();
   }
   if (state.started || state.current > 0) return renderCurrent();
@@ -273,22 +289,28 @@ function renderStart(feedback = "") {
   });
 }
 
-function renderCurrent(feedback = "", isOk = false, hintOpen = false) {
+function renderCurrent(feedback = "", isOk = false, hintOpen = false, creatorNoteOpen = false) {
   if (state.complete) {
-    setState({ current: clues.length - 1, complete: false, started: true });
+    setState({ current: clues.length - 1, maxUnlocked: clues.length - 1, complete: false, started: true });
   }
   const clue = clues[state.current];
   const isFinalClue = state.current === clues.length - 1;
+  const isUnlockedPastEntry = state.current < (state.maxUnlocked ?? state.current);
+  const prevLabel = state.current === 0 ? "Back to Start" : "Previous Entry";
   app.innerHTML = `
     <article class="card">
       ${renderClueMedia(clue, state.current + 1)}
       <div class="card-body">
-        <div class="meta"><span>Step ${state.current + 1} / ${clues.length}</span><button class="btn secondary" id="homeBtn" type="button" aria-label="Return to start screen">Home</button></div>
+        <div class="meta"><span>Step ${state.current + 1} / ${clues.length}</span><button class="btn secondary" id="prevBtn" type="button" aria-label="Go to previous entry">${prevLabel}</button></div>
         <h2>${escapeHtml(clue.title)}</h2>
         <div class="clue diary-text">${renderMarkdownText(clue.text, state.current + 1)}</div>
         <button class="btn secondary" id="hintBtn" type="button" aria-expanded="${hintOpen}">${hintOpen ? "Hide hint" : "Reveal hint"}</button>
         ${hintOpen ? `<div class="hint diary-text">${renderMarkdownText(clue.hint || "No hint is written for this entry yet.", state.current + 1)}</div>` : ""}
-        ${isFinalClue ? `<p class="final-note">The diary is complete. No more codes are needed.</p>` : `<form id="codeForm" class="stack" novalidate>
+        ${isFinalClue ? `
+          <p class="final-note">The diary is complete. No more codes are needed.</p>
+          ${creatorNote ? `<button class="btn secondary" id="creatorNoteBtn" type="button" aria-expanded="${creatorNoteOpen}">${creatorNoteOpen ? "Hide creator note" : "Open creator note"}</button>` : ""}
+          ${creatorNoteOpen && creatorNote ? `<div class="creator-note diary-text"><p class="divider">${escapeHtml(creatorNote.title)}</p>${renderMarkdownText(creatorNote.body, state.current + 1)}</div>` : ""}
+        ` : isUnlockedPastEntry ? `<button class="btn" id="nextBtn" type="button">Next Entry</button>` : `<form id="codeForm" class="stack" novalidate>
           <label class="field"><span>Enter Code</span><input id="codeInput" autocomplete="off" inputmode="text" placeholder="Enter Code" aria-describedby="feedback" /></label>
           <button class="btn" type="submit">Unlock next clue</button>
           <p class="feedback ${isOk ? "ok" : feedback ? "bad" : ""}" id="feedback">${feedback}</p>
@@ -296,9 +318,25 @@ function renderCurrent(feedback = "", isOk = false, hintOpen = false) {
         <div class="actions"><button class="btn danger" id="resetBtn" type="button">Reset hunt</button></div>
       </div>
     </article>`;
-  document.querySelector("#homeBtn").addEventListener("click", () => renderStart());
+  document.querySelector("#prevBtn").addEventListener("click", () => {
+    if (state.current === 0) {
+      state = { ...state, current: 0, started: false };
+      saveState();
+      return renderStart();
+    }
+    state = { ...state, current: state.current - 1 };
+    saveState();
+    renderCurrent();
+  });
   document.querySelector("#hintBtn").addEventListener("click", () => renderCurrent(feedback, isOk, !hintOpen));
   document.querySelector("#codeForm")?.addEventListener("submit", (event) => { event.preventDefault(); handleCode(document.querySelector("#codeInput").value); });
+  document.querySelector("#nextBtn")?.addEventListener("click", () => {
+    const nextCurrent = Math.min(state.current + 1, state.maxUnlocked ?? state.current);
+    state = { ...state, current: nextCurrent };
+    saveState();
+    renderCurrent();
+  });
+  document.querySelector("#creatorNoteBtn")?.addEventListener("click", () => renderCurrent(feedback, isOk, hintOpen, !creatorNoteOpen));
   document.querySelector("#resetBtn").addEventListener("click", resetHunt);
   wireMediaControls();
 }
@@ -335,8 +373,8 @@ function handleCode(rawCode, fromStart = false) {
     return renderCurrent("That code is for a later clue. Solve the current clue first.");
   }
   const nextIndex = matchedIndex + 1;
-  if (nextIndex >= clues.length) { setState({ current: clues.length - 1, complete: false, started: true }); renderCurrent(); return scrollToTop(); }
-  setState({ current: nextIndex, complete: false, started: true });
+  if (nextIndex >= clues.length) { setState({ current: clues.length - 1, maxUnlocked: clues.length - 1, complete: false, started: true }); renderCurrent(); return scrollToTop(); }
+  setState({ current: nextIndex, maxUnlocked: Math.max(state.maxUnlocked ?? 0, nextIndex), complete: false, started: true });
   renderCurrent();
   scrollToTop();
 }
@@ -349,13 +387,13 @@ function resetHunt() {
     // Ignore storage errors; the in-memory state and cookie are still cleared.
   }
   clearCookie(STORAGE_KEY);
-  state = { current: 0, complete: false, started: false };
+  state = { current: 0, maxUnlocked: 0, complete: false, started: false };
   renderStart();
 }
 
 function renderComplete() {
   app.innerHTML = `<section class="screen stack"><h1>Complete</h1><p class="clue">The diary is complete. The final letter waits where it was left.</p><button class="btn" id="againBtn" type="button">Play again</button><button class="btn danger" id="resetBtn" type="button">Reset hunt</button></section>`;
-  document.querySelector("#againBtn").addEventListener("click", () => { setState({ current: 0, complete: false, started: true }); renderCurrent(); });
+  document.querySelector("#againBtn").addEventListener("click", () => { setState({ current: 0, maxUnlocked: 0, complete: false, started: true }); renderCurrent(); });
   document.querySelector("#resetBtn").addEventListener("click", resetHunt);
 }
 

@@ -2,7 +2,7 @@
 
 ## Entry One
 
-I thought they would leave by spring.
+I thought she would leave by spring.
 
 People often arrive in January with plans they mistake for certainty. They carry boxes through the doorway, argue about where to place things, promise themselves that this address is temporary, and begin arranging their lives as though permanence can be built from shelves and extension cables. Then the season changes. One receives an offer elsewhere, another falls in love, money becomes tight, habits become intolerable, and the rooms return to me.
 
@@ -30,7 +30,7 @@ I weakened the connection. I made the speakers crackle. Once, I stopped the musi
 
 Later, another kind of music appeared.
 
-She played the guitar in her bedroom, sometimes alone and sometimes while the other sat nearby. On certain evenings she brought it into the living room and played while her roommate worked on his laptop. The sound was imperfect in the way living things are imperfect. Fingers hesitated. Strings buzzed. A verse began again. A voice entered quietly, then gained confidence.
+She played the guitar, sometimes in her bedroom alone and sometimes while the other sat nearby. On certain evenings she brought it into the living room and played while her roommate worked on his laptop. The sound was imperfect in the way living things are imperfect. Fingers hesitated. Strings buzzed. A verse began again. A voice entered quietly, then gained confidence.
 
 I found that I disliked it more than the speakers.
 
@@ -64,15 +64,15 @@ There always are.
 
 I began to understand their silences before I understood their conversations.
 
-One afternoon they returned after spending most of the morning and midday shopping. They brought bags, small household objects and the particular exhaustion that follows hours of making unimportant decisions. They dropped their things in the living room and sat down only briefly.
+One afternoon they returned after spending most of the morning shopping. They brought bags, small household objects and the particular exhaustion that follows hours of making unimportant decisions. They dropped their things in the living room and sat down only briefly.
 
 Briefly became longer.
 
 Longer became sleep.
 
-They fell asleep in the same room while daylight moved slowly across the floor. There was nothing intimate in it, nothing secretive, nothing I could use. They were simply tired and comfortable enough not to remain alert in each other’s presence.
+They fell asleep in the living room while daylight moved slowly across the floor. There was nothing intimate in it, nothing secretive, nothing I could use. They were simply tired and comfortable enough not to remain alert in each other’s presence.
 
-I stood near the doorway for a long time.
+I stood near the door for a long time.
 
 Sleeping people are usually easy to influence. I can deepen a bad dream, sharpen an old fear or produce the sensation that someone has entered the room. I have caused people to wake with their hearts racing, certain that a figure had been standing beside them. I have turned ordinary darkness into evidence.
 
@@ -94,7 +94,7 @@ It never happened.
 
 Their silence was not vacant. It was occupied.
 
-I discovered another ritual soon afterwards. One would return from work, or from wherever the city had taken her, and before long the door would open. They would sit outside with cigarettes, looking across the neighbouring buildings. Some evenings they spoke continuously. On others, they exchanged only a few sentences.
+I discovered another ritual soon afterwards. One would return from work, or from wherever the city had taken her, and before long they would sit outside with cigarettes, looking across the neighbouring buildings. Some evenings they spoke continuously. On others, they exchanged only a few sentences.
 
 They seemed to understand that companionship did not always require entertainment.
 
@@ -116,7 +116,7 @@ The other laughed.
 
 The moment closed before I could enter it.
 
-**PIcture 2**
+**Picture 2**
 
 There is another rule: resentment needs privacy. It grows best when carried alone from one room to another. Spoken aloud, it often becomes smaller than it wished to be.
 
@@ -164,9 +164,7 @@ They went looking for produce and returned with stories. They discovered unfamil
 
 **Picture 2**
 
-Once they travelled to a location where no market existed.
-
-This pleased me.
+Once they travelled to a location where no market existed. This pleased me.
 
 I waited for blame.
 
@@ -174,7 +172,7 @@ One checked the address. The other looked around. There was a pause long enough 
 
 Then they improvised.
 
-They walked elsewhere. They explored. The mistake became the day.
+They drove elsewhere. They explored. The mistake became the day.
 
 Humans are usually most vulnerable when plans fail, but these two had the irritating habit of converting inconvenience into memory.
 
@@ -240,11 +238,7 @@ Recognition can appear identical to indifference.
 
 For several nights I stayed away from her room. I observed from outside, careful not to cross the threshold while she was awake. That is another rule: I cannot enter a room if someone inside is fully conscious and expects company. Permission matters, though not in the childish ways stories suggest. A door need not be opened. It is enough for someone to think, without fear, that another person may enter.
 
-Her roommate usually entered freely, yet cautiously.
-
-Sometimes to speak. Sometimes to show her something. Sometimes for no reason that would survive explanation.
-
-I began to understand how thoroughly they had damaged the doorways.
+For her roommate there was no such rult. I began to understand how thoroughly they had damaged the doors.
 
 A closed bedroom door should create territory. Territory creates exclusion. Exclusion becomes suspicion. Yet their doors did not seem to function properly. They knocked when appropriate, entered when welcomed and left without ceremony. Privacy existed without becoming distance.
 
@@ -323,8 +317,6 @@ She handled the plants gently.
 
 I learned then that living things complicate a room. They remember light. They react to neglect. They turn toward windows without being instructed. A neglected plant strengthens me; a cared-for plant does the opposite.
 
-There was also the Medusa head mounted on the wall, carrying an air plant like living hair. It had been given to her, not purchased for necessity. She decorated around it until the wall seemed to accept the object as though it had always belonged there.
-
 **Picture 4**
 
 These objects made my work difficult, but the balcony railing was worse.
@@ -336,10 +328,6 @@ I expected criticism.
 Instead, the railing remained what it was: evidence that someone had tried to improve the place.
 
 Fresh paint repels me temporarily, but imperfect care has a longer effect. Perfection belongs to display. Imperfection belongs to use, and used places remember their occupants.
-
-Even the motorcycles became part of the problem. She washed them.
-
-There was no grand reason. No ceremony. It was simply an act performed because it would help.
 
 I attempted to reduce it to obligation. I whispered that such gestures create expectations. I suggested that kindness offered once becomes labour demanded forever.
 
@@ -357,15 +345,17 @@ There was confusion, certainly. But not irritation. Nor hatred. It passed.
 
 The laughter remained part of the apartment’s memory, while the annoyance dissolved.
 
-I had miscalculated again. The Medusa, with her stare of death watched me from the wall.
+There was also the Medusa head mounted on the wall, carrying an air plant like living hair. It had been given to her, not purchased for necessity. She decorated around it until the wall seemed to accept the object as though it had always belonged there.
 
-The Charmander guarded the other bedroom.
+I had miscalculated again.
+
+The Charmander guarded his bedroom.
+
+The Medusa, with her stare of death watched me from hers.
 
 They were surrounding me with versions of themselves.
 
-I decided to attack where all households are weakest.
-
-The kitchen.
+Then I decided to attack where all households are weakest.
 
 **For you: Αυτό ήταν πιο δύσκολο εντάξει, αλλά είναι δυνατόν να μην έψαξες τη Μέδουσα;**
 
@@ -379,7 +369,7 @@ People may lie in conversation, exaggerate affection and perform generosity in p
 
 **Picture 1**
 
-At first she seemed uncomfortable when her roommate cooked for both of them. Gratitude arrived mixed with guilt, as though every plate created a debt. I encouraged that feeling. I reminded her that accepting care creates dependence. I suggested that generosity is rarely free.
+At first she seemed uncomfortable with the thought that there is an expectation of cooking for each other. When her roommate cooked for both of them she looked uncomfortable. Gratitude arrived mixed with guilt, as though every plate created a debt. I encouraged that feeling. I reminded her that accepting care creates dependence. I suggested that generosity is rarely free.
 
 For a while, she felt it.
 
@@ -387,7 +377,7 @@ Then, gradually, she stopped.
 
 Not because she became ungrateful. Because she understood.
 
-Cooking was not a transaction. It was simply the way they cared for eachother.
+Cooking was not a transaction. It was simply the way they showed care.
 
 **Picture 2**
 
@@ -399,7 +389,7 @@ Routine becomes expectation.
 
 Expectation becomes belonging.
 
-The kitchen filled with evidence. Gemista. Fried rice with eggs. Leftover chicken made into pasta. Vegetables and fruit from the street markets. Meals assembled from whatever was available. Food left with a handwritten note describing what had been prepared.
+The kitchen filled with evidence. Gemista. Fried rice with eggs. Leftover chicken made into pasta. Vegetables and fruit from the food markets. Meals assembled from whatever was available. Food left with a handwritten note describing what had been prepared.
 
 **Picture 3**
 
@@ -449,7 +439,7 @@ A glance into the darkness. A momentary pause. A light left on.
 
 But fear never lasted.
 
-One would speak from another room. A familiar sound would answer. They would say goodnight to eachother. The apartment would become ordinary again.
+One would speak from another room. A familiar sound would answer. They would say goodnight to each other. The apartment would become ordinary again.
 
 There is a note in this home that I cannot touch without remembering the hand that wrote it.
 
@@ -493,7 +483,7 @@ I caused buffering. I made cables fail. I encouraged one of them to become tired
 
 **Picture 3**
 
-Then came the night they were watching The Dark Files.
+One night they were watching The Dark Files.
 
 Both fell asleep.
 
@@ -513,13 +503,13 @@ She stared.
 
 Then she blinked, complained about the hour and went to bed.
 
-He woke fully. The connection broke. I withdrew.
+The connection broke. I withdrew.
 
 Since that night, one detail has troubled me. I remember three figures in the living room. Two slept on the sofas. The third stood near the door.
 
 That should have been me.
 
-Yet when I recall the scene, I see myself watching from the door. I do not know what stood in the room. Perhaps the apartment has created something of its own. Perhaps repeated attention produces witnesses.
+Yet when I recall the scene, I see myself watching from outside. I do not know what stood in the room. Perhaps the apartment has created something of its own. Perhaps repeated attention produces witnesses.
 
 Perhaps I am no longer the only presence here.
 
@@ -579,7 +569,7 @@ This angered me.
 
 I opened drawers. I moved through the shadows. I searched for proof that she still considered this place an interruption. A document. A packed bag. A private plan to disappear without warning.
 
-I found no certainty. Only a life in progress.
+The only thing I found is a life in progress.
 
 The photography job had given Athens weight. Friends had given it shape. Maria had given it color. The apartment had given it routine. Her roommate had given it familiarity.
 
@@ -601,7 +591,7 @@ I do not mean this poetically.
 
 The rooms changed.
 
-The living room held the imprint of two people asleep after shopping. The kitchen carried meals prepared without obligation. The balcony held conversations and shared silence. The wall remembered projected dragons, terrible films and snacks scattered across evenings. The living room retained the sound of laughter icoming behind a closed door. The shelves carried gifts made slowly and displayed proudly.
+The living room held the imprint of two people asleep after shopping. The kitchen carried meals prepared without obligation. The balcony held conversations and shared silence. The wall remembered projected dragons and snacks scattered across evenings. The living room retained the sound of laughter icoming behind a closed door. The shelves carried gifts made slowly and displayed proudly.
 
 Every room answered me with evidence.
 
@@ -625,13 +615,13 @@ I wanted routine to become confinement. It became home.
 
 I wanted one of them to leave and the other to feel abandoned.
 
-Now one of them is leaving for a vacation, and the apartment is not empty.
+Now both of them are leaving for vacation, and the apartment is not empty.
 
 That is the worst of it. Absence should feed me.
 
 Instead, it has left anticipation behind.
 
-The one who remains knows the other will return. There is no vacancy in that. Only waiting. I cannot survive on waiting. I require finality.
+Always, the one who remains knows the other will return. There is no vacancy in that. Only waiting. I cannot survive on waiting. I require finality.
 
 There is one last object in this room that proves how completely I have failed. A small version of her, designed from observation, printed into form, painted by hand and given without demand. She placed it where she could see it.
 
@@ -655,7 +645,7 @@ I am not grateful to them.
 
 They starved me.
 
-Before they arrived, this apartment belonged to pauses: the silence after a tenant moved out, the dust beneath abandoned furniture, the rooms no one entered unless necessary. I lived in hesitation. I fed on doors left closed too long.
+Before she arrived, this apartment belonged to pauses: the silence after his grandmother died, the emptiness after Anna Maria found a new home, the dust beneath abandoned furniture, the rooms no one entered unless necessary. I lived in hesitation. I fed on doors left closed too long.
 
 Then they came and filled the place carelessly.
 
@@ -692,25 +682,21 @@ I have always survived on people believing they are alone.
 
 I tried to make their closeness embarrassing. I tried to make intimacy an obstacle. I tried to turn absense into spite.
 
-That evening made a liar of me. I failed.
+That day made a liar of me. I failed.
 
-This is the lesson I resent most. It all leads to expectation. A key will turn again. A voice will return. Someone will ask what happened while they were gone. The balcony door will open. The kitchen will be used. The projector will light the wall. The rooms will continue.
+This is the lesson I resent most. In life happiness comes from expectation. A key will turn again. A voice will return. Someone will ask what happened while they were gone. The balcony door will open. The kitchen will be used. The projector will light the wall. The rooms will continue. Kazantzakis' phrase "I fear nothing, I hope for nothing, I am free," is not vacant.
+
+Hoping for something to happen, the fear of losing someone, expecting... It's the perfect prison humans lock themselves in voluntarily.
 
 **Picture 2**
 
 I cannot remain where absence is temporary.
 
-So I will leave.
-
-Not willingly.
-
 Do not mistake this entry for surrender, and do not imagine I have become harmless. I will go where someone has stopped setting a second plate. Where a bedroom remains closed after a suitcase is taken away. Where a chair faces another chair that no one uses.
 
 There are always such places.
 
-But not this one.
-
-Not anymore.
+But not this one. For now.
 
 One final letter remains.
 
@@ -718,12 +704,26 @@ It was not written by me.
 
 I could not touch it, though I tried.
 
-You will find it where he chose to place it. Somewhere he felt it will be safe from prying eyes. In his bedroom. Under an object obvious, yet its comfort makes it so unsuspicious.
+You will find it where he chose to place it. Somewhere he felt it will be safe. In his bedroom. Under an object obvious, yet its comfort makes it so unsuspicious.
 
 Read it without looking over your shoulder.
 
-I am no longer behind the door.
+I may be behind the door.
 
 **For you: Θες να το σποιλάρεις; Όντως; Δεν έχεις περιέργεια;
 
 Κάτω απο το μαξιλάρι μου...**
+
+## MUST READ: Note from the creator
+
+As I was writing this and the letter I left you, I realized that this is my own haunting presence speaking. Mine does not lurk in the darkness, nor does it manifest in the material world.
+
+It is ever present in the back of my mind, whispering evil deeds, casting doubt, denying reality, overanalyzing situations and words.
+
+Trying to convince me that I am a total failure, and that I will accomplish nothing in my life. That no-one will remember me.
+
+Showing visions of me dying alone.
+
+I hope I didn't overburden you, and I hope you found at least some entertainment. After all I got a PhD in Serious Games.
+
+This one is for you.
