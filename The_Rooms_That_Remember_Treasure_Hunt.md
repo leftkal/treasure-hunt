@@ -74,7 +74,7 @@ They fell asleep in the living room while daylight moved slowly across the floor
 
 I stood near the door for a long time.
 
-Sleeping people are usually easy to influence. I can deepen a bad dream, sharpen an old fear or produce the sensation that someone has entered the room. I have caused people to wake with their hearts racing, certain that a figure had been standing beside them. I have turned ordinary darkness into evidence.
+Sleeping people are usually easy to influence. I can deepen a bad dream, sharpen an old fear or produce the sensation that someone has entered the room. I have watched people wake gasping, hand pressed to their own throat, certain something had been kneeling on their chest a second before. I have made grown men check under beds they know are empty. I have turned ordinary darkness into evidence.
 
 I tried with them.
 
@@ -100,7 +100,7 @@ They seemed to understand that companionship did not always require entertainmen
 
 I despised those evenings.
 
-Balconies are thresholds. They belong neither fully to the apartment nor fully to the world outside, and thresholds have always been favourable to me. A person alone on a balcony is easily persuaded to feel isolated, watched or misplaced. A person standing at the railing after midnight can be made to believe that the city has forgotten them.
+Balconies are thresholds. They belong neither fully to the apartment nor fully to the world outside, and thresholds have always been favourable to me. A person alone on a balcony after midnight is three seconds from believing the city has forgotten them entirely — I have only ever had to supply the third second. I have stood behind people at railings long enough to feel them start to lean, just slightly, toward the idea of falling — not wanting it, just entertaining how easy it would be.
 
 But there were two chairs.
 
@@ -232,7 +232,7 @@ She understood that terror rarely stands in the centre of a room. It waits at th
 
 I wondered whether she had encountered one of my kind before.
 
-I wondered whether that was why she never noticed me.
+I wondered whether that was why she never noticed me. Or perhaps she had simply learned, the way people who grow up around something bad learn, to keep her eyes forward and her breathing even so that whatever was behind her would lose interest in being seen.
 
 Recognition can appear identical to indifference.
 
@@ -306,7 +306,7 @@ They purchased glassware, decorations and small household things from Jumbo. The
 
 I interfered with that process.
 
-I loosened one pot near the edge of a surface. I encouraged impatience. I sharpened the irritation caused by spilled soil and small needles.
+I loosened one pot near the edge of a surface and waited for the crack of ceramic, the small shock of a hand catching something too late. I wanted her to flinch the way people flinch once and then flinch every time after.
 
 Nothing came of it.
 
@@ -369,7 +369,7 @@ People may lie in conversation, exaggerate affection and perform generosity in p
 
 **Picture 1**
 
-At first she seemed uncomfortable with the thought that there is an expectation of cooking for each other. When her roommate cooked for both of them she looked uncomfortable. Gratitude arrived mixed with guilt, as though every plate created a debt. I encouraged that feeling. I reminded her that accepting care creates dependence. I suggested that generosity is rarely free.
+At first she seemed uncomfortable with the thought that there is an expectation of cooking for each other. When her roommate cooked for both of them she looked uncomfortable. Gratitude arrived mixed with guilt, as though every plate created a debt. I encouraged that feeling the way you encourage rot — quietly, from underneath, where it won't be noticed until the whole thing gives. I reminded her, at 2 a.m., in the voice she uses for herself, that she has always eventually been too much for someone.
 
 For a while, she felt it.
 
@@ -567,7 +567,7 @@ I had expected the room to feel temporary. It did not.
 
 This angered me.
 
-I opened drawers. I moved through the shadows. I searched for proof that she still considered this place an interruption. A document. A packed bag. A private plan to disappear without warning.
+I went through her things the way something goes through a body looking for the wound. Drawers. The lining of a bag. The backs of drawers where people hide what they don't want found even by themselves. I wanted a document. A ticket. Anything with a date on it that proved she was already, quietly, leaving.
 
 The only thing I found is a life in progress.
 
@@ -609,13 +609,7 @@ I wanted them to become tired of one another. They became comfortable.
 
 I wanted generosity to create debt. It created trust.
 
-I wanted silence to become awkward. It became restful.
-
-I wanted routine to become confinement. It became home.
-
-I wanted one of them to leave and the other to feel abandoned.
-
-Now both of them are leaving for vacation, and the apartment is not empty.
+I wanted one of them to leave and the other to feel abandoned. Instead I watched them pack without a trace of uncertainty about tomorrow, because they knew their friendship had existed before this apartment, and would go on existing long after it. Then I understood what I had lost, and found I had no word for it — I had never needed one before.
 
 That is the worst of it. Absence should feed me.
 
@@ -643,7 +637,7 @@ I will not pretend gratitude.
 
 I am not grateful to them.
 
-They starved me.
+They starved me, and I want to be clear about what that means. Not inconvenienced. Not delayed. Starved — the way anything starves, slowly, with the early comfort of not yet noticing, and then all at once.
 
 Before she arrived, this apartment belonged to pauses: the silence after his grandmother died, the emptiness after Anna Maria found a new home, the dust beneath abandoned furniture, the rooms no one entered unless necessary. I lived in hesitation. I fed on doors left closed too long.
 
@@ -663,12 +657,9 @@ That is the cruelty of human memory. It rarely announces itself while being made
 
 Then there was the day I believed would finally prove me right. His graduation celebration.
 
-Celebrations expose the truth about people. They reveal obligations disguised as friendships. They force invitations to become calculations. Who must attend? Who will invent an excuse? Who is only present because politeness demanded it?
-I expected disappointment.
-
-Instead, she did not come alone.
-
-She brought Maria with her to celebrate a milestone that was not her own.
+Celebrations expose the truth about people. They reveal obligations disguised as friendships. They force invitations into arithmetic — who must attend, who will invent an excuse, who is only present because refusing would have cost more than showing up.
+I expected disappointment. I have fed on graduations before — the friend who leaves early, the relative who checks a phone under the table, the small, precise cruelty of a room that empties faster than it filled.
+Instead, she did not come alone. She brought someone who mattered to honor a day that was his, not hers, because she understood something I hate: that showing up for someone else's joy costs nothing and means everything.
 
 **Picture 1**
 
@@ -684,19 +675,17 @@ I tried to make their closeness embarrassing. I tried to make intimacy an obstac
 
 That day made a liar of me. I failed.
 
-This is the lesson I resent most. In life happiness comes from expectation. A key will turn again. A voice will return. Someone will ask what happened while they were gone. The balcony door will open. The kitchen will be used. The projector will light the wall. The rooms will continue. Kazantzakis' phrase "I fear nothing, I hope for nothing, I am free," is not vacant.
-
-Hoping for something to happen, the fear of losing someone, expecting... It's the perfect prison humans lock themselves in voluntarily.
+This is the lesson I resent most. Happiness, in a life, comes from expectation — and expectation is a debt owed to the future, one I have collected on more times than I can count. A key will turn again, until the day it doesn't. A voice will return, until the day it's someone else's voice explaining why. I have stood in a hundred kitchens waiting for that day. Kazantzakis' phrase — "I fear nothing, I hope for nothing, I am free" — is not the comfort humans think it is. It is a description of what I am. Fear nothing because there is nothing left to lose. Hope for nothing because hope is just fear that hasn't finished arriving yet. That is freedom, and it is also what's left of a person after everything is gone.
 
 **Picture 2**
 
 I cannot remain where absence is temporary.
 
-Do not mistake this entry for surrender, and do not imagine I have become harmless. I will go where someone has stopped setting a second plate. Where a bedroom remains closed after a suitcase is taken away. Where a chair faces another chair that no one uses.
+Do not mistake this entry for surrender. I have not become harmless — I have only become patient. I will go where someone has stopped setting a second plate without noticing they've stopped. Where a bedroom stays closed a week longer each month, and no one is counting the weeks but me. Where a chair still faces another chair, out of habit, long after the reason for it is gone.
 
-There are always such places.
+There are always such places. I have never once run out of them.
 
-But not this one. For now.
+But not this one. Not yet.
 
 One final letter remains.
 
@@ -706,9 +695,11 @@ I could not touch it, though I tried.
 
 You will find it where he chose to place it. Somewhere he felt it will be safe. In his bedroom. Under an object obvious, yet its comfort makes it so unsuspicious.
 
-Read it without looking over your shoulder.
+Read it without looking over your shoulder. If you look, you will only prove to yourself that you needed to check — and that's the only door I need left open.
+I may be behind it. I am patient.
 
-I may be behind the door.
+I have somewhere to be, eventually.
+Everyone does, eventually.
 
 **For you: Θες να το σποιλάρεις; Όντως; Δεν έχεις περιέργεια;
 
@@ -718,11 +709,10 @@ I may be behind the door.
 
 As I was writing this, and the letter I left you, I realized that this is my own haunting presence speaking. Mine does not lurk in the darkness, nor does it manifest in the material world.
 
-It is ever present in the back of my mind, whispering evil deeds, casting doubt, denying reality, overanalyzing situations and words.
+It is ever present in the back of my mind — not loud, never loud, just always slightly ahead of me, already doubting the thing I haven't said yet, already rehearsing the version where I'm alone.
 
-Trying to convince me that I am a total failure, and that I will accomplish nothing in my life. That no-one will remember me.
-
-Showing visions of ending up without any friends.
+It tells me I am a failure quietly enough that I sometimes agree before I notice I've been told. It tells me no one will remember me, and means it kindly, like a fact.
+It shows me the ending where there's no one left in the room.
 
 I hope I didn't overburden you, and I hope you found at least some entertainment. After all I got a PhD in Serious Games.
 

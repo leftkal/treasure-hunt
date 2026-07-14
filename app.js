@@ -37,6 +37,18 @@ const clueMedia = [
   { type: "image", src: "images/optimized/entry9.webp" },
 ];
 
+const clueVoiceovers = [
+  { src: "voiceovers/entry1-p254.mp3" },
+  { src: "voiceovers/entry2-p254.mp3" },
+  { src: "voiceovers/entry3-p254.mp3" },
+  { src: "voiceovers/entry4-p254.mp3" },
+  { src: "voiceovers/entry5-p254.mp3" },
+  { src: "voiceovers/entry6-p254.mp3" },
+  { src: "voiceovers/entry7-p254.mp3" },
+  { src: "voiceovers/entry8-p254.mp3" },
+  { src: "voiceovers/entry9-p254.mp3" },
+];
+
 const entryMediaExtensions = {
   "1_1": "webp", "1_2": "webp", "1_3": "webp", "1_4": "mp4",
   "2_1": "mp4", "2_2": "webp",
@@ -69,6 +81,7 @@ const musicFadeFrames = new WeakMap();
 let musicObserver = null;
 const watchedVideos = new Set();
 const audibleVideos = new Set();
+const activeVoiceoverPlayers = new Set();
 
 const app = document.querySelector("#app");
 let state = loadState();
@@ -352,6 +365,22 @@ function clearRenderedVideoAudio() {
   if (musicObserver) musicObserver.disconnect();
 }
 
+function clearRenderedVoiceovers() {
+  document.querySelectorAll(".voiceover-player").forEach((audio) => {
+    try {
+      audio.pause();
+      audio.currentTime = 0;
+    } catch {}
+    activeVoiceoverPlayers.delete(audio);
+  });
+  if (!activeVoiceoverPlayers.size) resumeMusicFromOverlay("voiceover");
+}
+
+function clearRenderedAudio() {
+  clearRenderedVoiceovers();
+  clearRenderedVideoAudio();
+}
+
 function registerVideo(video) {
   if (!video || watchedVideos.has(video)) return;
   watchedVideos.add(video);
@@ -566,6 +595,7 @@ function parseDiary(markdown) {
     return {
       title: title.trim(),
       media: clueMedia[index] || clueMedia[clueMedia.length - 1],
+      voiceover: clueVoiceovers[index] || null,
       text: body,
       hint,
       code: clueCodes[index] || `ENTRY-${String(index + 1).padStart(2, "0")}`,
@@ -615,25 +645,25 @@ function renderSavedScreen() {
 }
 
 function renderLoading() {
-  clearRenderedVideoAudio();
+  clearRenderedAudio();
   activeScreen = "loading";
   app.innerHTML = `<section class="screen stack"><h1>Loading</h1><p class="clue">Opening the diary pages...</p></section>`;
 }
 
 function renderError(error) {
-  clearRenderedVideoAudio();
+  clearRenderedAudio();
   activeScreen = "error";
   app.innerHTML = `<section class="screen stack"><h1>Diary unavailable</h1><p class="clue">The clue diary could not be loaded. Serve this folder with a local web server and make sure ${escapeHtml(MARKDOWN_SOURCE)} is beside index.html.</p><p class="feedback bad">${escapeHtml(error.message)}</p><button class="btn" id="retryBtn" type="button">Try again</button></section>`;
   document.querySelector("#retryBtn").addEventListener("click", loadClues);
 }
 
 function renderStart(feedback = "") {
-  clearRenderedVideoAudio();
+  clearRenderedAudio();
   activeScreen = "cover";
   app.innerHTML = `
     <section class="screen cover stack">
       <div class="hero-frame"><img class="hero-img" src="images/optimized/saw_doll.webp" alt="A creepy Saw-style doll inviting players to start the treasure hunt" decoding="async" /></div>
-      <h1>WANNA PLAY A GAME?</h1>
+      <h1>I've been waiting for youl... Alex.</h1>
       <button class="btn" id="continueBtn" type="button">Start!</button>
       <div class="divider">or</div>
       <form id="jumpForm" class="stack" novalidate>
@@ -653,7 +683,7 @@ function renderStart(feedback = "") {
 }
 
 function renderCurrent(feedback = "", isOk = false, hintOpen = false, creatorNoteOpen = false) {
-  clearRenderedVideoAudio();
+  clearRenderedAudio();
   activeScreen = "entry";
   if (state.complete) {
     setState({ current: clues.length - 1, maxUnlocked: clues.length - 1, complete: false, started: true });
@@ -668,6 +698,7 @@ function renderCurrent(feedback = "", isOk = false, hintOpen = false, creatorNot
       <div class="card-body">
         <div class="meta"><span>Step ${state.current + 1} / ${clues.length}</span><button class="btn secondary" id="prevBtn" type="button" aria-label="Go to previous entry">${prevLabel}</button></div>
         <h2>${escapeHtml(clue.title)}</h2>
+        ${renderVoiceover(clue)}
         <div class="clue diary-text">${renderMarkdownText(clue.text, state.current + 1)}</div>
         <button class="btn secondary" id="hintBtn" type="button" aria-expanded="${hintOpen}">${hintOpen ? "Hide hint" : "Reveal hint"}</button>
         ${hintOpen ? `<div class="hint diary-text">${renderMarkdownText(clue.hint || "No hint is written for this entry yet.", state.current + 1)}</div>` : ""}
@@ -704,7 +735,33 @@ function renderCurrent(feedback = "", isOk = false, hintOpen = false, creatorNot
   document.querySelector("#creatorNoteBtn")?.addEventListener("click", () => renderCurrent(feedback, isOk, hintOpen, !creatorNoteOpen));
   document.querySelector("#resetBtn").addEventListener("click", resetHunt);
   wireMediaControls();
+  wireVoiceoverControls();
   syncMusicToScreen(true);
+}
+
+function renderVoiceover(clue) {
+  if (!clue.voiceover?.src) return "";
+  const src = escapeHtml(clue.voiceover.src);
+  const label = escapeHtml(`Voiceover for ${clue.title}`);
+  return `<div class="voiceover-panel"><span>Voiceover</span><audio class="voiceover-player" controls preload="metadata" aria-label="${label}"><source src="${src}" type="audio/mpeg" /></audio></div>`;
+}
+
+function wireVoiceoverControls() {
+  document.querySelectorAll(".voiceover-player").forEach((audio) => {
+    audio.addEventListener("play", () => {
+      document.querySelectorAll(".voiceover-player").forEach((other) => {
+        if (other !== audio) other.pause();
+      });
+      activeVoiceoverPlayers.add(audio);
+      pauseMusicForOverlay("voiceover");
+    });
+    const releaseVoiceover = () => {
+      activeVoiceoverPlayers.delete(audio);
+      if (!activeVoiceoverPlayers.size) resumeMusicFromOverlay("voiceover");
+    };
+    audio.addEventListener("pause", releaseVoiceover);
+    audio.addEventListener("ended", releaseVoiceover);
+  });
 }
 
 function wireMediaControls() {
@@ -761,7 +818,7 @@ function resetHunt() {
 }
 
 function renderComplete() {
-  clearRenderedVideoAudio();
+  clearRenderedAudio();
   activeScreen = "entry";
   app.innerHTML = `<section class="screen stack"><h1>Complete</h1><p class="clue">The diary is complete. The final letter waits where it was left.</p><button class="btn" id="againBtn" type="button">Play again</button><button class="btn danger" id="resetBtn" type="button">Reset hunt</button></section>`;
   document.querySelector("#againBtn").addEventListener("click", () => { setState({ current: 0, maxUnlocked: 0, complete: false, started: true }); renderCurrent(); });

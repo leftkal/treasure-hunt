@@ -264,6 +264,7 @@ button, input { font: inherit; }
 
 h1, h2 { margin: 0; line-height: 1.05; letter-spacing: 0.04em; }
 h1 { font-size: clamp(2.2rem, 11vw, 4rem); text-transform: uppercase; color: var(--accent-2); text-shadow: 1px 1px 0 rgba(255,255,255,0.25); }
+.cover h1 { text-transform: none; }
 h2 { font-size: clamp(1.75rem, 8vw, 2.5rem); }
 p { color: var(--ink-muted); line-height: var(--paper-text-line); }
 
@@ -296,6 +297,22 @@ input:focus { outline: 3px solid rgba(154, 106, 39, 0.32); border-color: var(--a
 .meta { display: flex; justify-content: space-between; gap: 1rem; align-items: center; color: var(--accent); font-weight: 800; }
 .meta span { font-family: var(--font-label); font-size: 0.85rem; }
 .meta .btn { width: auto; min-height: 2.35rem; padding: 0.45rem 0.66rem; flex: 0 0 auto; font-size: 0.72rem; white-space: nowrap; }
+.voiceover-panel {
+  display: grid;
+  gap: 0.45rem;
+}
+.voiceover-panel span {
+  color: var(--ink-muted);
+  font-size: 0.85rem;
+  font-weight: 800;
+  font-family: var(--font-label);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.voiceover-player {
+  width: 100%;
+  min-height: 2.4rem;
+}
 .clue { margin: 0; font-size: 1.25rem; color: var(--ink); }
 .diary-text {
   display: flow-root;
