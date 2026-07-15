@@ -12,7 +12,7 @@ const ENTRY_MUSIC_SRCS = [
   "music/entry_music_f.mp3",
 ];
 const MUSIC_VOLUME = 0.5;
-const MUSIC_DUCK_VOLUME = 0.08;
+const MUSIC_DUCK_VOLUME = 0.1;
 const MUSIC_FADE_MS = 420;
 const MUSIC_POSITION_SAVE_THROTTLE_MS = 1000;
 
@@ -156,14 +156,22 @@ function saveMusicState(force = false) {
 
 function applyVolume(audio, target, duration = MUSIC_FADE_MS) {
   if (!audio) return;
-  const start = getMusicAudioLevel(audio);
+  const gainNode = musicGainNodes.get(audio);
+  if (gainNode && musicAudioContext) {
+    const existingFrame = musicFadeFrames.get(audio);
+    if (existingFrame) cancelAnimationFrame(existingFrame);
+    musicFadeFrames.delete(audio);
+    setMusicAudioLevel(audio, target, duration);
+    return;
+  }
+  const start = Number(audio.volume || 0);
   const delta = target - start;
   const existingFrame = musicFadeFrames.get(audio);
   if (existingFrame) cancelAnimationFrame(existingFrame);
   const startedAt = performance.now();
   const step = (now) => {
     const progress = duration <= 0 ? 1 : Math.min(1, (now - startedAt) / duration);
-    setMusicAudioLevel(audio, start + (delta * progress));
+    audio.volume = start + (delta * progress);
     if (progress < 1) {
       musicFadeFrames.set(audio, requestAnimationFrame(step));
     } else {
@@ -183,12 +191,20 @@ function getMusicAudioLevel(audio) {
   return gainNode ? Number(gainNode.gain.value || 0) : Number(audio.volume || 0);
 }
 
-function setMusicAudioLevel(audio, target) {
+function setMusicAudioLevel(audio, target, duration = 0) {
   if (!audio) return;
   const gainNode = musicGainNodes.get(audio);
-  if (gainNode) {
+  if (gainNode && musicAudioContext) {
+    const now = musicAudioContext.currentTime;
+    const gain = gainNode.gain;
+    gain.cancelScheduledValues(now);
+    gain.setValueAtTime(Math.max(0, Math.min(1, gain.value)), now);
+    if (duration <= 0) {
+      gain.setValueAtTime(target, now);
+    } else {
+      gain.linearRampToValueAtTime(target, now + Math.max(0.01, duration / 1000));
+    }
     audio.volume = 1;
-    gainNode.gain.value = target;
     return;
   }
   audio.volume = target;
@@ -200,7 +216,7 @@ function silenceAndPauseAudio(audio) {
   if (existingFrame) cancelAnimationFrame(existingFrame);
   musicFadeFrames.delete(audio);
   try {
-    setMusicAudioLevel(audio, 0);
+    setMusicAudioLevel(audio, 0, 0);
     audio.pause();
   } catch {}
 }
@@ -327,6 +343,12 @@ function initializeMusic() {
   });
   createMusicAudioGraph();
   musicReady = true;
+  syncMusicToScreen(true);
+}
+
+function primeMusicAutoplay() {
+  if (!musicReady) initializeMusic();
+  musicUnlocked = true;
   syncMusicToScreen(true);
 }
 
@@ -785,6 +807,7 @@ function renderStart(feedback = "") {
     onUserMusicGesture();
     handleCode(document.querySelector("#startCode").value, true);
   });
+  primeMusicAutoplay();
   syncMusicToScreen(true);
 }
 
@@ -842,6 +865,7 @@ function renderCurrent(feedback = "", isOk = false, hintOpen = false, creatorNot
   document.querySelector("#resetBtn").addEventListener("click", resetHunt);
   wireMediaControls();
   wireVoiceoverControls();
+  primeMusicAutoplay();
   syncMusicToScreen(true);
 }
 

@@ -98,6 +98,8 @@ button, input { font: inherit; }
   isolation: isolate;
 }
 
+.card { overflow: visible; }
+
 .screen > *, .card > * { position: relative; z-index: 1; }
 
 .screen::before, .card::before {
