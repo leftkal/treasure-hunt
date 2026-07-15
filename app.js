@@ -12,7 +12,7 @@ const ENTRY_MUSIC_SRCS = [
   "music/entry_music_f.mp3",
 ];
 const MUSIC_VOLUME = 0.5;
-const MUSIC_DUCK_VOLUME = 0.02;
+const MUSIC_DUCK_VOLUME = 0.08;
 const MUSIC_FADE_MS = 420;
 const MUSIC_POSITION_SAVE_THROTTLE_MS = 1000;
 
@@ -849,7 +849,7 @@ function renderVoiceover(clue) {
   if (!clue.voiceover?.src) return "";
   const src = escapeHtml(clue.voiceover.src);
   const label = escapeHtml(`Voiceover for ${clue.title}`);
-  return `<div class="voiceover-panel"><span>Voiceover</span><audio class="voiceover-player" controls preload="metadata" aria-label="${label}"><source src="${src}" type="audio/mpeg" /></audio></div>`;
+  return `<div class="voiceover-stick"><div class="voiceover-panel"><span>Voiceover</span><audio class="voiceover-player" controls preload="metadata" aria-label="${label}"><source src="${src}" type="audio/mpeg" /></audio></div></div>`;
 }
 
 function wireVoiceoverControls() {

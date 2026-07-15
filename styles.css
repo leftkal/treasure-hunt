@@ -297,11 +297,14 @@ input:focus { outline: 3px solid rgba(154, 106, 39, 0.32); border-color: var(--a
 .meta { display: flex; justify-content: space-between; gap: 1rem; align-items: center; color: var(--accent); font-weight: 800; }
 .meta span { font-family: var(--font-label); font-size: 0.85rem; }
 .meta .btn { width: auto; min-height: 2.35rem; padding: 0.45rem 0.66rem; flex: 0 0 auto; font-size: 0.72rem; white-space: nowrap; }
-.voiceover-panel {
+.voiceover-stick {
+  position: -webkit-sticky;
   position: sticky;
   top: calc(0.75rem + env(safe-area-inset-top));
   z-index: 8;
   align-self: start;
+}
+.voiceover-panel {
   display: grid;
   gap: 0.35rem;
   height: calc(var(--paper-rule) * 2);
@@ -311,7 +314,6 @@ input:focus { outline: 3px solid rgba(154, 106, 39, 0.32); border-color: var(--a
   border-radius: 0.8rem;
   background: rgba(255, 246, 211, 0.88);
   box-shadow: 0 0.45rem 1rem rgba(72, 45, 17, 0.18);
-  transform: translateY(var(--paper-text-nudge));
 }
 .voiceover-panel span {
   color: var(--ink-muted);
