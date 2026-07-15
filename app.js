@@ -1,14 +1,18 @@
 const STORAGE_KEY = "treasure-hunt-progress-v1";
-const MUSIC_STORAGE_KEY = "treasure-hunt-music-v2";
+const MUSIC_STORAGE_KEY = "treasure-hunt-music-v3";
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
 const MARKDOWN_SOURCE = "The_Rooms_That_Remember_Treasure_Hunt.md";
 const COVER_MUSIC_SRC = "music/cover_music.mp3";
 const ENTRY_MUSIC_SRCS = [
+  "music/entry_music_a.mp3",
   "music/entry_music_b.mp3",
   "music/entry_music_c.mp3",
   "music/entry_music_d.mp3",
+  "music/entry_music_e.mp3",
+  "music/entry_music_f.mp3",
 ];
 const MUSIC_VOLUME = 0.5;
+const MUSIC_DUCK_VOLUME = 0.1;
 const MUSIC_FADE_MS = 420;
 const MUSIC_POSITION_SAVE_THROTTLE_MS = 1000;
 
@@ -184,8 +188,24 @@ function getMusicAudios() {
   return [coverMusic, ...entryMusic].filter(Boolean);
 }
 
+function isMusicDucked() {
+  return musicPausedByVoiceover || musicPausedByVideo || videoPauseCount > 0;
+}
+
+function getMusicTargetVolume() {
+  return isMusicDucked() ? MUSIC_DUCK_VOLUME : MUSIC_VOLUME;
+}
+
 function isMusicPlaybackBlocked() {
-  return musicPausedByVoiceover || musicPausedByVideo || musicPausedByVisibility || videoPauseCount > 0;
+  return musicPausedByVisibility;
+}
+
+function updateMusicDucking(duration = 180) {
+  const target = getMusicTargetVolume();
+  getMusicAudios().forEach((audio) => {
+    if (!audio || audio.paused || audio.ended) return;
+    applyVolume(audio, target, duration);
+  });
 }
 
 function fadeOutAndPause(audio, duration = MUSIC_FADE_MS) {
@@ -261,7 +281,7 @@ function setMusicMode(mode, { trackIndex = musicCurrentTrackIndex, immediate = f
     if (!coverMusic.loop) coverMusic.loop = true;
     if (coverMusic.currentTime == null) coverMusic.currentTime = 0;
     if (coverMusic.paused || coverMusic.ended) playAudio(coverMusic);
-    applyVolume(coverMusic, MUSIC_VOLUME);
+    applyVolume(coverMusic, getMusicTargetVolume());
     entryMusic.forEach((audio) => {
       if (!audio) return;
       fadeOutAndPause(audio);
@@ -286,7 +306,7 @@ function setMusicMode(mode, { trackIndex = musicCurrentTrackIndex, immediate = f
     if (preservePosition && audio.currentTime > 0) musicCurrentTime = audio.currentTime;
     audio.loop = false;
     if (audio.paused || audio.ended) playAudio(audio);
-    applyVolume(audio, MUSIC_VOLUME);
+    applyVolume(audio, getMusicTargetVolume());
   }
   saveMusicState();
 }
@@ -303,7 +323,7 @@ function advanceEntryTrack(fromIndex = musicCurrentTrackIndex) {
   musicCurrentTrackIndex = nextIndex;
   musicCurrentTime = 0;
   playAudio(next);
-  applyVolume(next, MUSIC_VOLUME);
+  applyVolume(next, getMusicTargetVolume());
   saveMusicState();
 }
 
@@ -311,7 +331,7 @@ function pauseMusicForOverlay(reason = "generic") {
   if (!musicReady) return;
   if (reason === "voiceover") musicPausedByVoiceover = true;
   if (reason === "video") musicPausedByVideo = true;
-  getMusicAudios().forEach(silenceAndPauseAudio);
+  updateMusicDucking();
   saveMusicState(true);
 }
 
@@ -319,13 +339,14 @@ function resumeMusicFromOverlay(reason = "generic") {
   if (!musicReady) return;
   if (reason === "voiceover") musicPausedByVoiceover = false;
   if (reason === "video") musicPausedByVideo = false;
-  if (musicPausedByVoiceover || musicPausedByVideo || musicPausedByVisibility || videoPauseCount > 0) return;
+  updateMusicDucking();
+  if (musicPausedByVisibility) return;
   syncMusicToScreen(true);
 }
 
 function syncMusicToScreen(force = false) {
   if (!musicReady || !musicUnlocked) return;
-  if (musicPausedByVoiceover || musicPausedByVideo || musicPausedByVisibility || videoPauseCount > 0) return;
+  if (musicPausedByVisibility) return;
   const targetMode = activeScreen === "cover" ? "cover" : "entry";
   if (!force && targetMode === musicMode) return;
   if (targetMode === "cover") {
@@ -342,9 +363,9 @@ function syncMusicToScreen(force = false) {
 function onUserMusicGesture() {
   if (!musicReady) initializeMusic();
   setMusicUnlocked();
-  if (activeScreen === "cover" && !musicPausedByVideo && !musicPausedByVoiceover) {
+  if (activeScreen === "cover" && !musicPausedByVisibility) {
     setMusicMode("cover", { immediate: true, preservePosition: true });
-  } else if (activeScreen !== "cover" && !musicPausedByVideo && !musicPausedByVoiceover) {
+  } else if (activeScreen !== "cover" && !musicPausedByVisibility) {
     setMusicMode("entry", { trackIndex: musicCurrentTrackIndex, immediate: true, preservePosition: true });
   }
 }
@@ -353,7 +374,7 @@ function queueMusicResumeAfterMute() {
   if (mutedVideoResumeDelay) window.clearTimeout(mutedVideoResumeDelay);
   mutedVideoResumeDelay = window.setTimeout(() => {
     mutedVideoResumeDelay = null;
-    if (videoPauseCount === 0 && !musicPausedByVoiceover) resumeMusicFromOverlay("video");
+    if (videoPauseCount === 0) resumeMusicFromOverlay("video");
   }, 120);
 }
 

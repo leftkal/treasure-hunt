@@ -298,11 +298,18 @@ input:focus { outline: 3px solid rgba(154, 106, 39, 0.32); border-color: var(--a
 .meta span { font-family: var(--font-label); font-size: 0.85rem; }
 .meta .btn { width: auto; min-height: 2.35rem; padding: 0.45rem 0.66rem; flex: 0 0 auto; font-size: 0.72rem; white-space: nowrap; }
 .voiceover-panel {
+  position: sticky;
+  bottom: calc(0.75rem + env(safe-area-inset-bottom));
+  z-index: 8;
   display: grid;
   gap: 0.35rem;
   height: calc(var(--paper-rule) * 2);
   margin: 0;
-  padding: 0.12rem 0 0.3rem;
+  padding: 0.42rem 0.55rem 0.55rem;
+  border: 1px solid rgba(83, 56, 28, 0.2);
+  border-radius: 0.8rem;
+  background: rgba(255, 246, 211, 0.88);
+  box-shadow: 0 0.45rem 1rem rgba(72, 45, 17, 0.18);
   transform: translateY(var(--paper-text-nudge));
 }
 .voiceover-panel span {
