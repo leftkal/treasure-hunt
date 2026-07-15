@@ -299,8 +299,9 @@ input:focus { outline: 3px solid rgba(154, 106, 39, 0.32); border-color: var(--a
 .meta .btn { width: auto; min-height: 2.35rem; padding: 0.45rem 0.66rem; flex: 0 0 auto; font-size: 0.72rem; white-space: nowrap; }
 .voiceover-panel {
   position: sticky;
-  bottom: calc(0.75rem + env(safe-area-inset-bottom));
+  top: calc(0.75rem + env(safe-area-inset-top));
   z-index: 8;
+  align-self: start;
   display: grid;
   gap: 0.35rem;
   height: calc(var(--paper-rule) * 2);

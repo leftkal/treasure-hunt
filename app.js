@@ -80,9 +80,14 @@ let musicCurrentTime = 0;
 let musicPausedByVoiceover = false;
 let musicPausedByVideo = false;
 let musicPausedByVisibility = false;
+let musicAudioContext = null;
+let musicAudioGraphReady = false;
+let musicMasterGain = null;
 let coverMusic = null;
 let entryMusic = [];
 const musicFadeFrames = new WeakMap();
+const musicSourceNodes = new WeakMap();
+const musicGainNodes = new WeakMap();
 let musicObserver = null;
 const watchedVideos = new Set();
 const audibleVideos = new Set();
@@ -151,14 +156,14 @@ function saveMusicState(force = false) {
 
 function applyVolume(audio, target, duration = MUSIC_FADE_MS) {
   if (!audio) return;
-  const start = Number(audio.volume || 0);
+  const start = getMusicAudioLevel(audio);
   const delta = target - start;
   const existingFrame = musicFadeFrames.get(audio);
   if (existingFrame) cancelAnimationFrame(existingFrame);
   const startedAt = performance.now();
   const step = (now) => {
     const progress = duration <= 0 ? 1 : Math.min(1, (now - startedAt) / duration);
-    audio.volume = start + (delta * progress);
+    setMusicAudioLevel(audio, start + (delta * progress));
     if (progress < 1) {
       musicFadeFrames.set(audio, requestAnimationFrame(step));
     } else {
@@ -173,13 +178,29 @@ function pauseAudio(audio) {
   try { audio.pause(); } catch {}
 }
 
+function getMusicAudioLevel(audio) {
+  const gainNode = musicGainNodes.get(audio);
+  return gainNode ? Number(gainNode.gain.value || 0) : Number(audio.volume || 0);
+}
+
+function setMusicAudioLevel(audio, target) {
+  if (!audio) return;
+  const gainNode = musicGainNodes.get(audio);
+  if (gainNode) {
+    audio.volume = 1;
+    gainNode.gain.value = target;
+    return;
+  }
+  audio.volume = target;
+}
+
 function silenceAndPauseAudio(audio) {
   if (!audio) return;
   const existingFrame = musicFadeFrames.get(audio);
   if (existingFrame) cancelAnimationFrame(existingFrame);
   musicFadeFrames.delete(audio);
   try {
-    audio.volume = 0;
+    setMusicAudioLevel(audio, 0);
     audio.pause();
   } catch {}
 }
@@ -215,17 +236,50 @@ function updateMusicDucking(duration = 180) {
   });
 }
 
+function createMusicAudioGraph() {
+  if (musicAudioGraphReady || !coverMusic || !entryMusic.length) return;
+  const AudioContextCtor = window.AudioContext || window.webkitAudioContext;
+  if (!AudioContextCtor) return;
+  try {
+    musicAudioContext = musicAudioContext || new AudioContextCtor();
+    if (!musicMasterGain) {
+      musicMasterGain = musicAudioContext.createGain();
+      musicMasterGain.gain.value = 1;
+      musicMasterGain.connect(musicAudioContext.destination);
+    }
+    getMusicAudios().forEach((audio) => {
+      if (!audio || musicGainNodes.has(audio)) return;
+      const source = musicAudioContext.createMediaElementSource(audio);
+      const gain = musicAudioContext.createGain();
+      gain.gain.value = 0;
+      source.connect(gain);
+      gain.connect(musicMasterGain);
+      musicSourceNodes.set(audio, source);
+      musicGainNodes.set(audio, gain);
+      audio.volume = 1;
+    });
+    musicAudioGraphReady = true;
+  } catch {
+    musicAudioContext = null;
+    musicMasterGain = null;
+    musicAudioGraphReady = false;
+  }
+}
+
 function fadeOutAndPause(audio, duration = MUSIC_FADE_MS) {
   if (!audio) return;
   applyVolume(audio, 0, duration);
   window.setTimeout(() => {
-    if (audio.volume <= 0.03) pauseAudio(audio);
+    if (getMusicAudioLevel(audio) <= 0.03) pauseAudio(audio);
   }, duration + 30);
 }
 
 async function playAudio(audio) {
   if (!audio || isMusicPlaybackBlocked() || !isExpectedMusicAudio(audio)) return false;
   try {
+    if (musicAudioContext && musicAudioContext.state === "suspended") {
+      await musicAudioContext.resume().catch(() => {});
+    }
     await audio.play();
     if (isMusicPlaybackBlocked() || !isExpectedMusicAudio(audio)) {
       silenceAndPauseAudio(audio);
@@ -271,6 +325,7 @@ function initializeMusic() {
     audio.addEventListener("pause", saveMusicState);
     audio.addEventListener("play", saveMusicState);
   });
+  createMusicAudioGraph();
   musicReady = true;
   syncMusicToScreen(true);
 }
@@ -369,6 +424,9 @@ function syncMusicToScreen(force = false) {
 
 function onUserMusicGesture() {
   if (!musicReady) initializeMusic();
+  if (musicAudioContext && musicAudioContext.state === "suspended") {
+    musicAudioContext.resume().catch(() => {});
+  }
   setMusicUnlocked();
   if (activeScreen === "cover" && !musicPausedByVisibility) {
     setMusicMode("cover", { immediate: true, preservePosition: true });
