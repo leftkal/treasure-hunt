@@ -200,6 +200,13 @@ function isMusicPlaybackBlocked() {
   return musicPausedByVisibility;
 }
 
+function isExpectedMusicAudio(audio) {
+  if (!audio) return false;
+  if (audio === coverMusic) return musicMode === "cover";
+  const entryIndex = entryMusic.indexOf(audio);
+  return musicMode === "entry" && entryIndex === musicCurrentTrackIndex;
+}
+
 function updateMusicDucking(duration = 180) {
   const target = getMusicTargetVolume();
   getMusicAudios().forEach((audio) => {
@@ -217,10 +224,10 @@ function fadeOutAndPause(audio, duration = MUSIC_FADE_MS) {
 }
 
 async function playAudio(audio) {
-  if (!audio || isMusicPlaybackBlocked()) return false;
+  if (!audio || isMusicPlaybackBlocked() || !isExpectedMusicAudio(audio)) return false;
   try {
     await audio.play();
-    if (isMusicPlaybackBlocked()) {
+    if (isMusicPlaybackBlocked() || !isExpectedMusicAudio(audio)) {
       silenceAndPauseAudio(audio);
       return false;
     }
