@@ -13,6 +13,10 @@ const TAPO_BULB_IPS = (process.env.TAPO_BULB_IPS || process.env.TAPO_BULB_IP || 
   .split(",")
   .map((value) => value.trim())
   .filter(Boolean);
+const BRIDGE_ALLOWED_ORIGINS = (process.env.BRIDGE_ALLOWED_ORIGINS || "")
+  .split(",")
+  .map((value) => value.trim())
+  .filter(Boolean);
 
 const scenes = {
   1: { hue: 32, saturation: 88, brightness: 35 },
@@ -30,6 +34,7 @@ const scenes = {
 
 let lastScene = scenes.idle;
 const deviceCache = new Map();
+const scheduledEffects = new Map();
 
 function loadDotEnv(filePath) {
   if (!fs.existsSync(filePath)) return;
@@ -48,10 +53,17 @@ function loadDotEnv(filePath) {
   }
 }
 
-function sendJson(response, status, body) {
+function getAllowedOrigin(request) {
+  const origin = request.headers.origin || "";
+  return BRIDGE_ALLOWED_ORIGINS.includes(origin) ? origin : "";
+}
+
+function sendJson(request, response, status, body) {
+  const allowedOrigin = getAllowedOrigin(request);
   response.writeHead(status, {
     "Content-Type": "application/json; charset=utf-8",
-    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Origin": allowedOrigin || "*",
+    "Vary": "Origin",
     "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type, X-Bridge-Token",
     "Access-Control-Allow-Private-Network": "true",
@@ -82,8 +94,8 @@ function readBody(request) {
 }
 
 function isAuthorized(request) {
-  if (!BRIDGE_TOKEN) return false;
-  return request.headers["x-bridge-token"] === BRIDGE_TOKEN;
+  if (getAllowedOrigin(request)) return true;
+  return Boolean(BRIDGE_TOKEN && request.headers["x-bridge-token"] === BRIDGE_TOKEN);
 }
 
 async function getDevice(ip) {
@@ -98,11 +110,11 @@ async function getDevice(ip) {
   }
 }
 
-async function forEachBulb(action) {
+async function forEachBulb(action, ips = TAPO_BULB_IPS) {
   if (!TAPO_EMAIL || !TAPO_PASSWORD) throw new Error("Missing TAPO_EMAIL or TAPO_PASSWORD");
   if (!TAPO_BULB_IPS.length) throw new Error("Missing TAPO_BULB_IPS");
   const results = [];
-  for (const ip of TAPO_BULB_IPS) {
+  for (const ip of ips) {
     try {
       const device = await getDevice(ip);
       await action(device, ip);
@@ -115,20 +127,70 @@ async function forEachBulb(action) {
   return results;
 }
 
-async function applyScene(scene) {
-  lastScene = scene;
+function primaryBulbIps() {
+  return TAPO_BULB_IPS.slice(0, 1);
+}
+
+function extraBulbIps() {
+  return TAPO_BULB_IPS.slice(1);
+}
+
+async function applyScene(scene, ips = primaryBulbIps(), { remember = true } = {}) {
+  if (remember) lastScene = scene;
   return forEachBulb(async (device) => {
     await device.turnOn();
     await device.setHSL(scene.hue, scene.saturation, scene.brightness);
-  });
+  }, ips);
+}
+
+async function turnOnBulbs(ips) {
+  return forEachBulb((device) => device.turnOn(), ips);
+}
+
+async function turnOffBulbs(ips) {
+  return forEachBulb((device) => device.turnOff(), ips);
 }
 
 async function flashWrongCode() {
   const previousScene = lastScene;
   const red = { hue: 0, saturation: 100, brightness: 60 };
-  const first = await applyScene(red);
-  windowlessDelay(850).then(() => applyScene(previousScene).catch((error) => console.error("restore scene failed", error)));
+  const first = await applyScene(red, TAPO_BULB_IPS);
+  windowlessDelay(850).then(() => applyScene(previousScene, TAPO_BULB_IPS).catch((error) => console.error("restore scene failed", error)));
   return first;
+}
+
+function clearScheduledEffect(entry) {
+  const timers = scheduledEffects.get(entry) || [];
+  timers.forEach((timer) => clearTimeout(timer));
+  scheduledEffects.delete(entry);
+}
+
+function scheduleEntryEffect(entry, delayMs, action) {
+  const timer = setTimeout(() => {
+    const timers = scheduledEffects.get(entry) || [];
+    scheduledEffects.set(entry, timers.filter((candidate) => candidate !== timer));
+    Promise.resolve(action()).catch((error) => console.error(`entry ${entry} scheduled effect failed`, error));
+  }, delayMs);
+  scheduledEffects.set(entry, [...(scheduledEffects.get(entry) || []), timer]);
+}
+
+function scheduleSpecialEntryEffects(entry) {
+  clearScheduledEffect(entry);
+  const extras = extraBulbIps();
+  if (entry === 2 && extras[0]) {
+    scheduleEntryEffect(entry, 20_000, async () => {
+      await turnOnBulbs([extras[0]]);
+      scheduleEntryEffect(entry, 2_000, () => turnOffBulbs([extras[0]]));
+    });
+  } else if (entry === 3 && extras[1]) {
+    scheduleEntryEffect(entry, 0, async () => {
+      await turnOnBulbs([extras[1]]);
+      scheduleEntryEffect(entry, 2_000, () => applyScene({ hue: 0, saturation: 100, brightness: 35 }, [extras[1]], { remember: false }));
+      scheduleEntryEffect(entry, 4_000, () => turnOffBulbs([extras[1]]));
+    });
+  } else if (entry === 4) {
+    scheduleEntryEffect(entry, 30_000, () => applyScene({ hue: 0, saturation: 100, brightness: 55 }, TAPO_BULB_IPS));
+  }
 }
 
 function windowlessDelay(ms) {
@@ -141,30 +203,32 @@ async function handleEvent(payload) {
     const entry = Number(payload.entry || 0);
     const scene = scenes[entry];
     if (!scene) throw new Error(`No scene configured for entry ${entry}`);
-    return { event: type, entry, results: await applyScene(scene) };
+    const results = await applyScene(scene);
+    scheduleSpecialEntryEffects(entry);
+    return { event: type, entry, results };
   }
   if (type === "wrong_code") {
     return { event: type, results: await flashWrongCode() };
   }
   if (type === "final_complete") {
-    return { event: type, results: await applyScene(scenes.final) };
+    return { event: type, results: await applyScene(scenes.final, TAPO_BULB_IPS) };
   }
   if (type === "idle") {
-    return { event: type, results: await applyScene(scenes.idle) };
+    return { event: type, results: await applyScene(scenes.idle, TAPO_BULB_IPS) };
   }
   if (type === "off") {
-    return { event: type, results: await forEachBulb((device) => device.turnOff()) };
+    return { event: type, results: await turnOffBulbs(TAPO_BULB_IPS) };
   }
   throw new Error(`Unknown event type: ${type || "(empty)"}`);
 }
 
 const server = http.createServer(async (request, response) => {
-  if (request.method === "OPTIONS") return sendJson(response, 204, {});
+  if (request.method === "OPTIONS") return sendJson(request, response, 204, {});
 
   const url = new URL(request.url, `http://${request.headers.host || "localhost"}`);
 
   if (request.method === "GET" && url.pathname === "/health") {
-    return sendJson(response, 200, {
+    return sendJson(request, response, 200, {
       ok: true,
       bulbs: TAPO_BULB_IPS,
       configured: Boolean(BRIDGE_TOKEN && TAPO_EMAIL && TAPO_PASSWORD && TAPO_BULB_IPS.length),
@@ -172,19 +236,19 @@ const server = http.createServer(async (request, response) => {
   }
 
   if (request.method !== "POST" || url.pathname !== "/event") {
-    return sendJson(response, 404, { ok: false, error: "Not found" });
+    return sendJson(request, response, 404, { ok: false, error: "Not found" });
   }
 
   if (!isAuthorized(request)) {
-    return sendJson(response, 401, { ok: false, error: "Unauthorized" });
+    return sendJson(request, response, 401, { ok: false, error: "Unauthorized" });
   }
 
   try {
     const payload = await readBody(request);
     const result = await handleEvent(payload);
-    return sendJson(response, 200, { ok: true, ...result });
+    return sendJson(request, response, 200, { ok: true, ...result });
   } catch (error) {
-    return sendJson(response, 500, { ok: false, error: error.message });
+    return sendJson(request, response, 500, { ok: false, error: error.message });
   }
 });
 

@@ -2,6 +2,7 @@ const STORAGE_KEY = "treasure-hunt-progress-v1";
 const MUSIC_STORAGE_KEY = "treasure-hunt-music-v3";
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
 const MARKDOWN_SOURCE = "The_Rooms_That_Remember_Treasure_Hunt.md";
+const LIGHTS_BRIDGE_URL = "https://lights.alexandra-maria-deli.gr";
 const COVER_MUSIC_SRC = "music/cover_music.mp3";
 const ENTRY_MUSIC_SRCS = [
   "music/entry_music_a.mp3",
@@ -624,6 +625,22 @@ function saveState() {
   }
   writeCookie(STORAGE_KEY, serialized);
 }
+
+function sendLightsEvent(payload) {
+  fetch(`${LIGHTS_BRIDGE_URL}/event`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+    keepalive: true,
+  }).then(async (response) => {
+    if (response.ok) return;
+    const body = await response.text().catch(() => "");
+    console.warn("Lights bridge event failed", response.status, body);
+  }).catch((error) => {
+    console.warn("Lights bridge event failed", error);
+  });
+}
+
 function clampIndex(value) {
   const index = Math.max(0, Number(value) || 0);
   if (!clues.length) return index;
@@ -918,17 +935,23 @@ function handleCode(rawCode, fromStart = false) {
   const entered = normalize(rawCode);
   if (!entered) return fromStart ? renderStart("Enter a code to begin from it.") : renderCurrent("Enter a code first.");
   const matchedIndex = clues.findIndex((clue) => normalize(clue.code) === entered);
-  if (matchedIndex === -1) return fromStart ? renderStart("That code is not in this hunt. Check the letters and try again.") : renderCurrent("Wrong code. Check the clue and try again.");
+  if (matchedIndex === -1) {
+    sendLightsEvent({ type: "wrong_code" });
+    return fromStart ? renderStart("That code is not in this hunt. Check the letters and try again.") : renderCurrent("Wrong code. Check the clue and try again.");
+  }
   // On clue pages, only accept the current clue's code to prevent skip-ahead.
   // On start page, allow jumping to any valid code found in the wild.
   if (!fromStart && matchedIndex !== state.current) {
     if (matchedIndex < state.current) {
+      sendLightsEvent({ type: "wrong_code" });
       return renderCurrent("You already unlocked this clue. Keep going!");
     }
+    sendLightsEvent({ type: "wrong_code" });
     return renderCurrent("That code is for a later clue. Solve the current clue first.");
   }
   const nextIndex = matchedIndex + 1;
-  if (nextIndex >= clues.length) { setState({ current: clues.length - 1, maxUnlocked: clues.length - 1, complete: false, started: true }); renderCurrent(); return scrollToTop(); }
+  if (nextIndex >= clues.length) { sendLightsEvent({ type: "final_complete" }); setState({ current: clues.length - 1, maxUnlocked: clues.length - 1, complete: false, started: true }); renderCurrent(); return scrollToTop(); }
+  sendLightsEvent({ type: "entry_unlocked", entry: nextIndex + 1 });
   setState({ current: nextIndex, maxUnlocked: Math.max(state.maxUnlocked ?? 0, nextIndex), complete: false, started: true });
   renderCurrent();
   scrollToTop();
