@@ -1,0 +1,16 @@
+[Unit]
+Description=Treasure Hunt Tapo lights bridge
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/pi/treasure-hunt/lights-bridge
+ExecStart=/usr/bin/npm start
+Restart=always
+RestartSec=5
+User=pi
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target

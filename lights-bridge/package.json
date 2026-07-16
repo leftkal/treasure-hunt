@@ -1,0 +1,13 @@
+{
+  "name": "treasure-hunt-lights-bridge",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Local Tapo L530E light bridge for the Treasure Hunt app.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "tp-link-tapo-connect": "2.0.15"
+  }
+}
