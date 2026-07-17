@@ -201,11 +201,9 @@ async function handleEvent(payload) {
   const type = String(payload.type || "");
   if (type === "entry_unlocked") {
     const entry = Number(payload.entry || 0);
-    const scene = scenes[entry];
-    if (!scene) throw new Error(`No scene configured for entry ${entry}`);
-    const results = await applyScene(scene);
+    if (!Number.isInteger(entry) || entry < 1 || entry > 9) throw new Error(`No scene configured for entry ${entry}`);
     scheduleSpecialEntryEffects(entry);
-    return { event: type, entry, results };
+    return { event: type, entry, results: [] };
   }
   if (type === "wrong_code") {
     return { event: type, results: await flashWrongCode() };

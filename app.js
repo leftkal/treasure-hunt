@@ -1,5 +1,6 @@
 const STORAGE_KEY = "treasure-hunt-progress-v1";
 const MUSIC_STORAGE_KEY = "treasure-hunt-music-v3";
+const DISCLAIMER_STORAGE_KEY = "treasure-hunt-disclaimer-v1";
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
 const MARKDOWN_SOURCE = "The_Rooms_That_Remember_Treasure_Hunt.md";
 const LIGHTS_BRIDGE_URL = "https://lights.alexandra-maria-deli.gr";
@@ -93,6 +94,7 @@ let musicObserver = null;
 const watchedVideos = new Set();
 const audibleVideos = new Set();
 const activeVoiceoverPlayers = new Set();
+let disclaimerAccepted = loadDisclaimerState();
 
 const app = document.querySelector("#app");
 let state = loadState();
@@ -287,6 +289,7 @@ function fadeOutAndPause(audio, duration = MUSIC_FADE_MS) {
   if (!audio) return;
   applyVolume(audio, 0, duration);
   window.setTimeout(() => {
+    if (isExpectedMusicAudio(audio)) return;
     if (getMusicAudioLevel(audio) <= 0.03) pauseAudio(audio);
   }, duration + 30);
 }
@@ -339,6 +342,11 @@ function initializeMusic() {
       }
     });
     audio.addEventListener("ended", () => advanceEntryTrack(index));
+    ["error", "stalled", "abort"].forEach((eventName) => {
+      audio.addEventListener(eventName, () => {
+        if (musicMode === "entry" && index === musicCurrentTrackIndex) advanceEntryTrack(index);
+      });
+    });
     audio.addEventListener("pause", saveMusicState);
     audio.addEventListener("play", saveMusicState);
   });
@@ -396,18 +404,21 @@ function setMusicMode(mode, { trackIndex = musicCurrentTrackIndex, immediate = f
   saveMusicState();
 }
 
-function advanceEntryTrack(fromIndex = musicCurrentTrackIndex) {
+async function advanceEntryTrack(fromIndex = musicCurrentTrackIndex, attempts = 0) {
   if (!musicReady || musicMode !== "entry") return;
+  if (!entryMusic.length || attempts >= entryMusic.length) return;
   const nextIndex = (fromIndex + 1) % entryMusic.length;
   const current = entryMusic[fromIndex];
   const next = entryMusic[nextIndex];
   if (!next) return;
   pauseAudio(current);
-  if (current) current.volume = 0;
+  if (current) setMusicAudioLevel(current, 0, 0);
   next.currentTime = 0;
   musicCurrentTrackIndex = nextIndex;
+  musicDesiredTrackIndex = nextIndex;
+  const didPlay = await playAudio(next);
+  if (!didPlay) return advanceEntryTrack(nextIndex, attempts + 1);
   musicCurrentTime = 0;
-  playAudio(next);
   applyVolume(next, getMusicTargetVolume());
   saveMusicState();
 }
@@ -562,6 +573,23 @@ function loadState() {
   const savedState = readSavedState();
   if (savedState) return savedState;
   return { current: 0, maxUnlocked: 0, complete: false, started: false };
+}
+
+function loadDisclaimerState() {
+  try {
+    return localStorage.getItem(DISCLAIMER_STORAGE_KEY) === "accepted";
+  } catch {
+    return false;
+  }
+}
+
+function saveDisclaimerState() {
+  disclaimerAccepted = true;
+  try {
+    localStorage.setItem(DISCLAIMER_STORAGE_KEY, "accepted");
+  } catch {
+    // Ignore storage errors; this only controls whether the intro screen repeats.
+  }
 }
 
 function readSavedState() {
@@ -787,7 +815,29 @@ function renderSavedScreen() {
     return renderCurrent();
   }
   if (state.started || state.current > 0) return renderCurrent();
+  if (!disclaimerAccepted) return renderDisclaimer();
   renderStart();
+}
+
+function renderDisclaimer() {
+  clearRenderedAudio();
+  activeScreen = "disclaimer";
+  app.innerHTML = `
+    <section class="screen disclaimer-screen stack" aria-labelledby="disclaimerTitle">
+      <h1 id="disclaimerTitle">Before you enter</h1>
+      <div class="disclaimer-copy stack">
+        <p>The game is better at night. Relax and enjoy.</p>
+        <p>Before starting make sure to tune the devices volume to around half strength.</p>
+        <p>If you feel overwhelmed, make sure to take breaks.</p>
+        <p>Progress is saved automatically, or can be restored through the last code you found through the cover screen. It will make sense in a moment.</p>
+      </div>
+      <button class="btn disclaimer-enter" id="enterDisclaimerBtn" type="button">I understand.</button>
+    </section>`;
+  document.querySelector("#enterDisclaimerBtn").addEventListener("click", () => {
+    saveDisclaimerState();
+    renderStart();
+    onUserMusicGesture();
+  });
 }
 
 function renderLoading() {

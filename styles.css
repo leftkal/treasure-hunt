@@ -182,6 +182,66 @@ button, input { font: inherit; }
   display: none;
 }
 
+.screen.disclaimer-screen {
+  min-height: calc(100vh - 2rem - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  display: grid;
+  align-content: center;
+  gap: clamp(1.25rem, 5vw, 2rem);
+  padding: clamp(1.5rem, 7vw, 2.35rem);
+  color: #ff2b2b;
+  border: 1px solid rgba(154, 0, 0, 0.72);
+  border-radius: 0.85rem;
+  background-color: #020101;
+  background-image:
+    radial-gradient(circle at 50% 8%, rgba(114, 0, 0, 0.24), transparent 12rem),
+    radial-gradient(circle at 12% 95%, rgba(80, 0, 0, 0.2), transparent 9rem),
+    linear-gradient(180deg, #070101, #000 62%, #050000);
+  box-shadow:
+    0 1.5rem 3rem rgba(0, 0, 0, 0.78),
+    inset 0 0 0 1px rgba(255, 33, 33, 0.16),
+    inset 0 0 3rem rgba(145, 0, 0, 0.18);
+  font-family: var(--font-label);
+}
+
+.screen.disclaimer-screen::before {
+  background:
+    radial-gradient(ellipse at center, transparent 46%, rgba(0, 0, 0, 0.78) 100%),
+    repeating-linear-gradient(180deg, rgba(255, 0, 0, 0.04) 0 1px, transparent 1px 0.35rem);
+  mix-blend-mode: screen;
+  opacity: 0.48;
+}
+
+.screen.disclaimer-screen::after { display: none; }
+
+.disclaimer-screen h1 {
+  color: #ff2020;
+  font-family: var(--font-label);
+  font-size: clamp(1.6rem, 8vw, 2.75rem);
+  text-shadow: 0 0 0.45rem rgba(255, 0, 0, 0.72), 0 0 1.2rem rgba(120, 0, 0, 0.78);
+}
+
+.disclaimer-copy {
+  gap: 0.65rem;
+}
+
+.disclaimer-copy p {
+  margin: 0;
+  color: #ff3a3a;
+  font-family: var(--font-label);
+  font-size: clamp(0.95rem, 4.3vw, 1.12rem);
+  line-height: 1.65;
+  text-shadow: 0 0 0.35rem rgba(255, 0, 0, 0.36);
+}
+
+.disclaimer-enter {
+  color: #170000;
+  background: linear-gradient(180deg, #ff3434, #990707);
+  border: 1px solid rgba(255, 78, 78, 0.85);
+  box-shadow: 0 0.8rem 1.5rem rgba(0, 0, 0, 0.5), 0 0 1.2rem rgba(255, 0, 0, 0.42), inset 0 1px 0 rgba(255, 210, 210, 0.32);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+
 .hero-frame {
   position: relative;
   overflow: hidden;

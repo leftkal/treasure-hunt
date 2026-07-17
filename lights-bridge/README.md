@@ -74,7 +74,7 @@ Browser calls from any exact origin listed in `BRIDGE_ALLOWED_ORIGINS` may POST 
 
 ## Bulb behavior
 
-- The first IP in `TAPO_BULB_IPS` is the primary bulb. Normal entry scenes apply to this primary bulb only.
+- The first IP in `TAPO_BULB_IPS` is the primary bulb. Normal entry unlocks do not change bulb colors unless a timed effect below says so.
 - Additional IPs are special-effect bulbs.
 - Re-triggering the same `entry_unlocked` event clears and restarts pending timed effects for that entry.
 - Entry 2 turns on the first extra bulb after 20 seconds, then turns it off after 2 seconds.
