@@ -29,7 +29,7 @@ const FLERT2_SOUND = "flert2.m4a";
 const FLERT1_DELAY_MS = 60_000;
 const FLERT2_DELAY_MS = 80_000;
 const ENTRY8_VOICE_SOUND = "I ve been watching y.mp3";
-const ENTRY9_VOICE_SOUND = "I ve been watching y.mp3";
+const ENTRY9_VOICE_SOUND = "The good thing about.mp3";
 const VOICE_LIKE_SOUND_NAMES = new Set([
   ALL_BULBS_FAILED_SOUND,
   ENTRY8_VOICE_SOUND,
@@ -51,13 +51,14 @@ const BULB_IPS = {
   bedroom2: "192.168.1.159",
 };
 const NORMAL_SOUND_DELAYS_MS = new Map([
-  [4, 10_000],
+  [2, 10_000],
+  [3, 20_000],
   [5, 20_000],
   [6, 50_000],
   [7, 40_000],
-  [8, 70_000],
   [9, 90_000],
 ]);
+const NORMAL_SOUND_ENTRIES = [...NORMAL_SOUND_DELAYS_MS.keys()];
 
 const scenes = {
   1: { hue: 32, saturation: 88, brightness: 35 },
@@ -263,7 +264,8 @@ function listNormalSounds() {
 function soundForEntry(entry) {
   const normalSounds = listNormalSounds();
   if (!normalSounds.length) return "";
-  return normalSounds[(entry - 4) % normalSounds.length];
+  const soundEntryIndex = NORMAL_SOUND_ENTRIES.indexOf(entry);
+  return normalSounds[(soundEntryIndex < 0 ? 0 : soundEntryIndex) % normalSounds.length];
 }
 
 function playSound(fileName, { maxMs = 0, onEnd } = {}) {
