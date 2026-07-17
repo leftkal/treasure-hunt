@@ -101,7 +101,7 @@ Browser calls from any exact origin listed in `BRIDGE_ALLOWED_ORIGINS` may POST 
 - The bridge decodes `.m4a`/`.mp3` with `ffmpeg` and pipes WAV audio to `aplay -D bluealsa` by default. Override the ALSA device with `BLUEALSA_DEVICE` if your BlueALSA setup uses another device name.
 - Before each sound, the bridge attempts to reconnect `BT_SPEAKER_MAC` with `bluetoothctl connect` unless `BT_RECONNECT_BEFORE_PLAY=false`.
 - While the bridge is running, it also periodically checks the speaker with `bluetoothctl info` and reconnects if it is disconnected. Override the interval with `BT_RECONNECT_INTERVAL_MS` if needed.
-- Entries 4 through 9 each schedule one normal ambient sound instead of playing it immediately. Delays are entry 4=10s, entry 5=20s, entry 6=50s, entry 7=40s, entry 8=70s, entry 9=90s. Each normal ambient sound is capped at 4 seconds.
+- Entries 4 through 9 each schedule one normal ambient sound instead of playing it immediately. Delays are entry 4=10s, entry 5=20s, entry 6=50s, entry 7=40s, entry 8=70s, entry 9=90s. Each normal ambient sound is capped at 7 seconds.
 - Normal sounds are all `.m4a`/`.mp3` files in the sounds directory except `flert1.m4a`, `flert2.m4a`, `You are making it to.mp3`, and the spoken voice-line files like `I ve been watching y.mp3`, `The time will come f.mp3`, and `The good thing about.mp3`; files are sorted by name and mapped deterministically to entries 4-9, cycling if there are fewer than six normal files.
 - `flert1.m4a` plays 60 seconds after entry 4 starts. `flert2.m4a` plays 80 seconds after entry 8 starts. Both play in full.
 - `I ve been watching y.mp3` plays 2.5 minutes after entry 8 starts and 2 minutes after entry 9 starts. Voice lines are not capped.
