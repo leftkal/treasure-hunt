@@ -1,6 +1,6 @@
 # Treasure Hunt Lights Bridge
 
-Local Node bridge for controlling Tapo L530E bulbs from Treasure Hunt events.
+Local Node bridge for controlling Tapo L530E bulbs and Raspberry Pi Bluetooth/BlueALSA sound playback from Treasure Hunt events.
 
 The bridge runs on the Raspberry Pi and talks to the bulbs over the local network.
 No Tapo credentials are stored in this repository.
@@ -12,7 +12,7 @@ The public app calls the bridge through `https://lights.alexandra-maria-deli.gr`
 sudo apt update
 sudo apt upgrade -y
 curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-sudo apt install -y nodejs git
+sudo apt install -y nodejs git ffmpeg bluez-alsa-utils alsa-utils
 ```
 
 Copy this `lights-bridge` folder to the Pi, then:
@@ -33,6 +33,16 @@ BRIDGE_ALLOWED_ORIGINS=https://your-github-pages-origin.example
 TAPO_EMAIL=<your Tapo account email>
 TAPO_PASSWORD=<your Tapo account password>
 TAPO_BULB_IPS=192.168.1.71,192.168.1.89,192.168.1.229,192.168.1.159
+# Optional; defaults to ../sounds relative to lights-bridge.
+SOUNDS_DIR=/home/pi/treasure-hunt/sounds
+# Optional; defaults to bluealsa.
+BLUEALSA_DEVICE=bluealsa
+# Optional; defaults to BT-WUZHI's MAC. Empty disables reconnect attempts.
+BT_SPEAKER_MAC=02:3C:A2:63:BF:ED
+# Optional; defaults to true. Attempts bluetoothctl connect before sounds.
+BT_RECONNECT_BEFORE_PLAY=true
+# Optional; defaults to 20000. Interval in ms for automatic speaker health checks.
+BT_RECONNECT_INTERVAL_MS=20000
 ```
 
 Generate a token with:
@@ -74,13 +84,70 @@ Browser calls from any exact origin listed in `BRIDGE_ALLOWED_ORIGINS` may POST 
 
 ## Bulb behavior
 
-- The first IP in `TAPO_BULB_IPS` is the primary bulb. Normal entry unlocks do not change bulb colors unless a timed effect below says so.
-- Additional IPs are special-effect bulbs.
+- Known bulb roles are kitchen `192.168.1.71`, bedroom 1 `192.168.1.89`, living room `192.168.1.229`, and bedroom 2 `192.168.1.159`. Only IPs present in `TAPO_BULB_IPS` are used.
+- Temporary effects set HSL before turning bulbs on. When the effect ends, bulbs turn off and are restored to the idle color while off.
 - Re-triggering the same `entry_unlocked` event clears and restarts pending timed effects for that entry.
-- Entry 2 turns on the first extra bulb after 20 seconds, then turns it off after 2 seconds.
-- Entry 3 immediately turns on the second extra bulb, sets it deep red after 2 seconds, then turns it off after another 2 seconds.
-- Entry 4 turns on all configured bulbs and sets them red after 30 seconds.
+- Entry 2 turns on bedroom 1 after 20 seconds, or kitchen if bedroom 1 is not configured, then turns it off after 2 seconds.
+- Entry 3 immediately turns bedroom 2 red, then turns it off after 2 seconds.
+- Entry 4 plays `flert1.m4a` immediately and turns on both configured bedroom bulbs only while the flert plays, capped at 4 seconds.
+- Entry 8 plays `flert2.m4a` with the same both-bedroom light behavior.
+- Entry 8 turns the living-room bulb on while its delayed voice line plays. Entry 9 does the same for its delayed voice line.
 - `off` turns all bulbs off. `idle`, `wrong_code`, and `final_complete` apply to all bulbs.
+
+## Sound behavior
+
+- Audio is played non-blocking: event responses are not held open while sounds play.
+- Sound files are read from `SOUNDS_DIR`, or `../sounds` relative to `lights-bridge` when `SOUNDS_DIR` is not set. On the Pi this is normally `/home/pi/treasure-hunt/sounds`.
+- The bridge decodes `.m4a`/`.mp3` with `ffmpeg` and pipes WAV audio to `aplay -D bluealsa` by default. Override the ALSA device with `BLUEALSA_DEVICE` if your BlueALSA setup uses another device name.
+- Before each sound, the bridge attempts to reconnect `BT_SPEAKER_MAC` with `bluetoothctl connect` unless `BT_RECONNECT_BEFORE_PLAY=false`.
+- While the bridge is running, it also periodically checks the speaker with `bluetoothctl info` and reconnects if it is disconnected. Override the interval with `BT_RECONNECT_INTERVAL_MS` if needed.
+- Entries 4 through 9 each schedule one normal ambient sound instead of playing it immediately. Delays are entry 4=10s, entry 5=20s, entry 6=50s, entry 7=40s, entry 8=70s, entry 9=90s. Each normal ambient sound is capped at 4 seconds.
+- Normal sounds are all `.m4a`/`.mp3` files in the sounds directory except `flert1.m4a`, `flert2.m4a`, `You are making it to.mp3`, and the spoken voice-line files like `I ve been watching y.mp3`, `The time will come f.mp3`, and `The good thing about.mp3`; files are sorted by name and mapped deterministically to entries 4-9, cycling if there are fewer than six normal files.
+- `flert1.m4a` plays immediately on entry 4. `flert2.m4a` plays immediately on entry 8. Both are capped at 4 seconds.
+- `I ve been watching y.mp3` plays 2.5 minutes after entry 8 starts and 2 minutes after entry 9 starts. Voice lines are not capped.
+- Re-triggering the same entry clears and restarts pending entry light timers and sound timers.
+- `You are making it to.mp3` plays when a non-empty bulb result set reports every operation as failed/unavailable, throttled to at most once every 10 minutes.
+
+Quick Pi audio checks:
+
+```bash
+ffmpeg -hide_banner -loglevel error -i "/home/pi/treasure-hunt/sounds/flert1.m4a" -f wav - | aplay -D bluealsa
+curl -X POST http://192.168.1.77:8787/event \
+  -H 'Content-Type: application/json' \
+  -H 'X-Bridge-Token: <your token>' \
+  -d '{"type":"entry_unlocked","entry":4}'
+```
+
+Optional always-on reconnect loop for BT-WUZHI:
+
+```bash
+sudo tee /usr/local/bin/bt-wuzhi-reconnect >/dev/null <<'SH'
+#!/bin/sh
+MAC="02:3C:A2:63:BF:ED"
+while true; do
+  bluetoothctl info "$MAC" | grep -q "Connected: yes" || bluetoothctl connect "$MAC" >/dev/null 2>&1 || true
+  sleep 20
+done
+SH
+sudo chmod +x /usr/local/bin/bt-wuzhi-reconnect
+sudo tee /etc/systemd/system/bt-wuzhi-reconnect.service >/dev/null <<'SERVICE'
+[Unit]
+Description=Keep BT-WUZHI Bluetooth speaker connected
+After=bluetooth.service bluealsa.service
+Wants=bluetooth.service bluealsa.service
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/bt-wuzhi-reconnect
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+SERVICE
+sudo systemctl daemon-reload
+sudo systemctl enable --now bt-wuzhi-reconnect.service
+```
 
 ## Notes
 

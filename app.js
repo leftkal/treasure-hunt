@@ -247,6 +247,11 @@ function isExpectedMusicAudio(audio) {
   return musicMode === "entry" && entryIndex === musicCurrentTrackIndex;
 }
 
+function getExpectedMusicAudio() {
+  if (musicMode === "cover") return coverMusic;
+  return entryMusic[musicCurrentTrackIndex] || entryMusic[0] || null;
+}
+
 function updateMusicDucking(duration = 180) {
   const target = getMusicTargetVolume();
   getMusicAudios().forEach((audio) => {
@@ -417,10 +422,26 @@ async function advanceEntryTrack(fromIndex = musicCurrentTrackIndex, attempts = 
   musicCurrentTrackIndex = nextIndex;
   musicDesiredTrackIndex = nextIndex;
   const didPlay = await playAudio(next);
-  if (!didPlay) return advanceEntryTrack(nextIndex, attempts + 1);
+  if (!didPlay) {
+    saveMusicState(true);
+    return;
+  }
   musicCurrentTime = 0;
   applyVolume(next, getMusicTargetVolume());
   saveMusicState();
+}
+
+async function recoverMusicPlayback() {
+  if (!musicReady || !musicUnlocked || musicPausedByVisibility) return;
+  const expectedAudio = getExpectedMusicAudio();
+  const contextSuspended = musicAudioContext && musicAudioContext.state === "suspended";
+  if (contextSuspended) await musicAudioContext.resume().catch(() => {});
+  if (!expectedAudio) return;
+  if (expectedAudio.paused || expectedAudio.ended || contextSuspended) {
+    syncMusicToScreen(true);
+  } else {
+    updateMusicDucking();
+  }
 }
 
 function pauseMusicForOverlay(reason = "generic") {
@@ -1051,18 +1072,22 @@ document.addEventListener("visibilitychange", () => {
   if (document.visibilityState === "hidden") {
     musicPausedByVisibility = true;
     saveMusicState(true);
-    const currentAudio = musicMode === "cover" ? coverMusic : entryMusic[musicCurrentTrackIndex];
-    if (currentAudio) {
-      applyVolume(currentAudio, 0, 120);
-      window.setTimeout(() => pauseAudio(currentAudio), 120);
-    }
+    getMusicAudios().forEach(pauseAudio);
   } else {
     musicPausedByVisibility = false;
-    syncMusicToScreen(true);
+    recoverMusicPlayback();
   }
 });
 
+window.addEventListener("pageshow", () => {
+  musicPausedByVisibility = document.visibilityState === "hidden";
+  recoverMusicPlayback();
+});
+
+window.addEventListener("focus", recoverMusicPlayback);
+
 document.addEventListener("pointerdown", onUserMusicGesture, { once: true, passive: true });
+document.addEventListener("pointerdown", recoverMusicPlayback, { passive: true });
 document.addEventListener("keydown", onUserMusicGesture, { once: true });
 
 loadClues();

@@ -48,3 +48,26 @@ Keep `entryMediaExtensions` in sync if you replace files, add new placeholders, 
 4. Share the Pages URL with players.
 
 Progress is saved per device using `localStorage`. Reset controls clear only the current browser/device.
+
+## Lights bridge Bluetooth speaker notes
+
+The optional `lights-bridge/server.js` helper plays sound effects through `ffmpeg | aplay -D bluealsa`. Immediately before each playback it starts a non-blocking Bluetooth reconnect attempt so event responses are not delayed by speaker wake/reconnect time.
+
+Environment variables:
+
+- `BT_SPEAKER_MAC`: Bluetooth speaker MAC address. Defaults to the currently configured speaker. Set to an empty value to skip reconnect attempts.
+- `BT_RECONNECT_BEFORE_PLAY`: set to `false`, `0`, `no`, or `off` to disable reconnect-before-play. Defaults to `true`.
+- `BLUEALSA_DEVICE`: `aplay` device name. Defaults to `bluealsa`.
+
+On a Raspberry Pi, you can also run an optional systemd reconnect loop for extra robustness. Example service command:
+
+```ini
+[Service]
+Type=simple
+Environment=BT_SPEAKER_MAC=your-speaker-mac
+ExecStart=/bin/sh -c 'while true; do bluetoothctl connect "$BT_SPEAKER_MAC" >/dev/null 2>&1; sleep 10; done'
+Restart=always
+RestartSec=5
+```
+
+Install that as a local Pi service only if the speaker drops often; the bridge itself does not require it.

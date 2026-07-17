@@ -1,6 +1,7 @@
 const http = require("node:http");
 const fs = require("node:fs");
 const path = require("node:path");
+const { spawn } = require("node:child_process");
 const { loginDeviceByIp } = require("tp-link-tapo-connect");
 
 loadDotEnv(path.join(__dirname, ".env"));
@@ -17,6 +18,44 @@ const BRIDGE_ALLOWED_ORIGINS = (process.env.BRIDGE_ALLOWED_ORIGINS || "")
   .split(",")
   .map((value) => value.trim())
   .filter(Boolean);
+const SOUNDS_DIR = process.env.SOUNDS_DIR || path.resolve(__dirname, "../sounds");
+const BLUEALSA_DEVICE = process.env.BLUEALSA_DEVICE || "bluealsa";
+const BT_SPEAKER_MAC = (process.env.BT_SPEAKER_MAC === undefined ? "02:3C:A2:63:BF:ED" : process.env.BT_SPEAKER_MAC).trim();
+const BT_RECONNECT_BEFORE_PLAY = parseBooleanEnv(process.env.BT_RECONNECT_BEFORE_PLAY, true);
+const BT_RECONNECT_INTERVAL_MS = Number(process.env.BT_RECONNECT_INTERVAL_MS || 20_000);
+const ALL_BULBS_FAILED_SOUND = "You are making it to.mp3";
+const FLERT1_SOUND = "flert1.m4a";
+const FLERT2_SOUND = "flert2.m4a";
+const ENTRY8_VOICE_SOUND = "I ve been watching y.mp3";
+const ENTRY9_VOICE_SOUND = "I ve been watching y.mp3";
+const VOICE_LIKE_SOUND_NAMES = new Set([
+  ALL_BULBS_FAILED_SOUND,
+  ENTRY8_VOICE_SOUND,
+  ENTRY9_VOICE_SOUND,
+  "The time will come f.mp3",
+  "The good thing about.mp3",
+  "I ve been watching y.mp3",
+]);
+const SPECIAL_SOUND_NAMES = new Set([FLERT1_SOUND, FLERT2_SOUND, ...VOICE_LIKE_SOUND_NAMES]);
+const ALL_BULBS_FAILED_SOUND_THROTTLE_MS = 10 * 60 * 1000;
+const NORMAL_SOUND_MAX_MS = 4_000;
+const FLERT_LIGHT_MAX_MS = 4_000;
+const FLICKER_MS = 2_000;
+const RED_SCENE = { hue: 0, saturation: 100, brightness: 55 };
+const BULB_IPS = {
+  kitchen: "192.168.1.71",
+  bedroom1: "192.168.1.89",
+  livingRoom: "192.168.1.229",
+  bedroom2: "192.168.1.159",
+};
+const NORMAL_SOUND_DELAYS_MS = new Map([
+  [4, 10_000],
+  [5, 20_000],
+  [6, 50_000],
+  [7, 40_000],
+  [8, 70_000],
+  [9, 90_000],
+]);
 
 const scenes = {
   1: { hue: 32, saturation: 88, brightness: 35 },
@@ -35,6 +74,9 @@ const scenes = {
 let lastScene = scenes.idle;
 const deviceCache = new Map();
 const scheduledEffects = new Map();
+let lastAllBulbsFailedSoundAt = 0;
+let bluetoothReconnectInFlight = false;
+let bluetoothReconnectLoggedUnavailable = false;
 
 function loadDotEnv(filePath) {
   if (!fs.existsSync(filePath)) return;
@@ -51,6 +93,77 @@ function loadDotEnv(filePath) {
     }
     if (!(key in process.env)) process.env[key] = value;
   }
+}
+
+function parseBooleanEnv(value, defaultValue) {
+  if (value === undefined || value === null || value === "") return defaultValue;
+  return !["0", "false", "no", "off"].includes(String(value).trim().toLowerCase());
+}
+
+function reconnectBluetoothSpeaker() {
+  if (!BT_RECONNECT_BEFORE_PLAY || !BT_SPEAKER_MAC) return;
+  void runBluetoothReconnectAttempt();
+}
+
+function runBluetoothReconnectAttempt() {
+  return new Promise((resolve) => {
+    if (!BT_SPEAKER_MAC || bluetoothReconnectInFlight) return resolve(false);
+    bluetoothReconnectInFlight = true;
+    const reconnect = spawn("bluetoothctl", ["connect", BT_SPEAKER_MAC], {
+      stdio: "ignore",
+    });
+    reconnect.on("error", (error) => {
+      console.error("bluetooth speaker reconnect failed to start", error.message);
+      bluetoothReconnectInFlight = false;
+      resolve(false);
+    });
+    reconnect.on("close", () => {
+      bluetoothReconnectInFlight = false;
+      resolve(true);
+    });
+  });
+}
+
+function checkBluetoothSpeakerConnection() {
+  return new Promise((resolve) => {
+    if (!BT_SPEAKER_MAC) return resolve({ attempted: false, connected: false });
+
+    const bluetoothctl = spawn("bluetoothctl", ["info", BT_SPEAKER_MAC], {
+      stdio: ["ignore", "pipe", "pipe"],
+    });
+    let stdout = "";
+    let stderr = "";
+    let started = true;
+
+    bluetoothctl.on("error", (error) => {
+      started = false;
+      if (!bluetoothReconnectLoggedUnavailable) {
+        bluetoothReconnectLoggedUnavailable = true;
+        console.error("bluetoothctl unavailable; skipping automatic speaker reconnects", error.message);
+      }
+      resolve({ attempted: false, connected: false, error: error.message });
+    });
+
+    bluetoothctl.stdout.on("data", (chunk) => {
+      stdout += chunk.toString();
+    });
+    bluetoothctl.stderr.on("data", (chunk) => {
+      stderr += chunk.toString();
+    });
+    bluetoothctl.on("close", (code) => {
+      if (!started) return;
+      const connected = /Connected:\s*yes/i.test(stdout);
+      resolve({ attempted: true, connected, code, stderr: stderr.trim() });
+    });
+  });
+}
+
+async function keepBluetoothSpeakerConnected() {
+  if (!BT_SPEAKER_MAC || bluetoothReconnectInFlight) return;
+  const status = await checkBluetoothSpeakerConnection();
+  if (!status.attempted) return;
+  if (status.connected) return;
+  await runBluetoothReconnectAttempt();
 }
 
 function getAllowedOrigin(request) {
@@ -131,8 +244,98 @@ function primaryBulbIps() {
   return TAPO_BULB_IPS.slice(0, 1);
 }
 
+function listNormalSounds() {
+  try {
+    return fs
+      .readdirSync(SOUNDS_DIR, { withFileTypes: true })
+      .filter((entry) => entry.isFile())
+      .map((entry) => entry.name)
+      .filter((name) => /\.(m4a|mp3)$/i.test(name) && !SPECIAL_SOUND_NAMES.has(name))
+      .sort((left, right) => left.localeCompare(right));
+  } catch (error) {
+    console.error(`sound directory unavailable: ${SOUNDS_DIR}`, error.message);
+    return [];
+  }
+}
+
+function soundForEntry(entry) {
+  const normalSounds = listNormalSounds();
+  if (!normalSounds.length) return "";
+  return normalSounds[(entry - 4) % normalSounds.length];
+}
+
+function playSound(fileName, { maxMs = 0, onEnd } = {}) {
+  if (!fileName) return;
+  const filePath = path.join(SOUNDS_DIR, fileName);
+  if (!fs.existsSync(filePath)) {
+    console.error(`sound file missing: ${filePath}`);
+    if (onEnd) onEnd();
+    return;
+  }
+
+  reconnectBluetoothSpeaker();
+
+  const ffmpeg = spawn("ffmpeg", ["-hide_banner", "-loglevel", "error", "-i", filePath, "-f", "wav", "-"], {
+    stdio: ["ignore", "pipe", "pipe"],
+  });
+  const aplay = spawn("aplay", ["-D", BLUEALSA_DEVICE], {
+    stdio: ["pipe", "ignore", "pipe"],
+  });
+  let ffmpegError = "";
+  let aplayError = "";
+  let ended = false;
+  let maxTimer = null;
+
+  function finish() {
+    if (ended) return;
+    ended = true;
+    if (maxTimer) clearTimeout(maxTimer);
+    if (onEnd) onEnd();
+  }
+
+  if (maxMs > 0) {
+    maxTimer = setTimeout(() => {
+      if (!ffmpeg.killed) ffmpeg.kill("SIGTERM");
+      if (!aplay.killed) aplay.kill("SIGTERM");
+      finish();
+    }, maxMs);
+  }
+
+  ffmpeg.stdout.pipe(aplay.stdin);
+  ffmpeg.on("error", (error) => console.error(`ffmpeg failed to start for ${fileName}`, error));
+  aplay.on("error", (error) => console.error(`aplay failed to start for ${fileName}`, error));
+  ffmpeg.stdout.on("error", (error) => console.error(`ffmpeg stdout error for ${fileName}`, error));
+  aplay.stdin.on("error", (error) => console.error(`aplay stdin error for ${fileName}`, error));
+  ffmpeg.stderr.on("data", (chunk) => { ffmpegError += chunk.toString(); });
+  aplay.stderr.on("data", (chunk) => { aplayError += chunk.toString(); });
+  ffmpeg.on("close", (code) => {
+    if (code !== 0) console.error(`ffmpeg exited with ${code} for ${fileName}: ${ffmpegError.trim()}`);
+    if (!aplay.stdin.destroyed) aplay.stdin.end();
+  });
+  aplay.on("close", (code) => {
+    if (code !== 0) console.error(`aplay exited with ${code} for ${fileName}: ${aplayError.trim()}`);
+    finish();
+  });
+}
+
+function maybePlayAllBulbsFailedSound(results) {
+  if (!Array.isArray(results) || !results.length || !results.every((result) => result && result.ok === false)) return;
+  const now = Date.now();
+  if (now - lastAllBulbsFailedSoundAt < ALL_BULBS_FAILED_SOUND_THROTTLE_MS) return;
+  lastAllBulbsFailedSoundAt = now;
+  playSound(ALL_BULBS_FAILED_SOUND);
+}
+
 function extraBulbIps() {
   return TAPO_BULB_IPS.slice(1);
+}
+
+function configuredIp(ip) {
+  return TAPO_BULB_IPS.includes(ip) ? ip : "";
+}
+
+function firstConfiguredIp(ips) {
+  return ips.find((ip) => TAPO_BULB_IPS.includes(ip)) || "";
 }
 
 async function applyScene(scene, ips = primaryBulbIps(), { remember = true } = {}) {
@@ -149,6 +352,42 @@ async function turnOnBulbs(ips) {
 
 async function turnOffBulbs(ips) {
   return forEachBulb((device) => device.turnOff(), ips);
+}
+
+async function restoreBulbsToIdleAndOff(ips) {
+  return forEachBulb(async (device) => {
+    await device.setHSL(scenes.idle.hue, scenes.idle.saturation, scenes.idle.brightness);
+    await device.turnOff();
+  }, ips);
+}
+
+async function temporaryLightEffect(ips, scene, durationMs = FLICKER_MS, scheduleKey = "temporary-cleanup") {
+  if (!ips.length) return [];
+  const first = await forEachBulb(async (device) => {
+    await device.setHSL(scene.hue, scene.saturation, scene.brightness);
+    await device.turnOn();
+  }, ips);
+  scheduleEntryEffect(scheduleKey, durationMs, async () => {
+    await restoreBulbsToIdleAndOff(ips);
+  });
+  return first;
+}
+
+function playSoundWithLight(fileName, ips, scene = scenes.idle, maxMs = FLERT_LIGHT_MAX_MS) {
+  if (!ips.length) {
+    playSound(fileName, { maxMs });
+    return;
+  }
+  void forEachBulb(async (device) => {
+    await device.setHSL(scene.hue, scene.saturation, scene.brightness);
+    await device.turnOn();
+  }, ips).then((results) => maybePlayAllBulbsFailedSound(results));
+  playSound(fileName, {
+    maxMs,
+    onEnd: () => {
+      void restoreBulbsToIdleAndOff(ips).then((results) => maybePlayAllBulbsFailedSound(results));
+    },
+  });
 }
 
 async function flashWrongCode() {
@@ -169,27 +408,34 @@ function scheduleEntryEffect(entry, delayMs, action) {
   const timer = setTimeout(() => {
     const timers = scheduledEffects.get(entry) || [];
     scheduledEffects.set(entry, timers.filter((candidate) => candidate !== timer));
-    Promise.resolve(action()).catch((error) => console.error(`entry ${entry} scheduled effect failed`, error));
+    Promise.resolve(action())
+      .then((results) => maybePlayAllBulbsFailedSound(results))
+      .catch((error) => console.error(`entry ${entry} scheduled effect failed`, error));
   }, delayMs);
   scheduledEffects.set(entry, [...(scheduledEffects.get(entry) || []), timer]);
 }
 
 function scheduleSpecialEntryEffects(entry) {
   clearScheduledEffect(entry);
-  const extras = extraBulbIps();
-  if (entry === 2 && extras[0]) {
-    scheduleEntryEffect(entry, 20_000, async () => {
-      await turnOnBulbs([extras[0]]);
-      scheduleEntryEffect(entry, 2_000, () => turnOffBulbs([extras[0]]));
-    });
-  } else if (entry === 3 && extras[1]) {
-    scheduleEntryEffect(entry, 0, async () => {
-      await turnOnBulbs([extras[1]]);
-      scheduleEntryEffect(entry, 2_000, () => applyScene({ hue: 0, saturation: 100, brightness: 35 }, [extras[1]], { remember: false }));
-      scheduleEntryEffect(entry, 4_000, () => turnOffBulbs([extras[1]]));
-    });
+  if (NORMAL_SOUND_DELAYS_MS.has(entry)) {
+    scheduleEntryEffect(entry, NORMAL_SOUND_DELAYS_MS.get(entry), () => playSound(soundForEntry(entry), { maxMs: NORMAL_SOUND_MAX_MS }));
+  }
+  const firstFlickerIp = firstConfiguredIp([BULB_IPS.bedroom1, BULB_IPS.kitchen]);
+  const bedroom1Ip = configuredIp(BULB_IPS.bedroom1);
+  const bedroom2Ip = configuredIp(BULB_IPS.bedroom2);
+  const bedroomIps = [bedroom1Ip, bedroom2Ip].filter(Boolean);
+  const livingRoomIp = configuredIp(BULB_IPS.livingRoom);
+  if (entry === 2 && firstFlickerIp) {
+    scheduleEntryEffect(entry, 20_000, () => temporaryLightEffect([firstFlickerIp], scenes.idle, FLICKER_MS, entry));
+  } else if (entry === 3 && bedroom2Ip) {
+    scheduleEntryEffect(entry, 0, () => temporaryLightEffect([bedroom2Ip], RED_SCENE, FLICKER_MS, entry));
   } else if (entry === 4) {
-    scheduleEntryEffect(entry, 30_000, () => applyScene({ hue: 0, saturation: 100, brightness: 55 }, TAPO_BULB_IPS));
+    scheduleEntryEffect(entry, 0, () => playSoundWithLight(FLERT1_SOUND, bedroomIps));
+  } else if (entry === 8) {
+    scheduleEntryEffect(entry, 0, () => playSoundWithLight(FLERT2_SOUND, bedroomIps));
+    if (livingRoomIp) scheduleEntryEffect(entry, 150_000, () => playSoundWithLight(ENTRY8_VOICE_SOUND, [livingRoomIp], scenes.idle, 0));
+  } else if (entry === 9 && livingRoomIp) {
+    scheduleEntryEffect(entry, 120_000, () => playSoundWithLight(ENTRY9_VOICE_SOUND, [livingRoomIp], scenes.idle, 0));
   }
 }
 
@@ -206,16 +452,24 @@ async function handleEvent(payload) {
     return { event: type, entry, results: [] };
   }
   if (type === "wrong_code") {
-    return { event: type, results: await flashWrongCode() };
+    const results = await flashWrongCode();
+    maybePlayAllBulbsFailedSound(results);
+    return { event: type, results };
   }
   if (type === "final_complete") {
-    return { event: type, results: await applyScene(scenes.final, TAPO_BULB_IPS) };
+    const results = await applyScene(scenes.final, TAPO_BULB_IPS);
+    maybePlayAllBulbsFailedSound(results);
+    return { event: type, results };
   }
   if (type === "idle") {
-    return { event: type, results: await applyScene(scenes.idle, TAPO_BULB_IPS) };
+    const results = await applyScene(scenes.idle, TAPO_BULB_IPS);
+    maybePlayAllBulbsFailedSound(results);
+    return { event: type, results };
   }
   if (type === "off") {
-    return { event: type, results: await turnOffBulbs(TAPO_BULB_IPS) };
+    const results = await turnOffBulbs(TAPO_BULB_IPS);
+    maybePlayAllBulbsFailedSound(results);
+    return { event: type, results };
   }
   throw new Error(`Unknown event type: ${type || "(empty)"}`);
 }
@@ -253,4 +507,10 @@ const server = http.createServer(async (request, response) => {
 server.listen(PORT, "0.0.0.0", () => {
   console.log(`Treasure Hunt lights bridge listening on http://0.0.0.0:${PORT}`);
   console.log(`Bulbs: ${TAPO_BULB_IPS.join(", ") || "none configured"}`);
+  if (BT_SPEAKER_MAC) {
+    void keepBluetoothSpeakerConnected();
+    setInterval(() => {
+      void keepBluetoothSpeakerConnected();
+    }, BT_RECONNECT_INTERVAL_MS).unref();
+  }
 });
