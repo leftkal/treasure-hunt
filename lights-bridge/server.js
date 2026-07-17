@@ -26,6 +26,8 @@ const BT_RECONNECT_INTERVAL_MS = Number(process.env.BT_RECONNECT_INTERVAL_MS || 
 const ALL_BULBS_FAILED_SOUND = "You are making it to.mp3";
 const FLERT1_SOUND = "flert1.m4a";
 const FLERT2_SOUND = "flert2.m4a";
+const FLERT1_DELAY_MS = 60_000;
+const FLERT2_DELAY_MS = 80_000;
 const ENTRY8_VOICE_SOUND = "I ve been watching y.mp3";
 const ENTRY9_VOICE_SOUND = "I ve been watching y.mp3";
 const VOICE_LIKE_SOUND_NAMES = new Set([
@@ -430,9 +432,9 @@ function scheduleSpecialEntryEffects(entry) {
   } else if (entry === 3 && bedroom2Ip) {
     scheduleEntryEffect(entry, 0, () => temporaryLightEffect([bedroom2Ip], RED_SCENE, FLICKER_MS, entry));
   } else if (entry === 4) {
-    scheduleEntryEffect(entry, 0, () => playSoundWithLight(FLERT1_SOUND, bedroomIps));
+    scheduleEntryEffect(entry, FLERT1_DELAY_MS, () => playSoundWithLight(FLERT1_SOUND, bedroomIps));
   } else if (entry === 8) {
-    scheduleEntryEffect(entry, 0, () => playSoundWithLight(FLERT2_SOUND, bedroomIps));
+    scheduleEntryEffect(entry, FLERT2_DELAY_MS, () => playSoundWithLight(FLERT2_SOUND, bedroomIps));
     if (livingRoomIp) scheduleEntryEffect(entry, 150_000, () => playSoundWithLight(ENTRY8_VOICE_SOUND, [livingRoomIp], scenes.idle, 0));
   } else if (entry === 9 && livingRoomIp) {
     scheduleEntryEffect(entry, 120_000, () => playSoundWithLight(ENTRY9_VOICE_SOUND, [livingRoomIp], scenes.idle, 0));
