@@ -85,13 +85,13 @@ Browser calls from any exact origin listed in `BRIDGE_ALLOWED_ORIGINS` may POST 
 ## Bulb behavior
 
 - Known bulb roles are kitchen `192.168.1.71`, bedroom 1 `192.168.1.89`, living room `192.168.1.229`, and bedroom 2 `192.168.1.159`. Only IPs present in `TAPO_BULB_IPS` are used.
-- Temporary effects set HSL before turning bulbs on. When the effect ends, bulbs turn off and are restored to the idle color while off.
+- Temporary and sound-linked light effects use a simple on → red → off sequence. No color restore is written after the bulb turns off.
 - Re-triggering the same `entry_unlocked` event clears and restarts pending timed effects for that entry.
-- Entry 2 turns on bedroom 1 after 20 seconds, or kitchen if bedroom 1 is not configured, then turns it off after 2 seconds.
+- Entry 2 turns on bedroom 1 red after 20 seconds, or kitchen if bedroom 1 is not configured, then turns it off after 2 seconds.
 - Entry 3 immediately turns bedroom 2 red, then turns it off after 2 seconds.
-- Entry 4 plays `flert1.m4a` after 60 seconds and turns on both configured bedroom bulbs only while the full flert plays.
-- Entry 8 plays `flert2.m4a` after 80 seconds with the same both-bedroom light behavior.
-- Entry 8 turns the living-room bulb on while its delayed voice line plays. Entry 9 does the same for its delayed voice line.
+- Entry 4 plays `flert1.m4a` after 60 seconds and turns both configured bedroom bulbs red only while the full flert plays.
+- Entry 8 plays `flert2.m4a` after 80 seconds with the same both-bedroom red light behavior.
+- Entry 8 turns the living-room bulb red while its delayed voice line plays. Entry 9 does the same for its delayed voice line.
 - `off` turns all bulbs off. `idle`, `wrong_code`, and `final_complete` apply to all bulbs.
 
 ## Sound behavior

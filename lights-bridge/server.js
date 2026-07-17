@@ -358,38 +358,31 @@ async function turnOffBulbs(ips) {
   return forEachBulb((device) => device.turnOff(), ips);
 }
 
-async function restoreBulbsToIdleAndOff(ips) {
-  return forEachBulb(async (device) => {
-    await device.setHSL(scenes.idle.hue, scenes.idle.saturation, scenes.idle.brightness);
-    await device.turnOff();
-  }, ips);
-}
-
 async function temporaryLightEffect(ips, scene, durationMs = FLICKER_MS, scheduleKey = "temporary-cleanup") {
   if (!ips.length) return [];
   const first = await forEachBulb(async (device) => {
-    await device.setHSL(scene.hue, scene.saturation, scene.brightness);
     await device.turnOn();
+    await device.setHSL(scene.hue, scene.saturation, scene.brightness);
   }, ips);
   scheduleEntryEffect(scheduleKey, durationMs, async () => {
-    await restoreBulbsToIdleAndOff(ips);
+    await turnOffBulbs(ips);
   });
   return first;
 }
 
-function playSoundWithLight(fileName, ips, scene = scenes.idle, maxMs = FLERT_LIGHT_MAX_MS) {
+function playSoundWithLight(fileName, ips, scene = RED_SCENE, maxMs = FLERT_LIGHT_MAX_MS) {
   if (!ips.length) {
     playSound(fileName, { maxMs });
     return;
   }
   void forEachBulb(async (device) => {
-    await device.setHSL(scene.hue, scene.saturation, scene.brightness);
     await device.turnOn();
+    await device.setHSL(scene.hue, scene.saturation, scene.brightness);
   }, ips).then((results) => maybePlayAllBulbsFailedSound(results));
   playSound(fileName, {
     maxMs,
     onEnd: () => {
-      void restoreBulbsToIdleAndOff(ips).then((results) => maybePlayAllBulbsFailedSound(results));
+      void turnOffBulbs(ips).then((results) => maybePlayAllBulbsFailedSound(results));
     },
   });
 }
@@ -430,16 +423,16 @@ function scheduleSpecialEntryEffects(entry) {
   const bedroomIps = [bedroom1Ip, bedroom2Ip].filter(Boolean);
   const livingRoomIp = configuredIp(BULB_IPS.livingRoom);
   if (entry === 2 && firstFlickerIp) {
-    scheduleEntryEffect(entry, 20_000, () => temporaryLightEffect([firstFlickerIp], scenes.idle, FLICKER_MS, entry));
+    scheduleEntryEffect(entry, 20_000, () => temporaryLightEffect([firstFlickerIp], RED_SCENE, FLICKER_MS, entry));
   } else if (entry === 3 && bedroom2Ip) {
     scheduleEntryEffect(entry, 0, () => temporaryLightEffect([bedroom2Ip], RED_SCENE, FLICKER_MS, entry));
   } else if (entry === 4) {
     scheduleEntryEffect(entry, FLERT1_DELAY_MS, () => playSoundWithLight(FLERT1_SOUND, bedroomIps));
   } else if (entry === 8) {
     scheduleEntryEffect(entry, FLERT2_DELAY_MS, () => playSoundWithLight(FLERT2_SOUND, bedroomIps));
-    if (livingRoomIp) scheduleEntryEffect(entry, 150_000, () => playSoundWithLight(ENTRY8_VOICE_SOUND, [livingRoomIp], scenes.idle, 0));
+    if (livingRoomIp) scheduleEntryEffect(entry, 150_000, () => playSoundWithLight(ENTRY8_VOICE_SOUND, [livingRoomIp], RED_SCENE, 0));
   } else if (entry === 9 && livingRoomIp) {
-    scheduleEntryEffect(entry, 120_000, () => playSoundWithLight(ENTRY9_VOICE_SOUND, [livingRoomIp], scenes.idle, 0));
+    scheduleEntryEffect(entry, 120_000, () => playSoundWithLight(ENTRY9_VOICE_SOUND, [livingRoomIp], RED_SCENE, 0));
   }
 }
 
