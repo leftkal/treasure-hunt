@@ -940,7 +940,25 @@ function renderCurrent(feedback = "", isOk = false, hintOpen = false, creatorNot
     saveState();
     renderCurrent();
   });
-  document.querySelector("#hintBtn").addEventListener("click", () => renderCurrent(feedback, isOk, !hintOpen));
+  document.querySelector("#hintBtn").addEventListener("click", () => {
+    const hintBtn = document.querySelector("#hintBtn");
+    if (!hintBtn) return;
+    const hintVisible = hintBtn.getAttribute("aria-expanded") === "true";
+    const nextHintOpen = !hintVisible;
+    hintBtn.setAttribute("aria-expanded", String(nextHintOpen));
+    hintBtn.textContent = nextHintOpen ? "Hide hint" : "Reveal hint";
+    const existingHint = document.querySelector(".hint");
+    if (nextHintOpen) {
+      if (!existingHint) {
+        const hint = document.createElement("div");
+        hint.className = "hint diary-text";
+        hint.innerHTML = renderMarkdownText(clue.hint || "No hint is written for this entry yet.", state.current + 1);
+        hintBtn.insertAdjacentElement("afterend", hint);
+      }
+    } else if (existingHint) {
+      existingHint.remove();
+    }
+  });
   document.querySelector("#codeForm")?.addEventListener("submit", (event) => { event.preventDefault(); handleCode(document.querySelector("#codeInput").value); });
   document.querySelector("#nextBtn")?.addEventListener("click", () => {
     const nextCurrent = Math.min(state.current + 1, state.maxUnlocked ?? state.current);
