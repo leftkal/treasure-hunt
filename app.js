@@ -827,9 +827,9 @@ function renderDisclaimer() {
       <h1 id="disclaimerTitle">Before you enter</h1>
       <div class="disclaimer-copy stack">
         <p>The game is better at night. Relax and enjoy.</p>
-        <p>Before starting make sure to tune the devices volume to around half strength.</p>
+        <p>Before starting make sure to tune the device's volume to around half strength.</p>
         <p>If you feel overwhelmed, make sure to take breaks.</p>
-        <p>Progress is saved automatically, or can be restored through the last code you found through the cover screen. It will make sense in a moment.</p>
+        <p>Progress is saved automatically, or can be restored through the last code you found through the cover screen. It will make more sense in a moment.</p>
       </div>
       <button class="btn disclaimer-enter" id="enterDisclaimerBtn" type="button">I understand.</button>
     </section>`;
