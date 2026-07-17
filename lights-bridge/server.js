@@ -387,14 +387,6 @@ function playSoundWithLight(fileName, ips, scene = RED_SCENE, maxMs = FLERT_LIGH
   });
 }
 
-async function flashWrongCode() {
-  const previousScene = lastScene;
-  const red = { hue: 0, saturation: 100, brightness: 60 };
-  const first = await applyScene(red, TAPO_BULB_IPS);
-  windowlessDelay(850).then(() => applyScene(previousScene, TAPO_BULB_IPS).catch((error) => console.error("restore scene failed", error)));
-  return first;
-}
-
 function clearScheduledEffect(entry) {
   const timers = scheduledEffects.get(entry) || [];
   timers.forEach((timer) => clearTimeout(timer));
@@ -449,9 +441,7 @@ async function handleEvent(payload) {
     return { event: type, entry, results: [] };
   }
   if (type === "wrong_code") {
-    const results = await flashWrongCode();
-    maybePlayAllBulbsFailedSound(results);
-    return { event: type, results };
+    return { event: type, results: [] };
   }
   if (type === "final_complete") {
     const results = await applyScene(scenes.final, TAPO_BULB_IPS);

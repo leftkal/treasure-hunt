@@ -92,6 +92,7 @@ Browser calls from any exact origin listed in `BRIDGE_ALLOWED_ORIGINS` may POST 
 - Entry 4 plays `flert1.m4a` after 60 seconds and turns both configured bedroom bulbs red only while the full flert plays.
 - Entry 8 plays `flert2.m4a` after 80 seconds with the same both-bedroom red light behavior.
 - Entry 8 turns the living-room bulb red while its delayed voice line plays. Entry 9 does the same for its delayed voice line.
+- `wrong_code` is intentionally a no-op now; wrong answers do not trigger any bridge light or sound effects.
 - `off` turns all bulbs off. `idle`, `wrong_code`, and `final_complete` apply to all bulbs.
 
 ## Sound behavior
