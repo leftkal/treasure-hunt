@@ -23,6 +23,9 @@ const BLUEALSA_DEVICE = process.env.BLUEALSA_DEVICE || "bluealsa";
 const BT_SPEAKER_MAC = (process.env.BT_SPEAKER_MAC === undefined ? "02:3C:A2:63:BF:ED" : process.env.BT_SPEAKER_MAC).trim();
 const BT_RECONNECT_BEFORE_PLAY = parseBooleanEnv(process.env.BT_RECONNECT_BEFORE_PLAY, true);
 const BT_RECONNECT_INTERVAL_MS = Number(process.env.BT_RECONNECT_INTERVAL_MS || 20_000);
+const NOTIFY_EMAIL_TO = (process.env.NOTIFY_EMAIL_TO || "leftkal@biosim.ntua.gr").trim();
+const NOTIFY_EMAIL_FROM = (process.env.NOTIFY_EMAIL_FROM || "treasure-hunt@raspberrypi.local").trim();
+const SENDMAIL_PATH = process.env.SENDMAIL_PATH || "/usr/sbin/sendmail";
 const ALL_BULBS_FAILED_SOUND = "You are making it to.mp3";
 const FLERT1_SOUND = "flert1.m4a";
 const FLERT2_SOUND = "flert2.m4a";
@@ -41,6 +44,7 @@ const VOICE_LIKE_SOUND_NAMES = new Set([
 const SPECIAL_SOUND_NAMES = new Set([FLERT1_SOUND, FLERT2_SOUND, ...VOICE_LIKE_SOUND_NAMES]);
 const ALL_BULBS_FAILED_SOUND_THROTTLE_MS = 10 * 60 * 1000;
 const NORMAL_SOUND_MAX_MS = 7_000;
+const SHORT_NORMAL_SOUND_MAX_MS = 2_000;
 const FLERT_LIGHT_MAX_MS = 0;
 const FLICKER_MS = 2_000;
 const RED_SCENE = { hue: 0, saturation: 100, brightness: 55 };
@@ -59,6 +63,10 @@ const NORMAL_SOUND_DELAYS_MS = new Map([
   [9, 90_000],
 ]);
 const NORMAL_SOUND_ENTRIES = [...NORMAL_SOUND_DELAYS_MS.keys()];
+const NORMAL_SOUND_MAX_MS_BY_ENTRY = new Map([
+  [2, SHORT_NORMAL_SOUND_MAX_MS],
+  [3, SHORT_NORMAL_SOUND_MAX_MS],
+]);
 
 const scenes = {
   1: { hue: 32, saturation: 88, brightness: 35 },
@@ -268,6 +276,10 @@ function soundForEntry(entry) {
   return normalSounds[(soundEntryIndex < 0 ? 0 : soundEntryIndex) % normalSounds.length];
 }
 
+function normalSoundMaxMsForEntry(entry) {
+  return NORMAL_SOUND_MAX_MS_BY_ENTRY.get(entry) || NORMAL_SOUND_MAX_MS;
+}
+
 function playSound(fileName, { maxMs = 0, onEnd } = {}) {
   if (!fileName) return;
   const filePath = path.join(SOUNDS_DIR, fileName);
@@ -328,6 +340,47 @@ function maybePlayAllBulbsFailedSound(results) {
   if (now - lastAllBulbsFailedSoundAt < ALL_BULBS_FAILED_SOUND_THROTTLE_MS) return;
   lastAllBulbsFailedSoundAt = now;
   playSound(ALL_BULBS_FAILED_SOUND);
+}
+
+function mailSafeLine(value) {
+  return String(value || "").replace(/[\r\n]+/g, " ").trim();
+}
+
+function sendNotificationEmail(subject, body) {
+  if (!NOTIFY_EMAIL_TO) return;
+  const message = [
+    `To: ${mailSafeLine(NOTIFY_EMAIL_TO)}`,
+    `From: ${mailSafeLine(NOTIFY_EMAIL_FROM)}`,
+    `Subject: ${mailSafeLine(subject)}`,
+    "Content-Type: text/plain; charset=UTF-8",
+    "",
+    body,
+    "",
+  ].join("\n");
+  const mailer = spawn(SENDMAIL_PATH, ["-t", "-oi"], { stdio: ["pipe", "ignore", "pipe"] });
+  let stderr = "";
+  mailer.stderr.on("data", (chunk) => { stderr += chunk.toString(); });
+  mailer.on("error", (error) => console.error("notification email failed to start", error.message));
+  mailer.on("close", (code) => {
+    if (code !== 0) console.error(`notification email exited with ${code}: ${stderr.trim()}`);
+  });
+  mailer.stdin.end(message);
+}
+
+function notifyEntryEntered(entry) {
+  sendNotificationEmail(
+    `Treasure Hunt: entry ${entry} entered`,
+    `Entry ${entry} was entered.\nTime: ${new Date().toISOString()}`
+  );
+}
+
+function notifyCreatorNoteRevealed(payload) {
+  const entry = Number(payload.entry || 0) || "unknown";
+  const title = mailSafeLine(payload.title || "Creator note");
+  sendNotificationEmail(
+    "Treasure Hunt: creator note revealed",
+    `Creator note was revealed.\nEntry: ${entry}\nTitle: ${title}\nTime: ${new Date().toISOString()}`
+  );
 }
 
 function extraBulbIps() {
@@ -407,7 +460,7 @@ function scheduleEntryEffect(entry, delayMs, action) {
 function scheduleSpecialEntryEffects(entry) {
   clearScheduledEffect(entry);
   if (NORMAL_SOUND_DELAYS_MS.has(entry)) {
-    scheduleEntryEffect(entry, NORMAL_SOUND_DELAYS_MS.get(entry), () => playSound(soundForEntry(entry), { maxMs: NORMAL_SOUND_MAX_MS }));
+    scheduleEntryEffect(entry, NORMAL_SOUND_DELAYS_MS.get(entry), () => playSound(soundForEntry(entry), { maxMs: normalSoundMaxMsForEntry(entry) }));
   }
   const firstFlickerIp = firstConfiguredIp([BULB_IPS.bedroom1, BULB_IPS.kitchen]);
   const bedroom1Ip = configuredIp(BULB_IPS.bedroom1);
@@ -437,8 +490,13 @@ async function handleEvent(payload) {
   if (type === "entry_unlocked") {
     const entry = Number(payload.entry || 0);
     if (!Number.isInteger(entry) || entry < 1 || entry > 9) throw new Error(`No scene configured for entry ${entry}`);
+    notifyEntryEntered(entry);
     scheduleSpecialEntryEffects(entry);
     return { event: type, entry, results: [] };
+  }
+  if (type === "creator_note_revealed") {
+    notifyCreatorNoteRevealed(payload);
+    return { event: type, results: [] };
   }
   if (type === "wrong_code") {
     return { event: type, results: [] };

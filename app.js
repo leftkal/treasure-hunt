@@ -967,7 +967,10 @@ function renderCurrent(feedback = "", isOk = false, hintOpen = false, creatorNot
     renderCurrent();
     window.requestAnimationFrame(scrollToTop);
   });
-  document.querySelector("#creatorNoteBtn")?.addEventListener("click", () => renderCurrent(feedback, isOk, hintOpen, !creatorNoteOpen));
+  document.querySelector("#creatorNoteBtn")?.addEventListener("click", () => {
+    if (!creatorNoteOpen) sendLightsEvent({ type: "creator_note_revealed", entry: state.current + 1, title: creatorNote?.title || "Creator note" });
+    renderCurrent(feedback, isOk, hintOpen, !creatorNoteOpen);
+  });
   document.querySelector("#resetBtn").addEventListener("click", resetHunt);
   wireMediaControls();
   wireVoiceoverControls();
