@@ -87,6 +87,7 @@ let musicAudioGraphReady = false;
 let musicMasterGain = null;
 let coverMusic = null;
 let entryMusic = [];
+let musicGestureRecoveryArmed = false;
 const musicFadeFrames = new WeakMap();
 const musicSourceNodes = new WeakMap();
 const musicGainNodes = new WeakMap();
@@ -310,10 +311,31 @@ async function playAudio(audio) {
       silenceAndPauseAudio(audio);
       return false;
     }
+    disarmMusicGestureRecovery();
     return true;
   } catch {
+    armMusicGestureRecovery();
     return false;
   }
+}
+
+function armMusicGestureRecovery() {
+  if (musicGestureRecoveryArmed) return;
+  musicGestureRecoveryArmed = true;
+  document.addEventListener("pointerdown", recoverMusicFromGesture, { passive: true });
+  document.addEventListener("keydown", recoverMusicFromGesture);
+}
+
+function disarmMusicGestureRecovery() {
+  if (!musicGestureRecoveryArmed) return;
+  musicGestureRecoveryArmed = false;
+  document.removeEventListener("pointerdown", recoverMusicFromGesture);
+  document.removeEventListener("keydown", recoverMusicFromGesture);
+}
+
+function recoverMusicFromGesture() {
+  onUserMusicGesture();
+  recoverMusicPlayback();
 }
 
 function initializeMusic() {
@@ -364,6 +386,8 @@ function primeMusicAutoplay() {
   if (!musicReady) initializeMusic();
   musicUnlocked = true;
   syncMusicToScreen(true);
+  const expectedAudio = getExpectedMusicAudio();
+  if (expectedAudio && expectedAudio.paused) armMusicGestureRecovery();
 }
 
 function setMusicUnlocked() {
@@ -849,6 +873,7 @@ function renderDisclaimer() {
       <div class="disclaimer-copy stack">
         <p>The game is better at night. Relax and enjoy.</p>
         <p>Before starting make sure to tune the device's volume to around half strength.</p>
+        <p>You will need to find clues around the house to progress each entry.</p>
         <p>If you feel overwhelmed, make sure to take breaks.</p>
         <p>Progress is saved automatically, or can be restored through the last code you found through the cover screen. It will make more sense in a moment.</p>
       </div>
