@@ -13,8 +13,8 @@ const ENTRY_MUSIC_SRCS = [
   "music/entry_music_e.mp3",
   "music/entry_music_f.mp3",
 ];
-const MUSIC_VOLUME = 0.5;
-const MUSIC_DUCK_VOLUME = 0.1;
+const MUSIC_VOLUME = 0.35;
+const MUSIC_DUCK_VOLUME = 0.15;
 const MUSIC_FADE_MS = 420;
 const MUSIC_POSITION_SAVE_THROTTLE_MS = 1000;
 
