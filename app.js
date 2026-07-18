@@ -5,6 +5,7 @@ const COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
 const MARKDOWN_SOURCE = "The_Rooms_That_Remember_Treasure_Hunt.md";
 const LIGHTS_BRIDGE_URL = "https://lights.alexandra-maria-deli.gr";
 const COVER_MUSIC_SRC = "music/cover_music.mp3";
+const COVER_MUSIC_START_SECONDS = 3;
 const ENTRY_MUSIC_SRCS = [
   "music/entry_music_a.mp3",
   "music/entry_music_b.mp3",
@@ -401,7 +402,7 @@ function setMusicMode(mode, { trackIndex = musicCurrentTrackIndex, immediate = f
   if (musicMode === "cover") {
     musicDesiredTrackIndex = 0;
     if (!coverMusic.loop) coverMusic.loop = true;
-    if (coverMusic.currentTime == null) coverMusic.currentTime = 0;
+    if (Math.abs((coverMusic.currentTime || 0) - COVER_MUSIC_START_SECONDS) > 0.2) coverMusic.currentTime = COVER_MUSIC_START_SECONDS;
     if (coverMusic.paused || coverMusic.ended) playAudio(coverMusic);
     applyVolume(coverMusic, getMusicTargetVolume());
     entryMusic.forEach((audio) => {
