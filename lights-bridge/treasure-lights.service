@@ -1,7 +1,7 @@
 [Unit]
 Description=Treasure Hunt Tapo lights bridge
-After=network-online.target
-Wants=network-online.target
+After=network-online.target bluetooth.service bluealsa.service postfix.service
+Wants=network-online.target bluetooth.service bluealsa.service postfix.service
 
 [Service]
 Type=simple

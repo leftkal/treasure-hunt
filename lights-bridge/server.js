@@ -26,6 +26,7 @@ const BT_RECONNECT_INTERVAL_MS = Number(process.env.BT_RECONNECT_INTERVAL_MS || 
 const NOTIFY_EMAIL_TO = (process.env.NOTIFY_EMAIL_TO || "leftkal@biosim.ntua.gr").trim();
 const NOTIFY_EMAIL_FROM = (process.env.NOTIFY_EMAIL_FROM || "treasure-hunt@raspberrypi.local").trim();
 const SENDMAIL_PATH = process.env.SENDMAIL_PATH || "/usr/sbin/sendmail";
+const NOTIFY_STATE_FILE = process.env.NOTIFY_STATE_FILE || path.join(__dirname, ".notification-state.json");
 const ALL_BULBS_FAILED_SOUND = "You are making it to.mp3";
 const FLERT1_SOUND = "flert1.m4a";
 const FLERT2_SOUND = "flert2.m4a";
@@ -45,6 +46,7 @@ const SPECIAL_SOUND_NAMES = new Set([FLERT1_SOUND, FLERT2_SOUND, ...VOICE_LIKE_S
 const ALL_BULBS_FAILED_SOUND_THROTTLE_MS = 10 * 60 * 1000;
 const NORMAL_SOUND_MAX_MS = 7_000;
 const SHORT_NORMAL_SOUND_MAX_MS = 2_000;
+const SHORT_NORMAL_SOUND_START_OFFSET_MS = 3_000;
 const FLERT_LIGHT_MAX_MS = 0;
 const FLICKER_MS = 2_000;
 const RED_SCENE = { hue: 0, saturation: 100, brightness: 55 };
@@ -66,6 +68,10 @@ const NORMAL_SOUND_ENTRIES = [...NORMAL_SOUND_DELAYS_MS.keys()];
 const NORMAL_SOUND_MAX_MS_BY_ENTRY = new Map([
   [2, SHORT_NORMAL_SOUND_MAX_MS],
   [3, SHORT_NORMAL_SOUND_MAX_MS],
+]);
+const NORMAL_SOUND_START_OFFSET_MS_BY_ENTRY = new Map([
+  [2, SHORT_NORMAL_SOUND_START_OFFSET_MS],
+  [3, SHORT_NORMAL_SOUND_START_OFFSET_MS],
 ]);
 
 const scenes = {
@@ -280,7 +286,11 @@ function normalSoundMaxMsForEntry(entry) {
   return NORMAL_SOUND_MAX_MS_BY_ENTRY.get(entry) || NORMAL_SOUND_MAX_MS;
 }
 
-function playSound(fileName, { maxMs = 0, onEnd } = {}) {
+function normalSoundStartOffsetMsForEntry(entry) {
+  return NORMAL_SOUND_START_OFFSET_MS_BY_ENTRY.get(entry) || 0;
+}
+
+function playSound(fileName, { maxMs = 0, startOffsetMs = 0, onEnd } = {}) {
   if (!fileName) return;
   const filePath = path.join(SOUNDS_DIR, fileName);
   if (!fs.existsSync(filePath)) {
@@ -291,7 +301,10 @@ function playSound(fileName, { maxMs = 0, onEnd } = {}) {
 
   reconnectBluetoothSpeaker();
 
-  const ffmpeg = spawn("ffmpeg", ["-hide_banner", "-loglevel", "error", "-i", filePath, "-f", "wav", "-"], {
+  const ffmpegArgs = ["-hide_banner", "-loglevel", "error"];
+  if (startOffsetMs > 0) ffmpegArgs.push("-ss", String(startOffsetMs / 1000));
+  ffmpegArgs.push("-i", filePath, "-f", "wav", "-");
+  const ffmpeg = spawn("ffmpeg", ffmpegArgs, {
     stdio: ["ignore", "pipe", "pipe"],
   });
   const aplay = spawn("aplay", ["-D", BLUEALSA_DEVICE], {
@@ -346,6 +359,44 @@ function mailSafeLine(value) {
   return String(value || "").replace(/[\r\n]+/g, " ").trim();
 }
 
+function formatAthensTime(date = new Date()) {
+  return new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Europe/Athens",
+    dateStyle: "medium",
+    timeStyle: "medium",
+    hourCycle: "h23",
+  }).format(date);
+}
+
+function formatDuration(ms) {
+  if (!Number.isFinite(ms) || ms < 0) return "unknown";
+  const totalSeconds = Math.round(ms / 1000);
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+  const parts = [];
+  if (hours) parts.push(`${hours}h`);
+  if (minutes || hours) parts.push(`${minutes}m`);
+  parts.push(`${seconds}s`);
+  return parts.join(" ");
+}
+
+function readNotificationState() {
+  try {
+    return JSON.parse(fs.readFileSync(NOTIFY_STATE_FILE, "utf8"));
+  } catch {
+    return {};
+  }
+}
+
+function writeNotificationState(nextState) {
+  try {
+    fs.writeFileSync(NOTIFY_STATE_FILE, `${JSON.stringify(nextState, null, 2)}\n`, "utf8");
+  } catch (error) {
+    console.error("notification state write failed", error.message);
+  }
+}
+
 function sendNotificationEmail(subject, body) {
   if (!NOTIFY_EMAIL_TO) return;
   const message = [
@@ -368,18 +419,42 @@ function sendNotificationEmail(subject, body) {
 }
 
 function notifyEntryEntered(entry) {
+  const now = new Date();
+  const previousState = readNotificationState();
+  const previousEntryAt = previousState.lastEntryAt ? Date.parse(previousState.lastEntryAt) : NaN;
+  const elapsedMs = Number.isFinite(previousEntryAt) ? now.getTime() - previousEntryAt : NaN;
   sendNotificationEmail(
     `Treasure Hunt: entry ${entry} entered`,
-    `Entry ${entry} was entered.\nTime: ${new Date().toISOString()}`
+    [
+      `Entry ${entry} was entered.`,
+      `Time: ${formatAthensTime(now)} Athens`,
+      `Previous entry: ${previousState.lastEntry || "none"}`,
+      `Time since previous entry: ${formatDuration(elapsedMs)}`,
+    ].join("\n")
   );
+  writeNotificationState({
+    ...previousState,
+    lastEntry: entry,
+    lastEntryAt: now.toISOString(),
+  });
 }
 
 function notifyCreatorNoteRevealed(payload) {
+  const now = new Date();
+  const previousState = readNotificationState();
+  const previousEntryAt = previousState.lastEntryAt ? Date.parse(previousState.lastEntryAt) : NaN;
+  const elapsedMs = Number.isFinite(previousEntryAt) ? now.getTime() - previousEntryAt : NaN;
   const entry = Number(payload.entry || 0) || "unknown";
   const title = mailSafeLine(payload.title || "Creator note");
   sendNotificationEmail(
     "Treasure Hunt: creator note revealed",
-    `Creator note was revealed.\nEntry: ${entry}\nTitle: ${title}\nTime: ${new Date().toISOString()}`
+    [
+      "Creator note was revealed.",
+      `Entry: ${entry}`,
+      `Title: ${title}`,
+      `Time: ${formatAthensTime(now)} Athens`,
+      `Time since previous entry: ${formatDuration(elapsedMs)}`,
+    ].join("\n")
   );
 }
 
@@ -460,7 +535,10 @@ function scheduleEntryEffect(entry, delayMs, action) {
 function scheduleSpecialEntryEffects(entry) {
   clearScheduledEffect(entry);
   if (NORMAL_SOUND_DELAYS_MS.has(entry)) {
-    scheduleEntryEffect(entry, NORMAL_SOUND_DELAYS_MS.get(entry), () => playSound(soundForEntry(entry), { maxMs: normalSoundMaxMsForEntry(entry) }));
+    scheduleEntryEffect(entry, NORMAL_SOUND_DELAYS_MS.get(entry), () => playSound(soundForEntry(entry), {
+      maxMs: normalSoundMaxMsForEntry(entry),
+      startOffsetMs: normalSoundStartOffsetMsForEntry(entry),
+    }));
   }
   const firstFlickerIp = firstConfiguredIp([BULB_IPS.bedroom1, BULB_IPS.kitchen]);
   const bedroom1Ip = configuredIp(BULB_IPS.bedroom1);

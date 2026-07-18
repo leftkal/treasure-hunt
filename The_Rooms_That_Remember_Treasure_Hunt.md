@@ -204,7 +204,7 @@ She had already devoted part of her life to searching for what exists at the edg
 
 I began to suspect she might be capable of seeing me.
 
-**For you: Όντως τώρα; σου λέει για κάμερες, πού μπορεί να είναι δηλαδη;.**
+**For you: Όντως τώρα; σου λέει για φωτογραφίες, κάμερες, πού μπορεί να είναι δηλαδη;. Δες στο Άλμπουμ στη βιβλιοθήκη σου.**
 
 ---
 

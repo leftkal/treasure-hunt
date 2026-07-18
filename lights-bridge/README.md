@@ -47,6 +47,7 @@ BT_RECONNECT_INTERVAL_MS=20000
 NOTIFY_EMAIL_TO=leftkal@biosim.ntua.gr
 NOTIFY_EMAIL_FROM=treasure-hunt@raspberrypi.local
 SENDMAIL_PATH=/usr/sbin/sendmail
+NOTIFY_STATE_FILE=/home/pi/treasure-hunt/lights-bridge/.notification-state.json
 ```
 
 Generate a token with:
@@ -107,7 +108,7 @@ Browser calls from any exact origin listed in `BRIDGE_ALLOWED_ORIGINS` may POST 
 - The bridge decodes `.m4a`/`.mp3` with `ffmpeg` and pipes WAV audio to `aplay -D bluealsa` by default. Override the ALSA device with `BLUEALSA_DEVICE` if your BlueALSA setup uses another device name.
 - Before each sound, the bridge attempts to reconnect `BT_SPEAKER_MAC` with `bluetoothctl connect` unless `BT_RECONNECT_BEFORE_PLAY=false`.
 - While the bridge is running, it also periodically checks the speaker with `bluetoothctl info` and reconnects if it is disconnected. Override the interval with `BT_RECONNECT_INTERVAL_MS` if needed.
-- Entries 2, 3, 5, 6, 7, and 9 each schedule one normal ambient sound instead of playing it immediately. Delays are entry 2=10s, entry 3=20s, entry 5=20s, entry 6=50s, entry 7=40s, entry 9=90s. Entries 4 and 8 skip normal ambient sounds because they have flerts. Entry 2 and 3 normal ambient sounds are capped at 2 seconds; the others are capped at 7 seconds.
+- Entries 2, 3, 5, 6, 7, and 9 each schedule one normal ambient sound instead of playing it immediately. Delays are entry 2=10s, entry 3=20s, entry 5=20s, entry 6=50s, entry 7=40s, entry 9=90s. Entries 4 and 8 skip normal ambient sounds because they have flerts. Entry 2 and 3 normal ambient sounds start 3 seconds into the file and are capped at 2 seconds; the others are capped at 7 seconds.
 - Normal sounds are all `.m4a`/`.mp3` files in the sounds directory except `flert1.m4a`, `flert2.m4a`, `You are making it to.mp3`, and the spoken voice-line files like `I ve been watching y.mp3`, `The time will come f.mp3`, and `The good thing about.mp3`; files are sorted by name and mapped deterministically to entries 4-9, cycling if there are fewer than six normal files.
 - `flert1.m4a` plays 60 seconds after entry 4 starts. `flert2.m4a` plays 80 seconds after entry 8 starts. Both play in full.
 - `I ve been watching y.mp3` plays 2.5 minutes after entry 8 starts. `The good thing about.mp3` plays 2 minutes after entry 9 starts. Voice lines are not capped.
@@ -117,6 +118,7 @@ Browser calls from any exact origin listed in `BRIDGE_ALLOWED_ORIGINS` may POST 
 ## Email notifications
 
 - The bridge sends a simple email notification through local `sendmail` when an `entry_unlocked` event arrives and when the creator note is revealed.
+- Notification timestamps use Athens time. Entry notifications include elapsed time since the previous entry, persisted in `NOTIFY_STATE_FILE` so it survives bridge restarts/reboots.
 - Default recipient: `leftkal@biosim.ntua.gr`.
 - Install a local sendmail-compatible MTA on the Pi, for example Postfix in send-only mode:
 
